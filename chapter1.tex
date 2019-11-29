@@ -1,0 +1,78 @@
+\chapter{Introduction}
+
+\section{First Section}
+First paragraph \cite{Doe}.
+
+Second paragraph.  Sample reference to Figure
+\ref{fig:above-below}.  Just some extra text to see how the text
+wrapping looks in a compiled pdf document.
+
+% Single Figure
+\begin{figure}
+  % Requires 
+  \centering
+  \includegraphics[width=4in]{CUlogo.jpg}\\
+  \caption{Sample of a single image.}
+  \label{fig:single}
+\end{figure}
+
+Just some extra text to see how the text wrapping looks in a
+compiled pdf document. Just some extra text to see how the text
+wrapping looks in a compiled pdf document. Just some extra text to
+see how the text wrapping looks in a compiled pdf document. Just
+some extra text to see how the text wrapping looks in a compiled
+pdf document. Just some extra text to see how the text wrapping
+looks in a compiled pdf document.
+
+Just some extra text to see how the text wrapping looks in a
+compiled pdf document. Just some extra text to see how the text
+wrapping looks in a compiled pdf document. Just some extra text to
+see how the text wrapping looks in a compiled pdf document. Just
+some extra text to see how the text wrapping looks in a compiled
+pdf document.
+
+% Side-by-side subfigure
+\begin{figure}
+    \centerline{
+      \subfigure[Case I]{\includegraphics[width=2.5in]{CUlogo.jpg}}\hfil
+      \subfigure[Case II]{\includegraphics[width=2.5in]{MAElogo.jpg}} }
+    \caption{Samble side-by-side subfigures} \label{fig:side-by-side}
+\end{figure}
+
+Just some extra text to see how the text wrapping looks in a
+compiled pdf document. Just some extra text to see how the text
+wrapping looks in a compiled pdf document.
+
+% Above-below subfigure
+\begin{figure}
+    \centerline{ \subfigure[Case I]{\includegraphics[width=2.5in]{CUlogo.jpg}} }
+    \centerline{ \subfigure[Case II]{\includegraphics[width=2.5in]{MAElogo.jpg}} }
+    \caption{Samble above-below subfigures} \label{fig:above-below}
+\end{figure}
+
+\section{Section Demonstrating Tables}
+First paragraph.  This is a sample reference to Table
+\ref{tab:sample}.
+
+\begin{table}
+  \centering
+  \caption{Sample table. With an extra long caption to test how captions will wrap.}\label{tab:sample}
+    \vspace{6pt} % Required to get proper spacing between caption and table
+  \begin{tabular}{c c c}
+    \hline
+    Label 1 & Label 2 & Label 3 \\
+    \hline\hline
+    value 1 & $x_1$ & $y_1$ \\
+    value 2 & $x_2$ & $y_2$ \\
+    value 3 & $x_3$ & $y_3$ \\
+    \hline
+  \end{tabular}
+\end{table}
+
+New paragraph.
+
+\begin{equation}\label{eqn:newton_law}
+    F = Ma
+\end{equation}
+
+Paragraph referencing an equation \ref{eqn:newton_law}.

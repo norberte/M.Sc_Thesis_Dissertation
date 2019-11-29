@@ -1,0 +1,88 @@
+\documentclass[12pt,letterpaper]{report}
+%
+% Review cuthesis.sty for more documentation on available options
+% for this package.
+\usepackage{booktabs} % For formal tables
+\usepackage{cuthesis}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{amsmath}
+\usepackage[indent,bf]{caption}
+\usepackage{rotating}
+\usepackage{setspace}
+\usepackage{longtable}
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{todonotes}      % todonotes
+\usepackage{caption}
+\usepackage{cite}
+
+% Defines relative path to folder containing your figures
+\graphicspath{{figures/}}
+
+\begin{document}
+
+% ***** DEFINE VARIABLES *****
+%-----------------------------------------------------------------------
+% Define various variables required by cuthesis.sty to function properly
+
+% Define thesis title and author
+\title{Cross-Platform Software Developer Expertise Learning}
+\author{Norbert Eke}
+
+% Specify your Thesis Submission Date
+\submitdate{April 2020} \copyrightyear{2020}
+
+% Thesis committee information for the signature page
+% Be sure to specify size of committee in cuthesis options.
+% Department Chair does not count as a committee member.
+% ie: 1committee = supervisor + department chair
+%     2committee = supervisor + firstcommittee
+%     3committee = supervisor + firstcommittee + secondcommittee
+% Default setting is 1committee
+\supervisor{Olga Baysal, Supervisor}
+%\firstcommittee{J. Doe}
+%\secondcommittee{F.Smith}
+%\thirdcommittee{A. Mack}
+%\fourthcommittee{B. Donner}
+
+% Specify department chair
+\departmentchair{B. Guy, Department Chair}
+
+% This is the name of the .bib files that holds all of your references.
+% It can be a comma separated list if there is more than one file.
+\reffile{references}
+
+% Defines relative path to folder containing your figures
+\graphicspath{{figures/}}
+%-----------------------------------------------------------------------
+
+% ***** Thesis Components *****
+%-----------------------------------------------------------------------
+% Start inserting Thesis components.  Title page, signature page,
+% Table of contents, list of figures and list of tables are inserted
+% automatically.
+
+% These are the names of the .tex files which hold the
+% respective section of the thesis.  If one of these sections
+% is not included, comment out the corresponding line.
+\abstract{abstract}
+\acknowledgements{acknowledgements}
+\nomenclature{nomenclature}
+\preface{preface}
+\dedication{dedication}
+
+% Include the chapters
+\newchapter{introduction}
+%\newchapter{relatedWork}
+\newchapter{methodology}
+%\newchapter{results}
+%\newchapter{discussion}
+%\newchapter{conclusion}
+
+
+% Include any appendices.
+% newappendix{}
+
+\end{document}

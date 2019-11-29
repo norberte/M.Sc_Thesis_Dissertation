@@ -1,0 +1,734 @@
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This LaTeX package is used to create theses and dissertations at
+% the Carleton University.  It was was written by UNIVERSITY OF RHODE ISLAND
+% and modified for use at Carleton University by Calvin Rans from the
+% Department of Mechanical and Aerospace Engineering.  It has several
+% options which are described below.  Multiple options can be included
+% as a comma separated list.  See the examples section for common uses.
+%
+%
+%
+% Options:
+%   manuscript,standard: this specifies which format of thesis you will
+%     be creating.  Manuscript format has the references at the end of each
+%     chapter, while standard format has one reference section for the
+%     whole document.  standard is the default.
+%
+%   phd,masters: this specifies whether this is a PhD. dissertation
+%     or a masters thesis.  masters is the default.
+%
+%   1committee, 2committee, 3committee,4committee,5committee: this is the number of people
+%     on your committee (in addition to the department chair), which determines how many signature lines
+%     are needed.  Remember that the chairman of the committee
+%     does not sign the thesis.  1committee is the default.
+%
+%   sequential,nonsequential: this specifies whether you want numbering
+%     of figures, equations, and tables reset to 1 at the beginning of
+%     each chapter (nonsequential), or if you want the numbers to
+%     be sequential throughout the whole document.  The default is
+%     nonsequential for Manuscript format and sequential for
+%     Standard format.
+%
+%
+% Examples:
+%   For a standard format masters thesis:
+%     \usepackage{cuthesis}
+%
+%   For a manuscript format PhD. dissertation:
+%     \usepackage[manuscript,phd]{cuthesis}
+%
+%   For a standard format PhD. dissertation with a four member committee:
+%     \usepackage[phd,4committee]{cuthesis}
+%
+%
+% Notes:
+%   Portions of this package were derived frome the chapterbib
+%   package (Version 1.5 (09-OCT-1995) Donald Arseneau), therefore
+%   you should be sure not to use that package with this one due
+%   to inevitable conflicts.
+%
+%   You will also need the file cubiblio.bst for creating the
+%   bibliography.
+%
+%   This package has been disigned to comply with the library's
+%   format guidlines using either a 10pt or 12pt font, which is
+%   specified in the \documentclass line.
+%
+%   By default the department named on the title page is Mechanical
+%   and Aerospace Engineering, but that can be changed by putting the
+%   command:
+%     \dept{My Department}
+%   in the main .tex file before any of the chapters are included.
+%
+%   The acknowledgements, preface, and dedication sections are not
+%   required, but the abstract section is.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+
+\@ifundefined{DeclareOption}{}{% LaTeX2e option
+\ProvidesPackage{cuthesis}[2003/04/04 \space  v 1.2]
+
+\DeclareOption{manuscript}{\def\@wantmanuscript{true}}
+\DeclareOption{standard}{}
+
+\DeclareOption{phd}{\def\@phddissertation{true}}
+\DeclareOption{masters}{}
+
+\DeclareOption{nocopy}{\def\@nolibraryrights{true}}
+\DeclareOption{copy}{}
+
+\DeclareOption{noleadpages}{\def\@noleadpages{true}}
+\DeclareOption{leadpages}{}
+
+\DeclareOption{norefbib}{\def\@norefbib{true}}
+\DeclareOption{refbib}{}
+
+\DeclareOption{noextrapages}{\def\@noleadpages{true}\def\@norefbib{true}}
+\DeclareOption{extrapages}{}
+
+\DeclareOption{nonsequential}{\def\@wantnonsequential{true}}
+\DeclareOption{sequential}{\def\@wantsequential{true}}
+
+\DeclareOption{4committee}{\def\@fourcommittee{true}}
+\DeclareOption{5committee}{\def\@fivecommittee{true}}
+\DeclareOption{3committee}{\def\@threecommittee{true}}
+\DeclareOption{2committee}{\def\@twocommittee{true}}
+\DeclareOption{1committee}{}
+
+\ProcessOptions
+}
+
+\@ifundefined{@wantmanuscript}{
+  % standard
+  \@ifundefined{@wantnonsequential}{}{\def\@nonsequential{true}}
+}{
+  % manuscript
+  \@ifundefined{@wantsequential}{\def\@nonsequential{true}}{}
+}
+
+\def\bibliocite#1{%
+  \if@filesw\immediate\write12{\string\citation{#1}}\fi}
+
+\@ifundefined{@wantmanuscript}{
+
+\@ifundefined{@extra@b@citeb}{
+% this is for use without the cite package
+\def\@citex[#1]#2{%
+  \let\@citea\@empty
+  \@cite{\@for\@citeb:=#2\do
+    {\@citea\def\@citea{,\penalty\@m\ }%
+     \edef\@citeb{\expandafter\@firstofone\@citeb\@empty}%
+     \if@filesw\immediate\write\@auxout{\string\citation{\@citeb}}\fi
+     \if@filesw\immediate\write12{\string\citation{\@citeb}}\fi
+     \@ifundefined{b@\@citeb}{\mbox{\reset@font\bfseries ?}%
+       \G@refundefinedtrue
+       \@latex@warning
+         {Citation `\@citeb' on page \thepage \space undefined}}%
+       {\hbox{\csname b@\@citeb\endcsname}}}}{#1}}
+}
+{
+% this is for use with the cite package
+\def\@nocite#1{\xdef\@no@sparg{\@ignsp#1 \! }% remove *ALL* spaces
+ \if@filesw \immediate\write\@auxout {\string\citation {\@no@sparg}}\fi
+ \if@filesw \immediate\write12{\string\citation{\@no@sparg}}\fi}
+}
+
+}
+{
+
+% this section is basically chapterbib
+
+\newenvironment{cbunit}%
+{\global\advance\c@inputfile\@ne \xdef\the@ipfilectr{@-\the\c@inputfile}%
+  \immediate\write\@auxout{\string\gdef\string\@extra@binfo{\@exele@b@citeb}}}%
+{\gdef\the@ipfilectr{}%
+  \immediate\write\@auxout{\string\gdef\string\@extra@binfo{\@exele@b@citeb}}%
+  }
+
+\let\cb@include\include
+\def\include#1{\clearpage \cbunit \xdef\@currentipfile{#1}%
+  \cb@include{#1}%
+\refsforcb%
+\global\let\@currentipfile\@savedjobname\endcbunit}
+
+\newcommand\cbinput[1]{\cbunit \xdef\@currentipfile{#1}%
+  \input{#1}\global\let\@currentipfile\@savedjobname\endcbunit}
+
+\@ifundefined{@extra@binfo}{%
+  \def\bibcite#1#2{\global\@namedef{b@#1\@extra@binfo}{#2}}%
+}{}
+
+\@ifundefined{@exele@b@citeb}{%
+ \def\@citex[#1]#2{%
+   \let\@citea\@empty%
+   \@cite{\@for\@citeb:=#2\do%
+     {\@citea\let\@citea\citepunct%
+      \edef\@citeb{\expandafter\@iden\@citeb}%
+      \ifnum0=\value{mychapcitecount}%
+      \if@filesw\immediate\write\@auxout{\string\bibstyle{ieeetr}}\fi%
+      \if@filesw\immediate\write\@auxout{\string\bibdata{\@reffile}}\fi%
+      \setcounter{mychapcitecount}{1}%
+      \fi%
+      \if@filesw\immediate\write\@auxout{\string\citation{\@citeb}}\fi%
+      \if@filesw\immediate\write12{\string\citation{\@citeb}}\fi%
+      \@ifundefined{b@\@citeb \@exele@b@citeb}{\mbox{\reset@font\bf ?}%
+         \@warning{Citation `\@citeb' in file `\@currentipfile'
+             on page \thepage \space undefined}\G@refundefinedtrue}%
+      {\hbox{\citeform{\csname b@\@citeb \@exele@b@citeb\endcsname}}}}}{#1}}
+}{}% 2nd arg of \@ifundefined{@exele@b@citeb}
+
+\def\@iden#1{#1}
+
+\@ifundefined{citeform}{\let\citeform=\relax}{}
+\@ifundefined{citepunct}{\def\citepunct{,\penalty\@m\ }}{}
+
+\xdef\@savedjobname{\jobname}% save root file name as a macro
+\let\@currentipfile\@savedjobname
+\gdef\the@ipfilectr{}
+\def\@exele@b@citeb{\the@ipfilectr}
+\newcount\c@inputfile \global\c@inputfile=0
+
+\gdef\@extra@binfo{}  % in case .aux files are left from old run.
+
+\@ifundefined{reset@font}{\let\reset@font\relax}{}
+\@ifundefined{G@refundefinedtrue}{\let\G@refundefinedtrue\relax}{}
+
+\let\cb@bibliographystyle\bibliographystyle
+\def\cb@roottest{2\ifx\the@ipfilectr\@empty 1\else2\fi}
+
+\def\bibliographystyle#1{\if\cb@roottest\cb@bibliographystyle{#1}\fi}
+
+\def\bibliography#1{\if\cb@roottest%
+   \if@filesw\immediate\write\@auxout{\string\bibdata{#1}}\fi%
+   \fi \@input{\@currentipfile.bbl}}
+
+\@ifundefined{PackageWarning}{\def\cb@warning{\@warning}}%
+ {\def\cb@warning{\PackageWarning{chapterbib}}}
+
+\let\@test@defiii\@testdef
+
+\def\@testdef#1#2#3{%
+  \if#1b\relax\@test@defiii b{#2\@extra@binfo}{#3}%
+  \else \@test@defiii #1{#2}{#3}\fi%
+}
+
+\@ifundefined{bibname}{\def\bibname{Bibliography}}{}
+
+% end of chapterbib section
+}
+
+\renewcommand\contentsname{Table of Contents}
+
+\newcounter{myfigcount}
+\newcounter{mytablecount}
+\newcounter{myeqncount}
+\newcounter{mychapcitecount}
+\newcounter{mychaptercount}
+\newcounter{myappendixcount}
+
+\def\myusefigurespage{%
+  \gdef\@myusefigurespage{true}
+}
+
+\def\myusetablespage{%
+  \gdef\@myusetablespage{true}
+}
+
+
+\makeatletter
+
+\setlength{\oddsidemargin}{.5in}
+\setlength{\textwidth}{6.0in}
+\setlength{\marginparsep}{.2in}
+\setlength{\marginparwidth}{1in}
+
+\setlength{\topmargin}{-0.3in}
+\setlength{\headheight}{0.25in}
+\setlength{\headsep}{0.25in}
+\setlength{\textheight}{8.6in}
+\setlength{\footskip}{.5in}
+
+\brokenpenalty=10000
+
+\renewcommand{\baselinestretch}{1.6}
+\renewcommand{\arraystretch}{1.4} % 1.3 spacing for tables and arrays
+
+\def\myps@plain{%
+  \let\@mkboth\@gobbletwo
+  \let\@oddfoot\@empty\let\@evenfoot\@empty
+  \def\@evenhead{\thepage\hfil\slshape\leftmark}%
+  \def\@oddhead{{\slshape\rightmark}\hfil\thepage}%
+}
+
+\def\ele@chapapp{}
+
+\def\@makechapterhead#1{%
+  \vspace*{50\p@}%
+  {\parindent \z@ \raggedright \normalfont
+    \ifnum \c@secnumdepth >\m@ne
+        \Large\bfseries \@chapapp\space \thechapter
+        \par\nobreak
+        \vskip 20\p@
+    \fi
+    \interlinepenalty\@M
+    \LARGE \bfseries #1\par\nobreak
+    \vskip 40\p@
+  }}
+
+
+\def\@makeschapterhead#1{%
+  \vspace*{50\p@}%
+  {\parindent \z@ \raggedright
+    \normalfont
+    \interlinepenalty\@M
+    \LARGE \bfseries  #1\par\nobreak
+    \vskip 40\p@
+  }}
+
+\def\cl@chapter{%
+  \setcounter{mychapcitecount}{0}%
+  \@ifundefined{@nonsequential}{%
+    \@elt{section}\@elt{footnote}%
+  }{%
+    \@elt{equation}\@elt{figure}\@elt{footnote}\@elt{section}\@elt{table}%
+  }}
+\def\thefigure{%
+  \addtocounter{myfigcount}{\value{figure}}%
+  \@ifundefined{@nonsequential}{%
+    \@arabic\c@figure%
+  }{%
+    \thechapter.\@arabic\c@figure%
+  }}
+\def\thetable{%
+  \addtocounter{mytablecount}{\value{table}}%
+  \@ifundefined{@nonsequential}{%
+    \@arabic\c@table%
+  }{%
+    \thechapter.\@arabic\c@table%
+  }}
+\def\theequation{%
+  \@ifundefined{@nonsequential}{%
+    \@arabic\c@equation%
+  }{%
+    \thechapter.\arabic{equation}%
+  }}
+
+% \def\@xfloat#1[#2]{\ifhmode \@bsphack\@floatpenalty -\@Mii\else
+%   \@floatpenalty-\@Miii\fi\def\@captype{#1}\ifinner
+%       \@parmoderr\@floatpenalty\z@
+%     \else\@next\@currbox\@freelist{\@tempcnta\csname ftype@#1\endcsname
+%       \multiply\@tempcnta\@xxxii\advance\@tempcnta\sixt@@n
+%       \@tfor \@tempa :=#2\do
+%                         {\if\@tempa h\advance\@tempcnta \@ne\fi
+%                          \if\@tempa t\advance\@tempcnta \tw@\fi
+%                          \if\@tempa b\advance\@tempcnta 4\relax\fi
+%                          \if\@tempa p\advance\@tempcnta 8\relax\fi
+%          }\global\count\@currbox\@tempcnta}\@fltovf\fi
+%     \global\setbox\@currbox\vbox\bgroup
+%     \def\baselinestretch{1}\@normalsize
+%     \boxmaxdepth\z@
+%     \hsize\columnwidth \@parboxrestore}
+
+\long\def\@footnotetext#1{\insert\footins{\def\baselinestretch{1}\footnotesize
+    \interlinepenalty\interfootnotelinepenalty
+    \splittopskip\footnotesep
+    \splitmaxdepth \dp\strutbox \floatingpenalty \@MM
+    \hsize\columnwidth \@parboxrestore
+   \edef\@currentlabel{\csname p@footnote\endcsname\@thefnmark}\@makefntext
+    {\rule{\z@}{\footnotesep}\ignorespaces
+      #1\strut}}}
+
+\def\thebibliography#1{\chapter*{List of References
+\@mkboth{}{}}\list
+ {[\arabic{enumi}]}{\settowidth\labelwidth{[#1]}\leftmargin
+\labelwidth
+ \advance\leftmargin\labelsep
+ \usecounter{enumi}}
+ \setlength{\baselineskip}{0.70\baselineskip}
+ \def\newblock{\hskip .11em plus .33em minus .07em}
+ \sloppy\clubpenalty4000\widowpenalty4000
+ \sfcode`\.=1000\relax}
+\let\endthebibliography=\endlist
+
+\def\thesisbib{\chapter*{Bibliography
+\@mkboth{}{}}\trivlist
+ \setlength{\baselineskip}{0.70\baselineskip}
+ \def\newblock{\hskip .11em plus .33em minus .07em}
+ \sloppy\clubpenalty4000\widowpenalty4000
+ \sfcode`\.=1000\relax}
+\let\endthesisbib=\endtrivlist
+
+\def\dept#1{\gdef\@dept{#1}}
+\def\supervisor#1{\gdef\@supervisor{#1}}
+\def\firstcommittee#1{\gdef\@firstcommittee{#1}}
+\def\secondcommittee#1{\gdef\@secondcommittee{#1}}
+\def\thirdcommittee#1{\gdef\@thirdcommittee{#1}}
+\def\fourthcommittee#1{\gdef\@fourthcommittee{#1}}
+\def\departmentchair#1{\gdef\@departmentchair{#1}}
+\def\copyrightyear#1{\gdef\@copyrightyear{#1}} % \author, \title in report
+\def\@title{}\def\@author{}\def\@dept{Systems and Computer Engineering}
+\def\@supervisor{} \def\@firstcommittee{} \def\@secondcommittee{}
+\def\@thirdcommittee{} \def\@fourthcommittee{} \def\@departmentchair{}
+\def\@copyrightyear{\number\the\year}
+\def\submitdate#1{\gdef\submitdate{#1}}
+
+\def\@reffile{references}
+
+\def\reffile#1{%
+  \def\@reffile{#1}
+}
+
+\def\abstract#1{%
+  \def\@abstract{#1}
+}
+
+\def\acknowledgements#1{%
+  \def\@acknowledgements{#1}
+}
+
+\def\preface#1{%
+  \def\@preface{#1}
+}
+
+\def\dedication#1{%
+  \def\@dedication{#1}
+}
+
+\def\nomenclature#1{%
+  \def\@nomenclature{#1}
+}
+
+
+\def\@bibliofileext{bib}
+\def\@bibliofile{\jobname\@bibliofileext}
+
+\def\@awork{%
+\@ifundefined{@phddissertation}{
+  thesis
+}{
+  dissertation
+}}
+
+% Print title page
+\def\titlep{%
+    \thispagestyle{empty}%
+    \begin{center}
+        {\Large\bf\@title}\\
+        \mbox{}\\
+        \mbox{}\\
+        by\\
+        \mbox{}\\
+        \mbox{}\\
+        {\textbf{\@author}}\\
+    \end{center}
+    \mbox{}
+    \begin{center}
+        A \@ifundefined{@phddissertation}{
+      Thesis
+    }{
+       Dissertation
+    } submitted to \\
+    the Faculty of Graduate Studies and Research\\
+    in partial fulfilment of\\
+    the requirements for the degree of\\
+    \@ifundefined{@phddissertation}{
+ \bf{Master of Applied Science}\\
+}{
+ \bf{Doctor of Philosophy}\\
+}
+    \end{center}
+    \mbox{}
+    \begin{center}
+        Ottawa-Carleton Institute for\\
+        Electrical and Computer Engineering
+    \end{center}
+    \mbox{}
+    \begin{center}
+        Department of \@dept\\
+        Carleton University\\
+        Ottawa, Ontario, Canada\\
+        \submitdate\\
+    \end{center}
+    \mbox{}
+    \begin{center}
+        Copyright \copyright\\
+        \@copyrightyear\ - \@author
+    \end{center}\clearpage}
+
+
+\long\def\signature#1{%
+  \begin{minipage}[t]{4in}
+    \vspace{.4in}
+    \hbox{\hfil\shortstack{\vrule width 3in height 0.4pt \\#1}}
+  \end{minipage}}
+
+\def\comprof{%
+\begin{minipage}[t]{1.5in}
+  \begin{flushright}
+    \@ifundefined{@phddissertation}{
+      Thesis
+    }{
+       Dissertation
+    }
+    Committee\\
+    Supervisor
+  \end{flushright}
+\end{minipage}}
+
+% Print signature approval page
+\def\signaturepage{%
+\thispagestyle{plain}%
+\begin{center}
+    The undersigned recommend to\\
+    the Faculty of Graduate Studies and Research\\
+    acceptance of the \@ifundefined{@phddissertation}{
+      Thesis
+    }{
+       Dissertation
+    }\\
+\end{center}
+\mbox{}
+\begin{center}
+    {\large\bf\@title}
+\end{center}
+\mbox{}
+\begin{center}
+    Submitted by \textbf{\@author}\\
+    in partial fulfilment of the requirements for the degree of\\
+        \@ifundefined{@phddissertation}{
+ \textbf{\bf{Master of Applied Science}}\\
+}{
+ \textbf{\bf{Doctor of Philosophy}}\\
+}
+\end{center}
+\vfill
+\begin{center}
+  \begin{tabular}{rl}
+      & \signature{\@supervisor}\\
+    \@ifundefined{@twocommittee}{}
+    {
+      & \signature\@firstcommittee\\
+    }
+    \@ifundefined{@threecommittee}{}
+    {
+      & \signature\@firstcommittee\\
+      & \signature\@secondcommittee\\
+    }
+    \@ifundefined{@fourcommittee}{}
+    {
+      & \signature\@firstcommittee\\
+      & \signature\@secondcommittee\\
+      & \signature\@thirdcommittee\\
+    }
+    \@ifundefined{@fivecommittee}{}
+    {
+      & \signature\@firstcommittee\\
+      & \signature\@secondcommittee\\
+      & \signature\@thirdcommittee\\
+      & \signature\@fourthcommittee\\
+    }
+     & \signature{\@departmentchair}
+\\
+\end{tabular}
+\end{center}
+\vfill
+\begin{center}{
+  Carleton University\\
+  \@copyrightyear}
+\end{center}}
+
+\def\startingpages{%
+  \setcounter{page}{0}
+  \pagestyle{plain}
+  \pagenumbering{roman}
+  \titlep
+  \signaturepage
+  \immediate\openout12=\@bibliofile.aux
+  \immediate\write12{\string\bibstyle{cubiblio}}
+  \immediate\write12{\string\bibdata{\@reffile}}
+  \@ifundefined{@abstract}{}{
+    \doourabstract{\@abstract}
+  }
+  \@ifundefined{@dedication}{}{
+    \doourdedication{\@dedication}
+  }
+  \@ifundefined{@acknowledgements}{}{
+    \doouracknowledgements{\@acknowledgements}
+  }
+  \@ifundefined{@preface}{}{
+    \doourpreface{\@preface}
+  }
+  \contentspages
+  \@ifundefined{@nomenclature}{}{
+    \doournomenclature{\@nomenclature}
+  }
+  \pagenumbering{arabic}
+  \pagestyle{myheadings}
+}
+
+\def\doourabstract#1{%
+  \sloppy
+  \chapter*{Abstract}
+  \addcontentsline{toc}{chapter}{Abstract}
+  \@ifundefined{@phddissertation}{
+    \thispagestyle{plain}
+    %\thispagestyle{empty}
+    \pagestyle{plain}
+  }{
+    \thispagestyle{plain}
+    \pagestyle{plain}
+  }
+  \input{#1}
+  \newpage
+  \pagestyle{plain}
+}
+
+\def\doouracknowledgements#1{%
+  \chapter*{Acknowledgments}
+  \addcontentsline{toc}{chapter}{Acknowledgments}
+  \input{#1}
+}
+
+\def\doourdedication#1{%
+  \newpage
+  \thispagestyle{plain}
+  \include{#1}
+}
+
+\def\doourpreface#1{%
+  \chapter*{Preface}
+  \addcontentsline{toc}{chapter}{Preface}
+  \input{#1}
+}
+
+\def\doournomenclature#1{%
+  \chapter*{Nomenclature}
+  \addcontentsline{toc}{chapter}{Nomenclature}
+  \input{#1}
+  \newpage
+}
+
+\def\contentspages{\newpage
+  \addcontentsline{toc}{chapter}{Table of Contents}
+  \tableofcontents
+  \newpage
+      \@ifundefined{@myusetablespage}{}{
+    {\addvspace{10pt}
+    \let\saveaddvspace=\addvspace
+    \def\addvspace##1{}
+    \addcontentsline{toc}{chapter}{List of Tables}
+    \listoftables
+    \let\addvspace=\saveaddvspace}
+  \newpage
+  }
+  \@ifundefined{@myusefigurespage}{}{
+    {\addvspace{10pt}
+    \let\saveaddvspace=\addvspace
+    \def\addvspace##1{}
+    \addcontentsline{toc}{chapter}{List of Figures}
+    \listoffigures
+    \let\addvspace=\saveaddvspace}
+  \newpage
+  }
+}
+
+\def\newchapter#1{%
+  \ifnum0=\value{mychaptercount}
+    \@ifundefined{@noleadpages}{
+      \startingpages
+    }{}
+    \setcounter{mychaptercount}{1}
+  \fi
+  \include{#1}
+}
+
+\def\@chapter[#1]#2{\ifnum \c@secnumdepth >\m@ne
+                         \refstepcounter{chapter}%
+                         \typeout{\@chapapp\space\thechapter.}%
+                         \addcontentsline{toc}{chapter}%
+                                   {\ele@chapapp\space \protect\numberline{\thechapter}#1}%
+                    \else
+                      \addcontentsline{toc}{chapter}{#1}%
+                    \fi
+                    \chaptermark{#1}%
+                    \addtocontents{lof}{\protect\addvspace{10\p@}}%
+                    \addtocontents{lot}{\protect\addvspace{10\p@}}%
+                    \if@twocolumn
+                      \@topnewpage[\@makechapterhead{#2}]%
+                    \else
+                      \@makechapterhead{#2}%
+                      \@afterheading
+                    \fi}
+
+
+\def\newappendix#1{%
+  \ifnum0=\value{myappendixcount}
+    \startappendix
+    \setcounter{myappendixcount}{1}
+  \fi
+  \include{#1}
+}
+
+\def\startappendix{%
+  \def\ele@chapapp{Appendix}
+  \@ifundefined{@wantmanuscript}{
+    \addcontentsline{toc}{chapter}{List of References}
+     \bibliographystyle{ieeetr}
+    \@ifundefined{@norefbib}{
+      \bibliography{\@reffile}
+    }{}
+    \newpage
+  }{}
+
+  \appendix
+  % This causes latex to number equations, tables, figures with
+  % A-1, A-2, ...
+%  \renewcommand{\theequation}{\Alph{chapter}.\arabic{equation}}
+%  \renewcommand{\thetable}{\Alph{chapter}.\arabic{table}}
+%  \renewcommand{\thefigure}{\Alph{chapter}.\arabic{figure}}
+}
+
+% used for manuscript form chapter references
+\def\refsforcb{%
+  \@ifundefined{@wantmanuscript}{
+  }{
+    \ifnum0=\value{mychapcitecount}
+      \relax
+    \else
+      \newpage
+      \addcontentsline{toc}{section}{List of References}
+%      \addcontentsline{toc}{chapter}{List of References}
+      \bibliography{\@reffile}
+      \bibliographystyle{ieeetr}
+      \newpage
+    \fi
+  }
+}
+
+\def\biblio{%
+  \ifnum0=\value{myappendixcount}
+    \startappendix
+  \fi
+  \ifnum0=\value{myfigcount}
+    \relax
+  \else
+    \if@filesw\immediate\write\@auxout{\string\myusefigurespage}\fi
+  \fi
+  \ifnum0=\value{mytablecount}
+    \relax
+  \else
+    \if@filesw\immediate\write\@auxout{\string\myusetablespage}\fi
+  \fi
+  \addcontentsline{toc}{chapter}{Bibliography}
+  \@input{\@bibliofile.bbl}
+}
+
+\def\bibliox{\bibliography{\@reffile}}
+
+\@ifundefined{@norefbib}{
+  \let\@enddocumenthook\biblio
+}{
+  \let\@enddocumenthook\bibliox
+}
