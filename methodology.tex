@@ -16,7 +16,6 @@
 \section{Data Storage}
 
     \subsection{Database Setup and Data Import}
-
         
         A MySQL database was the obvious choice of database, as both data sources come with SQL scripts performing table creations, data imports and general database manipulations\footnote{\label{SO_sql} \url{https://github.com/sotorrent/db-scripts/tree/master/sotorrent}} \footnote{\label{GH_sql} \url{https://github.com/gousiosg/github-mirror/tree/master/sql}}. Managing disk space during the data import phase represented a challenge, as the raw, uncompressed data files totaled up to over 500 GB. Importing of the data into the database was not achieved all at once, but rather through several iterations of uncompressing only a few data files. After a file was uncompressed and the table was successfully imported into the database, its raw CSV or XML file was deleted to free up disk space. 
         
@@ -24,21 +23,21 @@
      
         \todo{Add table contains descriptions for each relation's content}
       
-        \begin{figure*}[!h]
+        \begin{figure}[!ht]
           \centering
           \includegraphics[width=0.9\textwidth]{SO_DB_schema.jpg}\\
           %\caption{Redesigned database schema for the downloaded Stack Overflow data.}
           \label{fig:so_schema}
-        \end{figure*}
+        \end{figure}
         
    
         \todo{Re-do this image}
-        \begin{figure*}[!h]
+        \begin{figure}[!ht]
           \centering
           \includegraphics[width=\textwidth]{GH_DB_schema.jpg}\\
           %\caption{Redesigned database schema for the downloaded Github data.}
           \label{fig:gh_schema}
-        \end{figure*}
+        \end{figure}
         
         Figure \ref{fig:so_schema} and \ref{fig:gh_schema} show the database schema and all attributes within each table of the SOTorrent and respectively the GHTorrent data set. All tables from GHTorrent are shown in figure \ref{fig:gh_schema}, while only the relevant tables from SOTorrent are shown in figure \ref{fig:so_schema}. 
 
@@ -53,18 +52,66 @@
        As mentioned in section \ref{data_collection}, the total size of the GHTorrent data set was over 400 GB of data, while SOTorrent contained close to 100 GB of data. In order to make data querying and processing more efficient, the reduction the full data set was desired. In order to perform analysis only on the linkage between Github and Stack Overflow, only successfully linked data is needed. Filtering out unlinked data was done by iterating through each existing table in the database and keeping only the observations that are connected or related to users with a user ID present in the list of 83,550 unique user IDs linked. Discarding unlinked data reduced the size of the data set and allowed only linked data to be analyzed. This process reduced the size of the MySQL database from over 500 GB of data to 122 GB.
         
 \section{Data Aggregation} 
-    The end goal of the analysis on Stack Overflow and Github data was to create topic models capable of deciphering the hidden patterns of underlying topics that represent a user's activity on a platform. Tian et al. \cite{tian2013predicting} modeled user topical interest and expertise by building LDA models on user activity data. The authors have showed that a Stack Overflow user's expertise can be extracted using a topic model applied over a set of textual documents consisting of the user's activity on the platform. 
+    The end goal of the analysis on Stack Overflow and Github data was to create topic models capable of deciphering the hidden patterns of underlying topics that represent a user's activity on a platform. Tian et al. \cite{tian2013predicting} modeled user topical interest and expertise by building LDA models on user activity (user profile) data. The authors have showed that a Stack Overflow user's expertise can be extracted using a topic model applied over a set of textual documents consisting of the user's activity on the platform collected into a user profile.
 
-    In order to perform cross platform analysis of Github and Stack Overflow users' expertise, the modeling of their expertise through LDA models is needed. LDA topic models are fit on a set of documents. In order to fit LDA models on Github and StackOverflow user data, one needs to define what a document consists of, and how to extract a user profile from a platform such as Github or Stack Overflow.  
+    In order to perform cross platform analysis of Github and Stack Overflow users' expertise, the modeling of their expertise through LDA models is needed. LDA topic models are fit on a set of documents. In order to fit LDA models on Github and StackOverflow user data, one needs to define what a document consists of, and how to extract a user's profile from a platform such as Github or Stack Overflow.  
     
-    \subsection{Extracting Stack Overflow User Profiles}
-        When deciding how to create documents for the LDA topic model, the simplest approach was to start by defining a document as a user profile. Each user present in the data set of 83,550 linked users described in section \ref{Linking_SO_GH} has one document (user profile) describing their activity on StackOverflow.
+    \subsection{Extracting Stack Overflow User Profiles\label{SO_userProfileExtraction}}
+        When deciding how to create documents for the LDA topic model, the simplest approach was to define a document as a user profile. Each user present in the data set of 83,550 linked users described in section \ref{Linking_SO_GH} has one document (user profile) describing their activity on Stack Overflow. This document contains all of their activity on the platform. Extracting a user's activity (user profile) from all the public data stored about a user started by inspecting each table of the SOTorrent database schema \ref{fig:so_schema} for attributes that contain relevant and meaningful textual information about a user. The relevant textual attributes included into Stack Overflow user profiles were badge names obtained by a user, the description on the profile page's about me section, questions posted by a user, answers given by a user, titles and tags of posts that a user participated in, and comments made by a user to any post.
+          
+        \begin{table}[!htbp]
+            \centering
+            %\caption{Sample table. With an extra long caption to test how captions will wrap.}
+            \label{tab:SO_userProfileExtraction}
+            \vspace{6pt} % Required to get proper spacing between caption and table
+            \begin{tabular}{|p{3cm}|p{3cm}|p{8cm}|}
+               \toprule
+               \textbf{Name} & \textbf{Attribute(s)} & \textbf{Derivation} \\
+               \toprule
+                Badges & Badges.Name & Concatenation of list of badges obtained by the user \\
+                About Me & Users.AboutMe & Stack Overflow user profile's about me description \\
+                Post Answer & Posts.Body, AcceptedAnswerId & Take a user's each answer and concatenate it with the question that it is related to  \\
+                Post Question & Posts.Body & Take a user's each question and concatenate it with the accepted answer it is related to  \\
+                Title and Tags for Questions & Posts.Tags, Posts.Title & Concatenate the post tags and title for each question that the user asked \\
+                Title and Tags for Answers & Posts.Title, Posts.Tags & Concatenate the post tags and title for each answer that the user provided \\
+                Comments & Comments.Text, Posts.Body, Posts.Title & Take a user's each comment and concatenate it to the post (question or answer) it is related to \\
+               \bottomrule
+            \end{tabular}
+        \end{table}  
+        
+       A detailed description on how data was manipulated for these user profile attributes can be found in table \ref{tab:SO_userProfileExtraction}.
     
-    \subsection{Extracting Github User Profiles}
-    
+        % to do: explain the logic behind joining Q + A (for context)
+        % to do: explain that all this will get concatenated into 1 giant string
+        
+    \subsection{Extracting Github User Profiles\label{GH_userProfileExtraction}}
+        Each user present in the data set of 83,550 linked users described in section \ref{Linking_SO_GH} has one document (user profile) describing their activity on Github. Extracting a user profile was done my inspecting each table of the GHTorrent database schema \ref{fig:gh_schema} for attributes that contain relevant textual information about a user. The textual attributes selected to be part of the user profile data include the names, labels, languages used and description of each repository that a user owns, also their commit and pull request comments posted on Github. 
+        
+        \begin{table}[!htbp]
+            \centering
+            %\caption{Sample table. With an extra long caption to test how captions will wrap.}
+            \label{tab:GH_userProfileExtraction}
+            \vspace{6pt} % Required to get proper spacing between caption and table
+            \begin{tabular}{|p{3cm}|p{3cm}|p{8cm}|}
+               \toprule
+               \textbf{Name} & \textbf{Attribute(s)} & \textbf{Derivation} \\
+               \toprule
+                Project Name, Description \& Metadata & Projects.(name, description, language), Repo-Labels.name & Take each user's each project and concatenate the repository's name, description, languages used and repository labels it contains\\  
+                Commit-Comments & Commit-Comments.body & Concatenate a user's list of commit comments \\
+                Code-review Comments & Pull-Request-Comments.body & Concatenate a user's list of code review (pull request) comments \\
+               \bottomrule
+            \end{tabular}
+        \end{table}
+        
+        A detailed description on how data was manipulated for these user profile attributes can be found in table \ref{tab:GH_userProfileExtraction}.
+        
+        % to do: explain the logic behind selecting these attributes
+        % to do: explain that all this will get concatenated into 1 giant string
+        
     \subsection{Creating Time Based User Profiles}
-    After defining how to extract user profiles from both Stack Overflow and Github, it is worth factoring in a \textit{timeline} into the user profile. The simplest approach would be to model recent and past activity of users by splitting their activity into before and after a specific date. Being able to model past and recent user profile data separately creates opportunities for comparison analyses to be done on the evolution of expertise of Github and Stack Overflow users. A decision was made to define recent activity as the activity performed by a user in the last 3 years. 2019 being the year that this analysis has taken part, the split between past and recent activity was created by any user profile data being dated before or after \textit{January 1st 2016}.
-    % deciding how to structure the data for the analysis
+        After defining how to extract user profiles from both Stack Overflow and Github, it is worth factoring in a \textit{timeline} into the user profile. The simplest approach would be to model recent and past activity of users by splitting their activity into before and after a specific date. Being able to model past and recent user profile data separately creates opportunities for comparison analyses to be done on the evolution of expertise of Github and Stack Overflow users. A decision was made to define recent activity as the activity performed by a user in the last 3 years. 2019 being the year that this analysis has taken part, the split between past and recent activity was created by any user profile data being dated before or after \textit{January 1st 2016}.
+        
+        % talk about full, past, and recent versions of the dataset
 
 \section{Data Cleaning}
 Textual data on Stack Overflow and Github contains a large variety of software engineering related domain specific wording mixed with source code. Stack Overflow posts contain rich software artifacts such as code snippets, text blocks explaining problems and solutions using text and source code, comments which can be associated with a question or an answer, and hyperlinks to references such as API documentation or an academic paper explaining an answer. In their study of Github data, Liao et al. \cite{liao2019status} mentions that developers on Github ``talk about project bugs, enhancements, and tasks in issue discussions". The authors stated that a text corpus built on Github data will most likely contain ``plenty of code, warnings, messages, and technical terminology in addition to more general natural language [...] which allow for easy detection of status and/or relevant expertise".
@@ -83,20 +130,37 @@ Boyd-Graber et al. \cite{boyd2014care}'s book chapter recommends HTML symbol and
 
 Liao et al. \cite{liao2019status} analyzed issue discussions on Github, and in their pre-processing steps they filtered out code-specific language, which was enclosed in HTML tags. The authors then removed short posts contained less than five tokens and distinguished between data generated by developers who never committed code to a project, and those who did. 
 
+Based on the above data cleaning routines used when working with software engineering domanin specific textual data, a user level and a corpus level pre-processing routine was developed. The user level pre-processing routine is executed on each user's aggregated textual data individually during the user profile extraction processing described in sections \ref{SO_userProfileExtraction} and \ref{GH_userProfileExtraction}. The user level routine involved the removal of html links, symbols and tags, proceeded by stop-word, mentions (using @) and multiple white space removal. Finally, a tokenization technique is applied, then individual tokens consisting of only numbers or punctuation with no words present in the token are removed. This data processing routine is executed on the already aggregated (concatenated) data obtained using the description in sections \ref{SO_userProfileExtraction} and \ref{GH_userProfileExtraction}.
 
-
-
-%% user-level: tokenization, html links, symbols, tags, stop-word removal, numeric and punctuation removal (if not part of a word)
-%% corpus-level: tokenization, bi-trigram phrase detection (frequency of min 20 for bigrams, min 50 for trigrams)
-%% corpus-level: Remove rare and common tokens: Filter out words that occur less than 20 documents, or more than 50\% of the documents
-    
+The corpus level pre-processing routine is executed on each individual text corpus (GH-past, GH-recent, GH-full, SO-past, SO-recent and SO-full) before the model fitting, but after the data aggregation process. The corpus level pre-processing includes tokenization, standardization of tokens, frequent phrase detection, then removing tokens that include only numbers and punctuation(if any). A subset of symbols and punctuations were also removed, keeping symbols such as ‘+’, ‘\_’, ‘.’ and ‘\#’, which often appear in programming contexts. Finally, rare and very common tokens are removed by filter out tokens that occur in less than 10 documents, or more than 50\% of the documents. In this context standardization of tokens means re-writting common tokens spelled multiple ways as a unique token. Examples of such common tokens include ‘node.js’, ‘node-js’, ‘node\_js’ for ‘nodejs’; ‘angular.js’, ‘angular-js’, ‘angular\_js’ for ‘angularjs’; or ‘js’ for ‘javascript’, and many more. A list of the most frequent phrases detected in the GH-full and SO-full data sets can be found in appendix \ref{frequentExpressions}. These common phrases used in the software engineering domain have totally different meaning as a phrase(bigram), thus they have been re-written as a single word (unigram), using a ‘\_’ character connecting the phrases. As a final note on data cleaning, both user and corpus level pre-processing routines were designed based on common best practises of previous data cleaning routines (\cite{tian2013predicting}, \cite{campbell2015latent}, \cite{treude2019predicting}, \cite{efstathiou2018word}, \cite{boyd2014care}, \cite{liao2019status}).
 
 \section{Topic Modeling}
+% why are we using topic models ?
+The inspiration to use topic modeling to learn cross-platform developer expertise came from Tian et al. \cite{tian2013predicting}'s work. The authors used topic models to predict the best answerer for a new question on Stack Overflow. Their approach learnt user topical expertise and interest levels by profiling each user's previous activity and reputation on Stack Overflow. In software engineering applications when working with large collections of textual data the most popular topic modeling technique to use is Latent Dirichlet Allocation (LDA) \cite{campbell2015latent}. 
+
+In their book chapter titled \textit{Latent Dirichlet Allocation: Extracting Topics from Software Engineering Data}, Campbell et al. \cite{campbell2015latent} is stating that ``LDA can be used to summarize, cluster, link, and preprocess large collections of data because it produces a weighted list of topics for every document in a collection dependent on the properties of the whole. These lists can then be compared, counted, clustered, paired, or fed into more advanced algorithms. Furthermore, each topic is comprised of a weighted list of words which can be used in summaries."
+
+LDA models have been previously used to learn semantic similarity between user profiles, posts (\cite{tian2013predicting}) and even source codes (\cite{arwan2015source}) on Stack Overflow. The proposed novel approach is creating a cross-platform developer expertise extraction task consisting of topical expertise learnt from topic analysis on user profiles extracted through mining public software repository platforms like Stack Overflow and Github. Campbell et al. \cite{campbell2015latent}'s explanation on the use of LDA models shows that extracting such expertise is possible by providing a summary or ranking of the the weighted list of topic words for each topic that the user is present in or belongs to. 
     
-    \subsection{Experiment Setup}
-    %% Creating SO-full and GH-full after inactive user issues
+    \subsection{Model Setup}
+        % TO DO: mention the data sets that we fit LDA on, having diff. LDA models
     
-    \subsection{Hyper-parameter optimization}
+        As mentioned in section \ref{SO_userProfileExtraction} and \ref{GH_userProfileExtraction}, before fitting an LDA model, a document was defined as a user profile. There are 83,550 linked users in the data set, each user having only one document (user profile) describing their activity, thus when fitting an LDA model, there are always 83,550 documents to be fitted on. 
+        
+        %% Creating SO-full and GH-full after inactive user issues
+        
+    
+    \subsection{Hyper-Parameter Optimization}
+    When analyzing the misuse of LDA common practises Agrawal et al. \cite{agrawal2018wrong} concluded that ``using the default settings of LDA for software engineering data can lead to systematic errors due to topic modeling instability". For instance, most LDA implementations recommend and use by default a fixed normalized asymmetric prior of $1.0 / topic-number$ for the $\alpha$ parameter, and a fixed prior of $0.01$ or $0.1$ for the $\beta$ parameter. In their study of good configurations of LDA models for GitHub and Stack Overflow data Treude and Wagner \cite{treude2019predicting} confirmed the findings of \cite{agrawal2018wrong} by concluding that ``popular rules of thumb for topic modelling parameter configuration are not applicable to textual corpora from GitHub and Stack Overflow. These corpora have different characteristics and require different configurations to achieve good model fit." Furthermore, Agrawal et al. \cite{agrawal2018wrong} clarifies by stating that ``any study that shows the topics learned from LDA, and uses them to make a particular conclusion, needs to first tune LDA,  [since] topics learned from untuned LDA are unstable, [but] after tuning, stability can be greatly increased." The authors also note that reusing hyper-parameter tunings suggested by other researchers from other data sets is not a reliable option, as the best LDA tunings differ from data set to data set, and LDA models always need to be re-tuned for all new data.
+    
+    To address these concerns of LDA misuse, the models fitted in this project use 400 iterations through the corpus when inferring the topic distribution of a corpus (instead of default 50 iterations). This should assure model's stability, as model convergence is checked before finishing the fitting process. For the random state of the model training initialization a fixed seed is used to promote reproducibility. 
+    
+    In terms of the $\alpha$ and $\beta$, hyper-parameter optimization is performed by combining the best practises of Bangash et al. \cite{bangash2019developers} and Treude and Wagner \cite{treude2019predicting}' work on finding the right hyper-paramters. Hoffman et al. \cite{hoffman2010online}'s implementation of \textit{Online learning for LDA models} is used to learn an asymmetric prior from the data for both $\alpha$ and $\beta$  hyper-parameters.
+    
+    %% deciding on k
+
+    
+    %% These results also ask us to revisit the previous case studies which have used LDA using “off-the-shelf” parameters to rerun by tuning these parameters using automated tools like LDADE.
     
     \subsection{Evaluation of model}
     
@@ -111,7 +175,7 @@ Liao et al. \cite{liao2019status} analyzed issue discussions on Github, and in t
     %%for each technique
         %% what it is, where do you use it
     
-    \subsection{Extracting/ Determining/ Defining Expertise}
+    \subsection{Extracting/ Determining Expertise}
     
         %% mean_BLEU_score, mean_Jaccard_sim, Mean_Cos_sim
         \subsubsection{Topic Distribution based Expertise}
