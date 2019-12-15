@@ -23,7 +23,7 @@
         
         During the data import phase it was discovered that using \textit{MyISAM} over \textit{InnoDB} as the database engine is more favorable, since there was a significant execution time difference between the two database engines when importing large amounts of data into the MySQL database. \textit{MyISAM} database engine does not support foreign keys constraints, while it supports table-level locking. On the other hand \textit{InnoDB} supports foreign key constraints and row-level locking. \textit{MyISAM} is preferred when performing tasks that require fast import and querying speed, while \textit{InnoDB} being the default database engine for MySQL is more optimal for regular operations. For this particular reason all of the large raw data files were imported into the database using the \textit{MyISAM} database engine. After all necessary database manipulations have been performed, the database engine was changed back to the default engine, \textit{InnoDB}, to allow foreign key constraints to be enforced. 
      
-        \todo{Add table contains descriptions for each relation's content}
+        \todo{Add table contains descriptions for each sql table's content}
       
         \begin{figure}[!ht]
           \centering
@@ -68,7 +68,7 @@
         \begin{table}[!htbp]
             \centering
             \label{tab:SO_userProfileExtraction}
-            \caption{Sample}
+            \caption{Stack Overflow User Profile Extraction}
             \vspace{6pt} % Required to get proper spacing between caption and table
             \begin{tabular}{|p{3.3cm}|p{2.7cm}|p{8cm}|}
                \toprule
@@ -93,7 +93,7 @@
         
         \begin{table}[!htbp]
             \centering
-            \caption{Sample}
+            \caption{GitHub User Profile Extraction}
             \label{tab:GH_userProfileExtraction}
             \vspace{6pt} % Required to get proper spacing between caption and table
             \begin{tabular}{|p{3.3cm}|p{3cm}|p{7.7cm}|}
@@ -114,7 +114,7 @@
         
         \todo{talk about full, past, and recent versions of the dataset}
 
-\section{Data Cleaning}
+\section{Data Cleaning\label{data_cleaning}}
 
     Textual data on Stack Overflow and GitHub contains a large variety of software engineering related domain specific wording mixed with source code. Stack Overflow posts contain rich software artifacts such as code snippets, text blocks explaining problems and solutions using text and source code, comments which can be associated with a question or an answer, and hyperlinks to references such as API documentation or an academic paper explaining an answer. In their study of GitHub data, Liao et al. \cite{liao2019status} mentions that developers on GitHub ``talk about project bugs, enhancements, and tasks in issue discussions". The authors stated that a text corpus built on GitHub data will most likely contain ``plenty of code, warnings, messages, and technical terminology in addition to more general natural language [...] which allow for easy detection of status and/or relevant expertise".
     
@@ -140,9 +140,9 @@
         
     \subsection{Corpus Level Text Processing}
     
-        The corpus level pre-processing routine is executed on each individual text corpus (GH-past, GH-recent, GH-full, SO-past, SO-recent and SO-full) before the model fitting, but after the data aggregation process. The corpus level pre-processing includes tokenization, standardization of tokens, frequent phrase detection, then removing tokens that include only numbers and punctuation(if any). A subset of symbols and punctuations were also removed, keeping symbols such as ‘+’, ‘\_’, ‘.’ and ‘\#’, which often appear in programming contexts. Finally, rare and very common tokens are removed by filter out tokens that occur in less than 10 documents, or more than 50\% of the documents. In this context standardization of tokens means re-writting common tokens spelled multiple ways as a unique token. Examples of such common tokens include ‘node.js’, ‘node-js’, ‘node\_js’ for ‘nodejs’; ‘angular.js’, ‘angular-js’, ‘angular\_js’ for ‘angularjs’; or ‘js’ for ‘javascript’, and many more. A list of the most frequent phrases detected in the GH-full and SO-full data sets can be found in appendix \ref{frequentExpressions}. These common phrases used in the software engineering domain have totally different meaning as a phrase(bigram), thus they have been re-written as a single word (unigram), using a ‘\_’ character connecting the phrases. As a final note on data cleaning, both user and corpus level pre-processing routines were designed based on common best practises of previous data cleaning routines (\cite{tian2013predicting}, \cite{campbell2015latent}, \cite{treude2019predicting}, \cite{efstathiou2018word}, \cite{boyd2014care}, \cite{liao2019status}).
+        The corpus level pre-processing routine is executed on each individual text corpus (GH-past, GH-recent, GH-full, SO-past, SO-recent and SO-full, as described in section \ref{past_recent_full_segm}) before the model fitting, but after the data aggregation process. The corpus level pre-processing includes tokenization, standardization of tokens, frequent phrase detection, then removing tokens that include only numbers and punctuation(if any). A subset of symbols and punctuations were also removed, keeping symbols such as ‘+’, ‘\_’, ‘.’ and ‘\#’, which often appear in programming contexts. Finally, rare and very common tokens are removed by filter out tokens that occur in less than 10 documents, or more than 50\% of the documents. In this context standardization of tokens means re-writting common tokens spelled multiple ways as a unique token. Examples of such common tokens include ‘node.js’, ‘node-js’, ‘node\_js’ for ‘nodejs’; ‘angular.js’, ‘angular-js’, ‘angular\_js’ for ‘angularjs’; or ‘js’ for ‘javascript’, and many more. A list of the most frequent phrases detected in the GH-full and SO-full data sets can be found in appendix \ref{frequentExpressions}. These common phrases used in the software engineering domain have totally different meaning as a phrase(bigram), thus they have been re-written as a single word (unigram), using a ‘\_’ character connecting the phrases. As a final note on data cleaning, both user and corpus level pre-processing routines were designed based on common best practises of previous data cleaning routines (\cite{tian2013predicting}, \cite{campbell2015latent}, \cite{treude2019predicting}, \cite{efstathiou2018word}, \cite{boyd2014care}, \cite{liao2019status}).
 
-\section{Topic Modeling}
+\section{Topic Modeling\label{topic_modeling}}
 
 % why are we using topic models ?
     The inspiration to use topic modeling to learn cross-platform developer expertise came from Tian et al. \cite{tian2013predicting}'s work. The authors used topic models to predict the best answerer for a new question on Stack Overflow. Their approach learnt user topical expertise and interest levels by profiling each user's previous activity and reputation on Stack Overflow. In software engineering applications when working with large collections of textual data the most popular topic modeling technique to use is Latent Dirichlet Allocation (LDA) \cite{campbell2015latent}. 
@@ -176,7 +176,7 @@
         Bangash et al. \cite{bangash2019developers} states that ``assigning names to topics is important as LDA does not label them, and carrying out analysis on lists of words is difficult". After evaluating and picking the best model based on the above criteria, the topic labeling methodology of Bangash et al. \cite{bangash2019developers} and Hindle et al. \cite{hindle2012relating} was followed, which consisted of assigning labels to the topics based on multiple authors’ consensus. When evaluating the topics of an LDA model, it is worth noting that Hindle et al. \cite{hindle2012relating} mentioned that ``labeling some topics might not be possible, [...] as some LDA topics may not have a valid interpretation", thus some topics need to be labeled under broad terms, or be discarded.
 
     
-    \section{Expertise Ground Truth Survey}
+    \section{Expertise Ground Truth Survey\label{expertiseSurvey}}
     
         Bangash et al. \cite{bangash2019developers} performed a manual exploration of topics to validate if the LDA model's suggested topics are useful. They manually read randomly sampled documents and verified if the LDA model ``predicts the right topic for the [document], considering [their] understanding of the topics as the ground truths'' \cite{bangash2019developers}. This method of manual validation can be considered highly subjective, thus a more objective, and quantitative process would be desired. After careful consideration a developer expertise survey collecting human annotations to obtain a ground truth was a better way to understand the ground truth, thus an expertise survey was designed. 
     
@@ -194,30 +194,342 @@
             \todo{Decide against either union or intersect, and provide a reason.}
         
         \subsection{Limitations of the Study}
-            As mentioned above, there were a few concern with processing and aggregating the human annotations. Such concerns create limitations for the ground truth data set. Firstly, the support of only a handful of frequent phrases (found in section \ref{frequentExpressions}) represents a limitation, as full support of any phrases would be desired. Secondly, the inconsistencies in annotation length represents a limitation too, as evaluating such ground truth data set could be challenging. Thirdly, the aggregation of annotations considering either set union or intersect of two separate annotations could be a threat to validity. \todo{Double check this with Olga}
+            As mentioned above, there were a few concern with processing and aggregating the human annotations. Such concerns create limitations for the ground truth data set. Firstly, the support of only a handful of frequent phrases (found in section \ref{frequentExpressions}) represents a limitation, as full support of any phrases would be desired. Secondly, the inconsistencies in annotation length represents a limitation too, as evaluating such ground truth data set could be challenging. Thirdly, the aggregation of annotations considering either set union or intersect of two separate annotations could be a threat to validity. \todo{Double check this with Professor}
         
-\section{Data Analysis and Algorithm Design}
-    %%for each technique
-        %% what it is, where do you use it
+\section{Data Analysis and Algorithm Design\label{algoDesign}}
+
+    Subsections \ref{data_collection} through \ref{data_cleaning} were focused on how to acquire and process the data. Subsection \ref{topic_modeling} explained the modeling of data, and subsection \ref{expertiseSurvey} was concerned with establishing the ground truth knowledge. All of these subsections serve as a build-up towards the culmination of methodology, subsection \ref{algoDesign}, outlining four separate tasks (\emph{Expertise Prediction, Cross-platform Expertise, Cross-platform Transferable Knowledge, and Expertise Evolution}) which represent four separate analyses performed in order to answer research questions 1 through 4 in subsections \ref{RQ1_task} through \ref{RQ4_task}. Each of these subsections will describe the path from either modeling to prediction or modeling to insight. For the tasks in subsections \ref{RQ2_task} through \ref{RQ4_task} the past and recent segmentation of data explained in section \ref{past_recent_full_segm} are used for both Stack Overflow and GitHub data. Only the expertise prediction task uses the full version (see section \ref{past_recent_full_segm}) of the data, with no segmentation. 
     
-    \subsection{Extracting/ Determining Expertise}
+    \subsection{Expertise Prediction\label{RQ1_task}}
+        Research question 1 is concerned with extracting and predicting major expertise areas of Stack Overflow and GitHub users, and comparing expertise trends on Stack Overflow and GitHub. The goal of expertise prediction was to design one or more techniques to extract the expertise of a user, then check the accuracy of such technique against the ground truth knowledge from section \ref{expertiseSurvey}. Expertise trend comparison was performed by comparing the topics falling out of the LDA models that produced the most accurate expertise predictions for both GitHub and Stack Overflow users. For the expertise prediction task three novel techniques have been designed, and they will be described in details below. 
+        
+        \subsubsection{Novel Technique 1: Topic Distribution based Expertise Prediction}
+            The first technique take a fitted LDA model and leverages the insights gained through learning the topic distribution of documents (user profiles), then outputs expertise predictions for each user based on thresholds applied to the likelihood of a user belonging to an LDA. The expertise predictions take form of topic words representing topics that a user most likely belongs to. The formal algorithm for \emph{Topic Distribution based Expertise Prediction} can be seen in Algorithm \ref{alg:Topic_Distr}.
+            
+            \begin{algorithm}
+            \caption{Topic Distribution based Expertise Prediction}
+            \label{alg:Topic_Distr}
+            \begin{algorithmic}[1]
+                \REQUIRE $LDA$: Topic Model, $threshold$: Probability Threshold
+                \STATE Get Topic-Document Matrix $M$ from fitted $LDA$ topic model
+                \STATE User-Topic Mapping = \{ \}
+                \STATE Expertise-Predictions = \{ \}
+                \STATE
+                \STATE // Create User-Topic Mapping of each user
+                \FORALL{users $user\_ID$ in the data set} 
+                    \STATE Get user profile document $d$ of user $user\_ID$
+                    \STATE Get topic distribution $TD$ of document $d$ from matrix $M$
+                    \STATE listOfTopics = [ ]
+                    \FORALL{topics $t$ with non-zero probability in $TD$}
+                        \IF{probability of topic $t \geq threshold$} 
+                            \STATE Add topic $t$ to listOfTopics
+                        \ENDIF
+                    \ENDFOR
+                    \STATE User-Topic Mapping[ $d\_i$ ] = listOfTopics
+                    \STATE
+                    \STATE // Extract expertise for each user
+                    \STATE listOfWords = [ ]
+                    \FORALL{topic $t$ in User-Topic Mapping[ $user\_ID$ ]} 
+                        \STATE $TW$ = Get top-20 topic words that describe topic $t$
+                        \STATE Add topic words $TW$ to listOfWords
+                    \ENDFOR
+                    \STATE Apply a word ranking algorithm to listOfWords
+                    \STATE Expertise-Predictions[ $user\_ID$ ] = sorted listOfWords
+                \ENDFOR
+                \RETURN Expertise-Predictions
+            \end{algorithmic}
+            \end{algorithm}
+            
+            This algorithm takes two parameters: a fitted, already optimized $LDA$ topic model, and a probability threshold, $T$, which is a value strictly between 0 and 1. The first major step in the algorithm is to create a user-topic mapping for each user using the topic distribution present in the topic-document matrix. In lines 11-13 of Algorithm \ref{alg:Topic_Distr} a topic becomes associated with a user if the probability of that topic being present in the user's profile is larger than or equal to the probability threshold $T$. The topic distribution of each user profile document allows the extraction of topics that most likely describe a user's expertise. Once the user-topic mapping is created, the top-20 topic words from each topic associated with the user are collected into a list of candidate expertise prediction words. Next, a ranking of the candidate expertise prediction words is created by applying a word ranking metric commonly used in topic modeling called \emph{relevance}. Sievert et al. \cite{sievert2014ldavis} proposed \emph{relevance} as a method for ranking terms within topics, which is currently highly used in open source libraries such as \textit{LDAvis}. Once the candidate expertise prediction words have been ranked, the top-$n$ ranked words are returned as the expertise words describing a user. $n$ can be chosen to be a fixed length for the set of expertise prediction words, or the technique can be used to predict as many words as human annotated labels that exist on a user. A step-by-step visualization of the entire Algorithm \ref{alg:Topic_Distr} can be seen in figure \ref{fig:technique1}.
+            
+            \begin{figure}[!ht]
+              \centering
+              \includegraphics[width=\textwidth]{figures/technique1.JPG}\\
+              \caption{Topic Distribution based Expertise Prediction}
+              \label{fig:technique1}
+            \end{figure}
+            
+        \subsubsection{Novel Technique 2: Expertise Prediction using LDA based User and Topic Embeddings}
+        
+            The second technique introduces the idea of generating user and topic embeddings in the same vector space, so their similarity could be computed. The creation of the user-topic mapping is accomplished by comparing cosine similarities between user and topic embeddings, thus associating a user with the most similar topics. 
+            
+            All unique words in a user profile are contributing to generate user embeddings using aggregated latent scores of each word present in the LDA model's term-topic matrix. The formal algorithm for \emph{LDA based User Embedding Generation} can be seen in Algorithm \ref{alg:LDA_userEmb}. 
+            
+            \begin{algorithm}
+                \caption{LDA based User Embedding Generation}
+                \label{alg:LDA_userEmb}
+                \begin{algorithmic}[1]
+                    \REQUIRE $M$: Term-Topic Matrix, $D$: User Profile Documents 
+                    \STATE listOfEmbeddings = [ ]
+                    \FORALL{users $user\_ID$ in the data set} 
+                        \STATE Get user profile document $d$ for user $user\_ID$ from $D$
+                        \STATE Get unique set words $WordSet$ in document $d$
+                        \STATE listOfVectors = [ ]
+                        \STATE
+                        \FOR{each word $w$ in $WordSet$}
+                            \STATE Get $1 \times k$ vector $v$ of latent scores for word $w$ from matrix $M$
+                            \STATE Add vector $v$ to listOfVectors
+                        \ENDFOR
+                        \STATE Convert listOfVectors to matrix $LV$ with dimensions $n \times k$; $n=length(WordSet)$
+                        \STATE Perform column-wise max-pooling or average-pooling to reduce matrix $LV$ to a user embedding vector $emb$, dimension $1 \times k$
+                        \STATE Add user embedding vector $emb$ to listOfEmbeddings
+                    \ENDFOR
+                    \STATE Convert listOfEmbeddings to matrix $E$ with dimensions $u \times k$; where $u$ = number of users in the data set
+                    \RETURN Matrix $E$
+                \end{algorithmic}
+            \end{algorithm}
+        
+            The \emph{LDA based User Embedding Generation} algorithm takes as input the collection of user profiles, and a term-topic matrix learned during inference of a fitted LDA topic model. In line 4 of Algorithm \ref{alg:LDA_userEmb} a set of words is created, which contains all the words appearing in a user's profile. In lines 7-10 this set of words is iterated over, and for each word a vector of latent scores is obtained from the input term-topic matrix. In line 12 a column-wise aggregation is performed by applying either max-pooling or average-pooling down-sampling technique. Applying a column-wise average or maximum function is a common word embedding aggregation technique \cite{de2016representation} used to create feature vectors from word embeddings. There are 2 variations of Algorithm \ref{alg:LDA_userEmb}. In order to explore which down-sampling technique works best experiments have been performed using both max and average-pooling, thus obtaining a convenient $1 \times k$ user embedding vector for each user.
+                    
+            Topic embeddings are generated using aggregated latent scores of top-20 topic words of each topic present in a fitted LDA model. The formal algorithm for \emph{LDA based Topic Embedding Generation} can be seen in Algorithm \ref{alg:LDA_topicEmb}. 
+        
+            \begin{algorithm}
+                \caption{LDA based Topic Embedding Generation}
+                \label{alg:LDA_topicEmb}
+                \begin{algorithmic}[1]
+                    \REQUIRE $LDA$: Topic Model, $M$: Term-Topic Matrix
+                    \STATE listOfEmbeddings = [ ]
+                    \FOR{each topic $T_i$ in $LDA$ fitted model} 
+                        \STATE Get top-20 topic words $TW$ describing topic $T_i$
+                        \STATE listOfVectors = [ ]
+                        \STATE
+                        \FOR{each word $w$ in $TW$}
+                            \STATE Get $1 \times k$ vector $v$ of latent scores for word $w$ from matrix $M$
+                            \STATE Add vector $v$ to listOfVectors
+                        \ENDFOR
+                        \STATE Convert listOfVectors to matrix $LV$ with dimensions $n \times k$; where $n=20$, $k=$ number of topics in $LDA$ model
+                        \STATE Perform column-wise max-pooling or average-pooling to reduce matrix $LV$ to a topic embedding vector $emb$, dimension $1 \times k$
+                        \STATE Add topic embedding vector $emb$ to listOfEmbeddings
+                    \ENDFOR
+                    \STATE Convert listOfEmbeddings to matrix $E$ with dimensions $k \times k$
+                    \RETURN Matrix $E$
+                \end{algorithmic}
+            \end{algorithm}
+            
+            The \emph{LDA based Topic Embedding Generation} algorithm takes as input a fitted LDA model and the term-topic matrix learned during inference. In lines 2 and 3 of Algorithm \ref{alg:LDA_topicEmb} for each topic in the LDA model a set of top-20 topic words best representing that topic are obtained from the LDA model. In lines 6-19 this set of topic words is iterated over, and for each topic word a vector of latent scores is obtained from the input term-topic matrix. In line 11 a column-wise aggregation is performed by applying either max-pooling or average-pooling down-sampling technique. Same as for the \emph{LDA based User Embedding Generation}, there are 2 variations of Algorithm \ref{alg:LDA_topicEmb} too, by applying both max and average-pooling, and experimenting which down-sampling technique works best. After applying this process for each topic, a convenient $1 \times k$ topic embedding vector is obtained.
+            
+            The prediction of expertise is accomplished through a collection of topic words representing topics that a user most likely belongs to based on thresholds applied to cosine similarities calculated between a user embedding and each topic embedding. The formal algorithm for the overall \emph{Expertise Prediction using LDA based User and Topic Embeddings} can be seen in Algorithm \ref{alg:LDA_emb}.
+        
+            \begin{algorithm}
+                \caption{Expertise Prediction using LDA based User and Topic Embeddings}
+                \label{alg:LDA_emb}
+                \begin{algorithmic}[1]
+                    \REQUIRE $D$: User Profile Documents, $LDA$: Topic Model, $threshold$: Cosine Similarity Threshold
+                    \STATE Get Term-Topic Matrix $M$ learned during inference of fitted $LDA$ topic model
+                    \STATE User-Topic Mapping = \{ \}
+                    \STATE Expertise-Predictions = \{ \}
+                    \STATE Run LDA based User Embedding Generation to get $UserEmb$ matrix
+                    \STATE Run LDA based Topic Embedding Generation to get $TopicEmb$ matrix
+                    \STATE
+                    \FOR{each user embedding $U$ in $UserEmb$}
+                        \STATE listOfTopics = [ ]
+                        \STATE user\_to\_topic\_sim = [ ]
+                        \FOR{each topic embedding $T$ in $TopicEmb$}
+                            \STATE Computer cosine similarity $SIM$ between user embedding $U$ and topic embedding $T$
+                            \STATE Add $SIM$ to user\_to\_topic\_sim
+                        \ENDFOR
+                        \STATE
+                        \STATE Get list of topics $LT$ associated with non-zero cosine similarities in user\_to\_topic\_sim
+                        \FOR{topic $t$ in $LT$}
+                            \IF{user\_to\_topic\_sim[ $t$ ] $\geq threshold$} 
+                                \STATE Add topic $t$ to listOfTopics
+                            \ENDIF
+                        \ENDFOR
+                        \STATE Get $User\_ID$ associated with user embedding $U$
+                        \STATE User-Topic Mapping[ $User\_ID$ ] = listOfTopics
+                        
+                        \STATE
+                        \STATE // Extract expertise for each user
+                        \STATE listOfWords = [ ]
+                        \FORALL{topic $t$ in User-Topic Mapping[ $user\_ID$ ]} 
+                            \STATE $TW$ = Get top-20 topic words that describe topic $t$
+                            \STATE Add topic words $TW$ to listOfWords
+                        \ENDFOR
+                        \STATE Apply a word ranking algorithm to listOfWords
+                        \STATE Expertise-Predictions[ $user\_ID$ ] = sorted listOfWords
+                    \ENDFOR
+                    \RETURN Expertise-Predictions
+                \end{algorithmic}
+            \end{algorithm}
+                
+            The \emph{Expertise Prediction using LDA based User and Topic Embeddings} algorithm takes as input the collection of user profiles, an already fitted $LDA$ topic model, and a cosine similarity threshold, which is value strictly between 0 and 1. After getting the term-topic matrix from the $LDA$ model, Algorithm \ref{alg:LDA_userEmb} and \ref{alg:LDA_topicEmb} are executed to generate user and topic embeddings. Line 7 of Algorithm \ref{alg:LDA_emb} represents the iteration over each user embedding. In line 11 and 12 the cosine similarities between a user embedding and each topic embedding are calculated and stored. In line 15 the non-zero cosine similarities previously calculated are associated with similarities between a user and a topic. In lines 16-20 a topic becomes associated with a user if the cosine similarity between their respective embeddings is larger than or equal to the input cosine similarity threshold value. In lines 26-29 the top-20 topic words from each topic associated with a user are collected into a list of candidate expertise prediction words. Next, a ranking of the candidate expertise prediction words is created by applying the same word ranking metric used in Algorithm \ref{alg:Topic_Distr}, \emph{relevance}. Same as in the first novel technique, once the candidate expertise prediction words have been ranked, the top-$n$ ranked words are returned as the expertise words describing a user. A step-by-step visualization of the entire Algorithm \ref{alg:LDA_emb} can be seen in figure \ref{fig:technique2}.
+             
+            \begin{figure}[!ht]
+              \centering
+              \includegraphics[width=\textwidth]{figures/technique2.JPG}\\
+              \caption{Expertise Prediction using LDA based User and Topic Embeddings}
+              \label{fig:technique2}
+            \end{figure}
+            
+        \subsubsection{Novel Technique 3: Expertise Prediction using Pre-trained Word2Vec based User and Topic Embeddings}
+        
+            The third and last novel technique is a one step change on the second technique, \emph{Expertise Prediction using LDA based User and Topic Embeddings}. The only difference is that the LDA based latent score representation of words is replaced by continuous vector representation of words coming from pre-trained Word2Vec model. This model is publicly available, as it is Efstathiou et al. \cite{efstathiou2018word}'s work on \emph{Word Embeddings for the Software Engineering Domain}. The Word2Vec model \cite{mikolov2013efficient} was trained over 15GB of textual data from Stack Overflow posts, thus it captures software engineering specific contextual semantics. Making this change to technique 2 should be beneficial, as in theory the pre-trained Word2Vec model should provide better representation of words, from which better user and topic embeddings could be generated. The formal algorithms for the \emph{Pre-trained Word2Vec based User and Topic Embedding Generation} can been seen in Algorithms \ref{alg:Word2Vec_userEmb} and \ref{alg:Word2Vec_topicEmb}. Changes between the \emph{LDA based} and \emph{Pre-trained Word2Vec based} User and Topic Embedding Generation algorithms are highlighted with the color \textcolor{red}{red}. 
+        
+            \begin{algorithm}
+            \caption{Pre-trained Word2Vec based User Embedding Generation}
+            \label{alg:Word2Vec_userEmb}
+            \begin{algorithmic}[1]
+                \REQUIRE $D$: User Profile Documents, \textcolor{red}{$word2vec$: Pre-trained Model}
+                \STATE listOfEmbeddings = [ ]
+                \FORALL{users $user\_ID$ in the data set} 
+                    \STATE Get user profile document $d$ for user $user\_ID$ from $D$
+                    \STATE Get unique set words $WordSet$ in document $d$
+                    \STATE listOfVectors = [ ]
+                    \STATE
+                    \FOR{each word $w$ in $WordSet$}
+                        \STATE \textbf{\textcolor{red}{Look up vector representation $v$ of word $w$ in pre-trained $word2vec$ model}}
+                        \STATE Add vector $v$ to listOfVectors
+                    \ENDFOR
+                    \STATE Convert listOfVectors to matrix $LV$ with dimensions $n \times d$; $n=length(WordSet)$, \textcolor{red}{$d=$ dimensionality of $word2vec$ model}
+                    \STATE Perform column-wise max-pooling or average-pooling to reduce matrix $LV$ to a user embedding vector $emb$, dimension $1 \times d$
+                    \STATE Add user embedding vector $emb$ to listOfEmbeddings
+                \ENDFOR
+                \STATE Convert listOfEmbeddings to matrix $E$ with dimensions $u \times d$; where $u$ = number of users in the data set
+                \RETURN Matrix $E$
+            \end{algorithmic}
+            \end{algorithm}
+            
+             The \emph{Pre-trained Word2Vec based User Embedding Generation} algorithm takes as input all user profile documents, and a pre-trained word2vec model. In line 8 of Algorithm \ref{alg:Word2Vec_userEmb} a user profile's each word's Word2Vec vector representation is queried. Contrary to common practise, out of vocabulary words are not assigned a vector of 0's, but rather skipped, as it would falsify the average-pooling down-sampling results, which are obtained in line 12. The algorithm produces $1 \times d$ dimensional user embedding vectors, where $d$ is 200, as Efstathiou et al. \cite{efstathiou2018word} trained their model with vector dimensions of 200 features. In the end, a matrix with dimensions $u \times d$ is returned, where $u$ is the number of users in the data set.
+        
+            \begin{algorithm}
+            \caption{Pre-trained Word2Vec based Topic Embedding Generation}
+            \label{alg:Word2Vec_topicEmb}
+            \begin{algorithmic}[1]
+                \REQUIRE $LDA$: Topic Model, \textcolor{red}{$word2vec$: Pre-trained Model}
+                \STATE listOfEmbeddings = [ ]
+                \FOR{each topic $T_i$ in $LDA$ fitted model} 
+                    \STATE Get top-20 topic words $TW$ describing topic $T_i$
+                    \STATE listOfVectors = [ ]
+                    \STATE
+                    \FOR{each word $w$ in $TW$}
+                        \STATE \textbf{\textcolor{red}{Look up vector representation $v$ of word $w$ in pre-trained $word2vec$ model}}
+                        \STATE Add vector $v$ to listOfVectors
+                    \ENDFOR
+                    \STATE Convert listOfVectors to matrix $LV$ with dimensions $n \times d$; where $n=20$, \textcolor{red}{$d =$  dimensionality of $word2vec$ model}
+                    \STATE Perform column-wise max-pooling or average-pooling to reduce matrix $LV$ to a topic embedding vector $emb$, dimension $1 \times d$
+                    \STATE Add topic embedding vector $emb$ to listOfEmbeddings
+                \ENDFOR
+                \STATE Convert listOfEmbeddings to matrix $E$ with dimensions $k \times d$,  $k$ = number of topics in $LDA$ model
+                \RETURN Matrix $E$
+            \end{algorithmic}
+            \end{algorithm}
+            
+            The \emph{Pre-trained Word2Vec based Topic Embedding Generation} algorithm takes as input an $LDA$ topic model, and a pre-trained word2vec model. In line 7 of Algorithm \ref{alg:Word2Vec_topicEmb} each topic word's Word2Vec vector representation is queried. The algorithm produces $1 \times d$ dimensional topic embedding vectors, where $d$ is 200. In the end, a matrix with dimensions $k \times d$ is returned, where $k$ is the number of topics in the input $LDA$ model.
+            
+            The prediction of expertise for the third technique is the same process as in Algorithm \ref{alg:LDA_emb}. The formal algorithm for the overall \emph{Expertise Prediction using Pre-trained Word2Vec based User and Topic Embeddings} can be seen in Algorithm \ref{alg:word2vec_emb}.
+        
+            \begin{algorithm}
+            \caption{Expertise Prediction using Pre-trained Word2Vec based User and Topic Embeddings}
+            \label{alg:word2vec_emb}
+            \begin{algorithmic}[1]
+               \REQUIRE $D$: User Profile Documents, $LDA$: Topic Model, $threshold$: Cosine Similarity Threshold, \textcolor{red}{$word2vec$: Pre-trained Model}
+                \STATE Get Term-Topic Matrix $M$ learned during inference of fitted $LDA$ topic model
+                \STATE User-Topic Mapping = \{ \}
+                \STATE Expertise-Predictions = \{ \}
+                \STATE \textbf{\textcolor{red}{Run Word2Vec based User Embedding Generation to get $UserEmb$ matrix}}
+                \STATE \textbf{\textcolor{red}{Run Word2Vec based Topic Embedding Generation to get $TopicEmb$ matrix}}
+                \STATE
+                \FOR{each user embedding $U$ in $UserEmb$}
+                    \STATE listOfTopics = [ ]
+                    \STATE user\_to\_topic\_sim = [ ]
+                    \FOR{each topic embedding $T$ in $TopicEmb$}
+                        \STATE Computer cosine similarity $SIM$ between user embedding $U$ and topic embedding $T$
+                        \STATE Add $SIM$ to user\_to\_topic\_sim
+                    \ENDFOR
+                    \STATE
+                    \STATE Get list of topics $LT$ associated with non-zero cosine similarities in user\_to\_topic\_sim
+                    \FOR{topic $t$ in $LT$}
+                        \IF{user\_to\_topic\_sim[ $t$ ] $\geq threshold$} 
+                            \STATE Add topic $t$ to listOfTopics
+                        \ENDIF
+                    \ENDFOR
+                    \STATE Get $User\_ID$ associated with user embedding $U$
+                    \STATE User-Topic Mapping[ $User\_ID$ ] = listOfTopics
+                    
+                    \STATE
+                    \STATE // Extract expertise for each user
+                    \STATE listOfWords = [ ]
+                    \FORALL{topic $t$ in User-Topic Mapping[ $user\_ID$ ]} 
+                        \STATE $TW$ = Get top-20 topic words that describe topic $t$
+                        \STATE Add topic words $TW$ to listOfWords
+                    \ENDFOR
+                    \STATE Apply a word ranking algorithm to listOfWords
+                    \STATE Expertise-Predictions[ $user\_ID$ ] = sorted listOfWords
+                \ENDFOR
+                \RETURN Expertise-Predictions
+            \end{algorithmic}
+            \end{algorithm}
+            
+            The \emph{Expertise Prediction using Pre-trained Word2Vec based User and Topic Embeddings} algorithm takes as input the collection of user profiles, an already optimized, fitted $LDA$ topic model, and a cosine similarity threshold, $T$, which is a value strictly between 0 and 1. The only major change compared to the second technique is that in lines 4 and 5 Algorithms \ref{alg:Word2Vec_userEmb} and \ref{alg:Word2Vec_topicEmb} are executed to generate pre-trained Word2Vec based user and topic embeddings. The rest of the technique follows the same process as the second technique. A step-by-step visualization of the entire Algorithm \ref{alg:word2vec_emb} can be seen in figure \ref{fig:technique3}.
+            
+            \begin{figure}[!ht]
+              \centering
+              \includegraphics[width=\textwidth]{figures/technique3.JPG}\\
+              \caption{Expertise Prediction using Word2Vec based User and Topic Embeddings}
+              \label{fig:technique3}
+            \end{figure}
+        
+        %%% TO DO: k-means, then thresholding
+        
+        %% TO DO: mean_BLEU_score, mean_Jaccard_sim, Mean_Cos_sim
+        
+        \emph{Jaccard similarity} measures the similarity and diversity of sets, and is it defined as ``the size of the intersection divided by the size of the union of the sets" \cite{jaccard_wiki}.
+        
+        
+        %% TO DO: mention SO_full vs. GH_full LDA topic comparison
+     
+        As mentioned at the beginning of section \ref{algoDesign}, the remainder of the subsections are focused on better understanding the modeling of expertise. The goal of these subsections was to perform analysis on LDA topics about expertise data and gain some insights into how cross-platform expertise is being developed on Stack Overflow and GitHub.
     
-        %% mean_BLEU_score, mean_Jaccard_sim, Mean_Cos_sim
-        \subsubsection{Topic Distribution based Expertise}
-        %%% (mention Lda2vec and ETM as alternatives)
+    \subsection{Cross-platform Expertise\label{RQ2_task}}
+    
+        This subsection is focused on comparing the expertise gained by the same users on Stack Overflow and GitHub. The goal is to explore to what extent do developers build similar expertise in Stack Overflow and GitHub? Will analysis show that there is knowledge transfer from one platform to another? To answer these questions, analysis is performed on four separate text corpora (GH-past, GH-recent, SO-past and SO-recent) which are explained in section \ref{past_recent_full_segm}. The set-up of the analysis is structured in a way to directly compare the expertise of the same user on GitHub and Stack Overflow, even in the same time. Two separate comparisons are considered: the text corpus of GH-past is compared with SO-past, and GH-recent is compared with SO-recent. The comparison takes shape by extracting key expertise terms of the same user from both Stack Overflow and GitHub user profiles, and comparing how much overlap there is in expertise terms of the same user on two different platforms. The formal algorithm used to extract expertise terms to be compared can be seen in Algorithm \ref{alg:RQ2}.
         
-        \subsubsection{User and Topic Embeddings}
-        %%% Avg and Max LDA Emb
-        %%% Avg and Max word2vec Emb
+        \begin{algorithm}
+            \caption{Extraction of Expertise Terms}
+            \label{alg:RQ2}
+            \begin{algorithmic}[1]
+                \REQUIRE $Corpus\_1$: First Text Corpus, $Corpus\_2$: Second Text Corpus, $LDA\_Model$: Topic Model Fitted on the First Corpus
+                \STATE Get common topic distribution $TD1$ for $Corpus\_1$ from the fitted $LDA\_Model$
+                \STATE Get common topic distribution $TD2$ for $Corpus\_2$ by performing inference using the fitted topic model, $LDA\_Model$
+                \STATE Expertise-Terms\_1 = \{ \}
+                \STATE Expertise-Terms\_2 = \{ \}
+                \STATE
+                \STATE // For each user get expertise terms from $TD1$ and $TD2$ 
+                \FORALL{users $user\_ID$ in the data set} 
+                    \STATE listOf\_topicWords = [ ]
+                    \FORALL{topics $t$ in $TD1$[ $user\_ID$ ] with probability $\geq 0.1$}
+                        \STATE $TW$ = Get top-20 Topic Words representing topic $t$
+                        \STATE Add Topic Words $TW$ to listOf\_topicWords 
+                    \ENDFOR
+                    \STATE Expertise-Terms\_1 [ $user\_ID$ ] = listOf\_topicWords
+                    \STATE
+                    
+                    \STATE listOf\_topicWords = [ ]
+                    \FORALL{topics $t$ in $TD2$[ $user\_ID$ ] with probability $\geq 0.1$}
+                        \STATE $TW$ = Get top-20 Topic Words representing topic $t$
+                        \STATE Add Topic Words $TW$ to listOf\_topicWords 
+                    \ENDFOR
+                    \STATE Expertise-Terms\_2 [ $user\_ID$ ] = listOf\_topicWords
+                    \STATE
+                \ENDFOR
+                \RETURN Expertise-Terms\_1, Expertise-Terms\_2
+            \end{algorithmic}
+        \end{algorithm}
         
-        %%% k-means, then thresholding
+        The \emph{Extraction of Expertise Terms} algorithm takes in three parameters: the first and second text corpus, and the LDA model fitted on first text corpus. In line 1 of Algorithm \ref{alg:RQ2} the first topic document matrix ($TD1$) containing the topic distribution of each document in $Corpus\_1$ is obtained from the fitted $LDA\_Model$. In line 2 the second topic document matrix ($TD2$) is obtained by performing inference on $Corpus\_2$'s documents using the fitted $LDA\_Model$. This is a crucial step of the algorithm, as two topic distributions coming from two separate models can not be compared in the same analysis. Using bayesian inference on the second corpus allows both corpora to have a common topic distribution coming from a single fitted $LDA\_Model$. In line 7 an iteration of all users within the data set is performed. In lines 8-13 a list of all relevant expertise terms for $Corpus\_1$'s topic distribution is constructed. In line 9,  $TD1$[ $user\_ID$ ] represents the topic distribution of $user\_ID$'s user profile found in $Corpus\_1$. In the same line the iteration over all topics $t$ in $TD1$[ $user\_ID$ ] with probability greater than 0.1 represents the extraction of relevant topics found in $user\_ID$'s topic distribution. In this context relevant topics were defined as topics that describe the expertise of a user with at least a probability value of 0.1 (or 10 \%). In line 10-11 the top-20 topic words of $TD1$[ $user\_ID$ ]'s relevant topics are extracted and stored in a list of topic words, which become the expertise terms extracted from $Corpus\_1$'s topic distribution. In lines 15-20 the same process is applied to $Corpus\_2$'s documents. In line 16  $TD2$[ $user\_ID$ ] represents the topic distribution of $user\_ID$'s user profile found in $Corpus\_2$. In line 17-18 the top-20 topic words of $TD2$[ $user\_ID$ ]'s relevant topics are extracted and stored in a list of topic words, which become the expertise terms extracted from $Corpus\_2$'s topic distribution. At the end of the algorithm the expertise terms extracted from $Corpus\_1$ and $Corpus\_2$ are returned.
         
-    \subsection{Cross-platform expertise}
-    %% RQ2 - quantitative diff - distr. of overlap or Jaccard sim.
-    \subsection{Cross-platform Knowledge Transfer}
-    %% RQ3 - most frequent words used in both platforms
-    \subsection{Expertise Evolution}
-%% RQ4 - changed ratio or Jaccard dist.
+        The \emph{Extraction of Expertise Terms} algorithm is executed twice. In the first run the parameters were the GH-past and SO-past text corpora, and the GH-past LDA model. For the second run the GH-recent and SO-recent text corpora, and the GH-recent LDA model were passed as parameters. During both runs the LDA model is chosen based one whichever corpus has more data to train a larger LDA model. For both past and recent data segmentation the GitHub corpus is multiple times larger than the Stack Overflow one. Performing analysis on GH-past and SO-past text corpora, then on the GH-recent and SO-recent text corpora allows the direct expertise comparison of the same user on GitHub and Stack Overflow, in the same time. Once the expertise terms have been extracted, an iteration over all users is performed, and the \emph{Jaccard similarity} of the two sets of expertise terms is calculated. As previously defined, \emph{Jaccard similarity} measures the similarity and diversity of sets, and is it defined as ``the size of the intersection divided by the size of the union of the sets" \cite{jaccard_wiki}. The \emph{Jaccard similarity} results are aggregated and interpreted using the help of histograms, density plots and bar plots in order to draw some insights about the extent that developers build similar cross-platform expertise.
+    
+    \subsection{Cross-platform Transferable Knowledge\label{RQ3_task}}
+        This subsection is focused on discovering what knowledge is transferable from one platform to another? To answer this question the same analysis set-up as in section \ref{RQ2_task} is considered, as in the task of \emph{Cross-platform Expertise} the expertise of the same user is directly compared on GitHub and Stack Overflow. Performing the same experiment as in the previous task, but rather analyzing the \emph{Top-$n$} most frequent common expertise terms between the two platforms, for each user would shed some light on transferable knowledge.
+        
+        For the \emph{Cross-platform Transferable Knowledge} task the \emph{Extraction of Expertise Terms} algorithm is executed twice, with the \{GH-past, SO-past\}, and \{GH-recent, SO-recent\} text corpora pairs. The frequencies of common expertise terms in the text corpora pairs are calculated and the \emph{Top-$n$} common expertise terms, alongside with their frequency counts are returned. $n$ could take any value, but a larger value such as 50 or 100 would be considered appropriate. Any trends or patterns between the \emph{Top-$n$} common expertise terms are noted, then grouping of expertise terms into categories of transferable knowledge is performed. The patterns, trends, and groups of expertise terms become the insight gained into \emph{Cross-platform Transferable Knowledge}.
+        
+    \subsection{Expertise Evolution\label{RQ4_task}}
+        
+        This subsection is focused on comparing the evolution of expertise of same users on Stack Overflow and GitHub. The goal is to explore to what extent do developers' expertise change over time ? Furthermore, how is the evolution of expertise different on Stack Overflow and GitHub? To answer these questions, analysis is performed on four separate text corpora (GH-past, GH-recent, SO-past and SO-recent) which are explained in section \ref{past_recent_full_segm}. The set-up of the analysis is structured in a way to directly compare the expertise of the same user in the past and recent times, individually on GitHub, then on Stack Overflow. Two separate comparisons are considered: the text corpus of GH-past is compared with GH-recent, and SO-past is compared with SO-recent. The comparison is very similar to the one performed in section \ref{RQ2_task}, for \emph{Cross-platform Expertise}: expertise terms of the same user are extracted from both recent and past text corpora both Stack Overflow and GitHub data sets, Instead of comparing how much overlap there is in expertise terms of the same user (like section \ref{RQ2_task}), the opposite of overlap, difference or change in expertise terms of the same user is considered for the task of \emph{Expertise Evolution}. Since the task is concerned with expertise change over time, it seemed more appropriate to choose a metric that is related to dissimilarity of sets. \emph{Jaccard distance} is defined as the measure for dissimilarity between sets, and it can be calculated by ``subtracting the \emph{Jaccard similarity} from 1" \cite{jaccard_wiki}.
+        
+        Algorithm \ref{alg:RQ2}, the \emph{Extraction of Expertise Terms} was executed twice for the task of \emph{Expertise Evolution} too. In the first run the parameters were the GH-past and GH-recent text corpora, and the GH-past LDA model. For the second run the SO-past and SO-recent text corpora, and the SO-past LDA model were passed as parameters. During both runs the LDA model is chosen based one whichever corpus has more data to train a larger LDA model. For both GitHub and Stack Overflow data sets the past corpus segmentation is larger than the recent one. Performing analysis on GH-past and GH-recent text corpora, then on the SO-past and SO-recent text corpora allows the analysis of expertise evolution of the same user on GitHub, then on Stack Overflow independently. Once the expertise terms have been extracted, an iteration over all users is performed, and the \emph{Jaccard distance} of the two sets of expertise terms is calculated. The results are aggregated and interpreted using the help of histograms, density plots and bar plots in order to draw some insights about the extent that developers' expertise change over time.
 
 \section{Software Tools Used}
 
