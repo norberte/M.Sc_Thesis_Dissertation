@@ -1,13 +1,13 @@
-\chapter{Related Work}
+\chapter{Background and Related Work}
 
 \section{Background}
 
     \subsection{GitHub and Stack Overflow}
-        % GitHub (GH) is 
+        TO DO: GitHub (GH) is ...
     
-        Stack Overflow (SO) is the most popular question answering website for software developers, providing a large amount of code snippets and free-form text on a wide variety of topics. In a recent public data dump from December 9th 2018 SO listed over 42 million posts from almost 10 million registered users. Similar to other software artifacts such as source code files and documentation, text and code snippets on SO evolve over time. An example of this is when the SO community fixes bugs in code snippets, clarifies questions and answers, and updates documentation to match new API versions.
+        Stack Overflow (SO) is the most popular question answering website for software developers, providing a large amount of code snippets and free-form text on a wide variety of topics. In a recent public data dump from December 9th 2018 SO listed over 42 million posts from almost 10 million registered users. Similar to other software artifacts such as source code files and documentation, text and code snippets on SO evolve over time. An example of this is when the SO community fixes bugs in code snippets, clarifies questions and answers, and updates documentation to match new API versions. Studying Stack Overflow, its posts, users, and trends will shed some light on the evolution of expertise in such software artifacts.
     
-    \subsection{Text Processing}
+    %% TO DO: \subsection{Text Processing}
     
     \subsection{Topic Modeling}
         
@@ -66,9 +66,11 @@
             
             where $n_{-i}^{(\cdot)}$ is frequency count without counting the current assignment of $z_i$, $z_{-i}$ is $z$ without the $i$-th topic. Frequency counts in this context are the number of times a specific word was assigned to topic $j$. $K$ is the number of topics, and $W$ is the number the unique words in the text corpus. The conditional probability of topic $z_i$ being equal to topic $j$ given all other topics $z_{-i}$ and all the words $\textbf{w}$ is the full conditional distribution that gets sequentially re-sampled during the training process. The first fraction represents the proportion of assignments to topic $j$ over all documents that come from word $i$, while the second fraction represents the proportion of words in document $d$ that are currently assigned to topic $j$. In conclusion the entire training process can be summarized by the following pseudo-algorithm in Algorithm \ref{alg:training}.
             
-             %1) p(topic t | document d) = the proportion of words in document d that are currently assigned to topic t, and 
+            %% 1) p(topic t | document d) = the proportion of words in document d that are currently assigned to topic t, and 
             
-            % 2) p(word w | topic t) = the proportion of assignments to topic t over all documents that come from this word w. 
+            %% 2) p(word w | topic t) = the proportion of assignments to topic t over all documents that come from this word w. 
+            
+            %% could include more math by showing [6] and [7] from Griffith and Steyvers \cite{griffiths2004finding}
                     
             \begin{algorithm}
                 \caption{LDA Training Process using Gibbs Sampling}
@@ -96,9 +98,9 @@
                 \end{algorithmic}
             \end{algorithm} 
                 
-        Note that by the reassignment in line 13 of Algorithm \ref{alg:training} it is assumed that all topic assignments except for the current word $i$ are correct, and updating the assignment of the current word using our model of how documents are generated.
+        Note that by the reassignment in line 13 of Algorithm \ref{alg:training} it is assumed that all topic assignments except for the current word $i$ are correct, and updating the assignment of the current word using our model of how documents are generated. After a large number of Gibbs sampling iterations a roughly steady state will be reached (LDA model converges), and the topic assignments can be considered stable. These topic assignments can be used to estimate the topic mixtures extracted from each document and the topic words associated with each topic.
         
-        %After repeating the previous step a large number of times, you’ll eventually reach a roughly steady state where your assignments are pretty good. So use these assignments to estimate the topic mixtures of each document (by counting the proportion of words assigned to each topic within that document) and the words associated to each topic (by counting the proportion of words assigned to each topic overall).
+        %% These topic assignments can be used to estimate the topic mixtures of each document (by counting the proportion of words assigned to each topic within that document) and the words associated to each topic (by counting the proportion of words assigned to each topic overall).
         
         \subsubsection{Common Misuses and Pitfalls of LDA}
             Agrawal et al. \cite{agrawal2018wrong} examined the most common and important mis-practises of LDA in software engineering and pointed out way of correctly using LDA models. The first major mistake that the authors emphasize is the use of unstable LDA models. It is crucial to only make conclusions based on a stable LDA. Model stability in this context means that LDA needs be trained for enough Gibbs Sampling iterations that the model converges. The authors suggest that in order to achieve a stable model LDA needs to be tuned. Parameter tuning in this context refers to carefully choosing LDA's parameters based on an evaluation metric of the modeler's choice. Topics extracted from an untuned LDA model can produce unstable model output. Agrawal et al. \cite{agrawal2018wrong} work's findings state that using arbitrary chosen or default parameters for LDA models trained on software engineering data will not necessarily result in stable models and can lead to systematic errors. This finding is corroborated by Treude and Wagner \cite{treude2019predicting}, who stated that general rules of thumb for LDA parameter configuration are not applicable to textual corpora coming from software engineering domain. In their findings Agrawal et al. \cite{agrawal2018wrong} also mentions that it is not recommended to reuse an already tuned LDA model's parameters, as LDA parameter tuning is data set dependent. When performing parameter tuning, it is suggested to always re-tune the model, when training on new data.
@@ -109,15 +111,33 @@
             
         \subsubsection{Model Selection for LDA models}
         
-            According to Wallach et al. \cite{wallach2009rethinking} choosing $k$, the number of topics present in the corpus is one of the most difficult modeling decisions in topic modeling, as there are no clear methods to follow. Deciding on the right value for $k$ is very important, as according to Agrawal et al. \cite{agrawal2018wrong} this parameter matters the most for classification tasks. Choosing the number of topics $k$ could be compared to the difficult task of picking how many clusters to consider, when performing cluster analysis: there are many heuristics, but no general consensus on which one to use. For instance, Bangash et al. \cite{bangash2019developers} tried two different number of topics ($k=20$ and $k=50$) for their experiments, then picked whichever model Mallet’s optimizer\footnote{Mallet Optimizer explained: \url{https://dragonfly.hypotheses.org/1051}} returned topics that seemed close to actual topics.  Panichella et al. \cite{panichella2013effectively} designed \textit{LDA-GA}, a genetic algorithm for parameter selection for LDA. Agrawal et al. \cite{agrawal2018wrong} proposed a search-based software engineering tool to better tune the LDA model's parameters. Treude and Wagner \cite{treude2019predicting} defined the number of topics, $k$ as parameter range between 3 and 1000, then ran hyper-parameter optimization against this search space by perplexity as an evaluation metric. Hindle et al. \cite{hindle2012relating} chose the model with $k$ number of topics where the topics extracted were distinct enough. Furthermore, on top of these general rules there are many heuristics for deciding $k$ (\cite{arun2010finding}, \cite{cao2009density}, \cite{deveaud2014accurate}, \cite{griffiths2004finding}, \cite{zhao2015heuristic}).
+            According to Wallach et al. \cite{wallach2009rethinking} choosing $k$, the number of topics present in the corpus is one of the most difficult modeling decisions in topic modeling, as there are no clear methods to follow. Deciding on the right value for $k$ is very important, as according to Agrawal et al. \cite{agrawal2018wrong} this parameter matters the most for classification tasks. Choosing the number of topics $k$ could be compared to the difficult task of picking how many clusters to consider, when performing cluster analysis: there are many heuristics, rules of thumb, but no general consensus on which one to use. For instance, Bangash et al. \cite{bangash2019developers} tried two different number of topics ($k=20$ and $k=50$) for their experiments, then picked whichever model Mallet’s optimizer\footnote{Mallet Optimizer explained: \url{https://dragonfly.hypotheses.org/1051}} returned topics that seemed close to actual topics. Panichella et al. \cite{panichella2013effectively} designed \textit{LDA-GA}, a genetic algorithm capable of selecting parameters for LDA. Agrawal et al. \cite{agrawal2018wrong} proposed a search-based software engineering tool to better tune the LDA model's parameters. Treude and Wagner \cite{treude2019predicting} defined LDA's parameters as ranges of values, then ran hyper-parameter optimization against this search space using perplexity as the evaluation metric. Hindle et al. \cite{hindle2012relating} chose the model with $k$ number of topics where the topics extracted were distinct enough. Furthermore, on top of these general rules there are many heuristics for deciding $k$ (\cite{arun2010finding}, \cite{cao2009density}, \cite{deveaud2014accurate}, \cite{griffiths2004finding}, \cite{zhao2015heuristic}).
             
-            Agrawal et al. \cite{agrawal2018wrong} state that the choice of good $\alpha$ and $\beta$ hyper-parameters has the most amount of influence, when using LDA in a clustering task. Most LDA implementations recommend and use by default a fixed normalized asymmetric prior of $1.0 / topic-number$ for the $\alpha$ parameter, and a fixed prior of $0.01$ or $0.1$ for the $\beta$ parameter. Since it was shown that the use of default parameters can lead to model instability issues, hyper-parameter tuning is strongly advised in order to achieve model stability \cite{agrawal2018wrong}.
+            \begin{table}
+              \centering
+              \caption{List of papers using LDA and their choice of parameters or parameter ranges.}\label{tab:LDA_params}
+                \vspace{6pt} % Required to get proper spacing between caption and table
+              \begin{tabular}{p{4.4 cm} p{3.6 cm} p{2.0cm} p{3.0cm}}
+                \hline
+                Paper & $k$ & $\alpha$ & $\beta$ \\
+                \hline\hline
+                Agrawal et al. \cite{agrawal2018wrong} & [10, 100] & [0, 1] & [0, 1] \\
+                Treude and Wagner \cite{treude2019predicting} & [3, 1000] & [0.001, 200] & [0.001, 200] \\
+                Bangash et al. \cite{bangash2019developers} & \{20, 50\} & auto-tuned & auto-tuned \\
+                Campbell et al. \cite{campbell2015latent} & \{20\} & 0.01 & 0.01 \\
+                Griffiths and Steyvers \cite{griffiths2004finding} & \{50, 100, 200, 300, 400, 500, 600, 1000\} & 50/$k$ & 0.1 \\
+                Hindle et al. \cite{hindle2012relating} & \{5, 10, 20, 40, 80, 250\} & MALLET default & MALLET default \\
+                Chang et al. \cite{chang2009reading} & \{50, 100, 150\} & 1 & learnt from data \\
+                Tian et al. \cite{tian2013predicting} & \{100\} & 0.5 & 0.1 \\
+                Arwan et al. \cite{arwan2015source} & \{20\} & MALLET default & MALLET default \\
+                \hline
+              \end{tabular}
+            \end{table}
             
-            %% look into further advice on how to pick parameters from the paper pdfs opened
-            
+            Agrawal et al. \cite{agrawal2018wrong} states that the choice of good $\alpha$ and $\beta$ hyper-parameters has the most amount of influence, when using LDA in a clustering task. Most LDA implementations recommend and use by default a fixed normalized asymmetric prior of $1.0 / topic-number$ for the $\alpha$ parameter, and a fixed prior of $0.01$ or $0.1$ for the $\beta$ parameter. Campbell et al. \cite{campbell2015latent} mentions that although $0.01$ is a common choice for both $\alpha$ and $\beta$, these hyper-parameters can be chosen by the modeler based on the desired density of documents and topics. Since it was shown that the use of default parameters can lead to model instability issues, hyper-parameter tuning is strongly advised in order to achieve model stability \cite{agrawal2018wrong}. More recent work by Bangash et al. \cite{bangash2019developers}, also Treude and Wagner \cite{treude2019predicting} agrees with this claim, as they perform hyper-parameter optimization for $\alpha$ and $\beta$ based on an arbitrary searching algorithm. Table \ref{tab:LDA_params} summarizes the parameter selection practises of recent research work that used the LDA model with textual data from the software engineering domain.
         
         \subsubsection{Evaluation of LDA models}
-            Boyd-Graber et al. \cite{boyd2014care} writes in their book chapter titled \textit{Care and Feeding of Topic Models: Problems, Diagnostics, and Improvements} that perplexity measurements and log-likelihood of a held-out test data are the most common evaluation methods of topic models, but they have limitations. Other forms of topic modeling evaluation could be measuring the marginal probability of a document given a topic model, but Boyd-Graber et al. \cite{boyd2014care} also say that this is not computationally feasible, since the number of possible topic assignments for words is exponential. The authors continue by stating that based on recent research perplexity does not measure the semantic coherence of topics, and good perplexity scores do not necessarily translate into good performance at some prediction based task. The same can be said for likelihood based metrics on a held-out data set, as good predictions on the held-out set do not guarantee topics with contextually accurate, semantic representation of concepts. Chang et al. \cite{chang2009reading} backs up these claims by showing that frequently predictive likelihood or perplexity based evaluation methods are not correlated, and sometimes even anti-correlated with human judgement. Furthermore, Wallach et al. \cite{wallach2009rethinking} found that perplexity and likelihood-based evaluation in most cases is less accurate than performing hyper-parameter optimization against some metric or task accuracy. This method is supported in the literature by Chen and Wang \cite{chen2011latent}, who state that a different evaluation method is to measure the LDA model's performance on one or more secondary tasks, such as some form of text classification or clustering. The authors of the original LDA paper support this method too, as Blei et al. \cite{blei2003latent} called it empirical evaluation of LDA models in various domains. 
+            Boyd-Graber et al. \cite{boyd2014care} writes in their book chapter titled \textit{Care and Feeding of Topic Models: Problems, Diagnostics, and Improvements} that perplexity measurements and log-likelihood of a held-out test data are the most common evaluation methods of topic models, but they have limitations. Other forms of topic modeling evaluation could be measuring the marginal probability of a document given a topic model, but Boyd-Graber et al. \cite{boyd2014care} also say that this is not computationally feasible, since the number of possible topic assignments for words is exponential. The authors continue by stating that based on recent research perplexity does not measure the semantic coherence of topics, and good perplexity scores do not necessarily translate into good performance at some prediction based task. The same can be said for likelihood based metrics on a held-out data set, as good predictions on the held-out set do not guarantee topics with contextually accurate, semantic representation of concepts. Chang et al. \cite{chang2009reading} backs up these claims by showing that frequently predictive likelihood or perplexity based evaluation methods are not correlated, and sometimes even anti-correlated with human judgement. Furthermore, Wallach et al. \cite{wallach2009rethinking} found that perplexity and likelihood-based evaluation in most cases is less accurate than performing hyper-parameter optimization against some metric or task accuracy. This method is supported in the literature by Chen and Wang \cite{chen2011latent}, who state that a different evaluation method should measure the LDA model's performance on one or more secondary tasks, such as some form of text classification or clustering. The authors of the original LDA paper support this method too, as Blei et al. \cite{blei2003latent} called it empirical evaluation of LDA models in various domains. 
             
             Lots of previous research was focused on designing automated measurements with as close as possible to human judgment. In 2010 this was achieved by Newman et al. \cite{newman2010visualizing}, who designed a metric based on point-wise mutual information of pairs of topic words, and called it \emph{topic coherence score}. In further research from Newman et al. \cite{newman2010visualizing},\cite{newman2010automatic} their coherence score was compared with thousands of human evaluations to conclude that their measurements mostly agree with human judgment. A year later, Mimno et al. \cite{mimno2011optimizing} corroborated that humans agree with word-pair based topic coherence. Topic coherence is further explained in a separate subsection, \ref{background:T_coherence}, where all evaluation metrics used in this project are defined. 
         
@@ -125,11 +145,10 @@
             Due to the various limitations and issues that some evaluation methods have, some researchers opted to manually validate the topics of LDA models by carefully reading through the collection of documents and manually checking whether the topics extracted by the model are coherent enough, and whether or not they align themselves with human judgement. 
             
             Bangash et al. \cite{bangash2019developers} performed a manual exploration of topics to validate if the LDA model's suggested topics are useful. They manually read randomly sampled documents and verified that the proper topics are assigned to the sample documents. In this case the authors also assume that their understanding is the ground truths. The down-side of such manual validation can be that it suffers from high levels of subjectivity.
-            
              
-            \label{topicLabeling} Bangash et al. \cite{bangash2019developers} states that ``assigning names to topics is important as LDA does not label them, and carrying out analysis on lists of words is difficult". After evaluating and picking the best model based on the above criteria, the topic labeling methodology of Bangash et al. \cite{bangash2019developers} and Hindle et al. \cite{hindle2012relating} was followed, which consisted of assigning labels to the topics based on multiple authors’ consensus. When evaluating the topics of an LDA model, it is worth noting that Hindle et al. \cite{hindle2012relating} mentioned that ``labeling some topics might not be possible, [...] as some LDA topics may not have a valid interpretation", thus some topics need to be labeled under broad terms, or be discarded.
+            \label{topicLabeling} Bangash et al. \cite{bangash2019developers} states that naming LDA topics is important, as topic models do not come with labels for the topics extracted. This process of topic labeling is needed when doing a qualitative analysis on the list of topic words for each topic. The topic labeling methodology of Bangash et al. \cite{bangash2019developers} and Hindle et al. \cite{hindle2012relating} consists of assigning labels to the topics based on multiple authors’ consensus. When evaluating the topics of an LDA model, it is worth noting that according to Hindle et al. \cite{hindle2012relating} some topics might not have an valid and coherent interpretation, thus labeling such topics may not be possible. One alternative solution when faced with this situation is to label the topic using broad terms, or even discard the topic.
             
-            Chang et al. \cite{chang2009reading} proposed the \emph{word intrusion task} to evaluate the topics extracted from topic models. In this task a user is given six randomly ordered words. The user's job is to choose the word that does not belong. When the set of words without the word that does not belong makes sense together, the choice should be easy, while in the opposite scenario the authors observed that users tend to pick a word at random, which is a signal that the topic has low coherence. The authors also noted in their findings that there was not a clear linkage between measures of held-out set's likelihood and the measures coming from their word intrusion task.
+            There are various other ways that researchers validate the LDA topics extracted from text documents. Agrawal et al. \cite{agrawal2018wrong} conducted a study about topic model stability by measuring the median number of overlaps of topic words. The overlap metric used was \emph{Jaccard Similarity}\footnote{More about Jaccard Similarity in section \ref{background:jaccard}}, which is often used to measure similarity of topics. Chang et al. \cite{chang2009reading} proposed the \emph{word intrusion task} to evaluate the topics extracted from topic models. In this task a user is given six randomly ordered words. The user's job is to choose the word that does not belong. When the set of words without the word that does not belong makes sense together, the choice should be easy, while in the opposite scenario the authors observed that users tend to pick a word at random, which is a signal that the topic has low coherence. The authors also noted in their findings that there was not a significant correlation between measures of held-out set's likelihood and the measures coming from their word intrusion task.
         
         
         \subsubsection{The Use of LDA in the Software Engineering Community}
@@ -139,18 +158,120 @@
             
             % maybe include Campbell's summary paragraph
             
-            % more software eng. based application.., Menzies, Treude, etc.
+            % TO DO: summarize more papers
+            
+                % Hindle et al. \cite{hindle2012relating}
+                
+                % Panichella et al. \cite{panichella2013effectively}
+                
+                % An empirical study of security issues posted in open source projects
+                % Zahedi et al. \cite{zahedi2018empirical}
+                
+                % What are mobile developers asking about? A large scale study using stack overflow
+                
+             % Other papers:
+                %    - Contextual Documentation Referencing on Stack Overflow
+                %    - Why is Developing Machine Learning Applications Challenging? A Study on Stack Overflow Posts
+                %    - (LDA) Which Non-functional Requirements do Developers Focus on? An Empirical Study on Stack Overflow using Topic Analysis 
+                %    - Why, When, and What: Analyzing Stack Overflow Questions by Topic, Type, and Code
+                %    - (LDA) What are mobile developers asking about? A large scale study using stack overflow
+                %    - (LDA) Modeling stack overflow tags and topics as a hierarchy of concepts ... Chen et al. \cite{chen2019modeling}
+        
     
-    \subsection{Evaluation Metrics Used}
-
+    \subsection{Evaluation Metrics Used \label{background:metrics}}
+        
         \subsubsection{Topic Coherence\label{background:T_coherence}}
+            To be Completed ...
+            % Exploring the space of topic coherence measures
+            % R{\"o}der et al. \cite{roder2015exploring}
+            
+            %% "Topic coherence metrics are motivated by measuring word association between pairs of words in the list of the top-10 most likely topic words (here, top-10 is chosen arbitrarily as the typical number of terms displayed to a user; other settings such as top-20 could work equally as well). The intuition is that a topic will likely be judged as coherent if pairs of words from that topic are associated." Boyd-Graber et al. \cite{boyd2014care}
         
-        %% "Topic coherence metrics are motivated by measuring word association between pairs of words in the list of the top-10 most likely topic words (here, top-10 is chosen arbitrarily as the typical number of terms displayed to a user; other settings such as top-20 could work equally as well). The intuition is that a topic will likely be judged as coherent if pairs of words from that topic are associated." Boyd-Graber et al. \cite{boyd2014care}
-        
-        \subsubsection{Jaccard Similarity and Distance}
+        \subsubsection{Jaccard Similarity and Distance\label{background:jaccard}}
+            \emph{Jaccard similarity} measures the similarity and diversity of sets, and is it defined as ``the size of the intersection divided by the size of the union of the sets" \cite{jaccard_wiki}. \emph{Jaccard similarity} is used in section \ref{RQ2_task} in the task of \emph{Cross-platform Expertise}, and also in section \ref{eval_expertise_prediction} for the task of \emph{Expertise Prediction}, to measure the similarity between a model's set of prediction words and a human annotation's set of words.
+            
+            \emph{Jaccard distance} being the conjugate of \emph{Jaccard similarity}, it is defined as the measure for dissimilarity between sets, and it can be calculated by ``subtracting \emph{Jaccard similarity} from 1" \cite{jaccard_wiki}. This metric is used in section \ref{RQ4_task} for the task of \emph{Expertise Evolution}.
         
         \subsubsection{BLEU Score}
+            \emph{BLEU score} (Bilingual Evaluation Understudy score) is a metric for evaluating a generated to a reference sentence, translation or summary. \emph{BLEU scores} are highly used in machine translation and text summarization tasks. The inventors of \emph{BLEU score} explain it as a comparison of ``n-grams of the candidate with the n-grams of the reference translation [or summary] and count the number of matches. These matches are position-independent.'' \cite{papineni2002bleu}. This metric is used in section \ref{eval_expertise_prediction} for the task of \emph{Expertise Prediction}, to evaluate how similar is a model generated, candidate expertise summary to a reference summary coming from a human's annotation.
         
         \subsubsection{Cosine Similarity}
+            \emph{Cosine similarity} measures ``the cosine of the angle between two non-zero vectors of an inner product space'' \cite{cosSim_def}. \emph{Cosine similarity} is highly used in data mining and information retrieval tasks as a means of comparing high dimensional feature vectors. Two feature vectors aligned in the same orientation have a cosine similarity score of 1, meanwhile two feature vectors aligned perpendicularly produce a similarity score of 0. Lastly, two feature vectors oriented in exactly opposite directions produce a similarity score of -1. In most data mining and information retrieval applications \emph{Cosine similarity} is used only in the positive space, being bounded between 0 and 1. \emph{Cosine similarity} is used in section \ref{eval_expertise_prediction} for the task of \emph{Expertise Prediction} to compute a multi-word comparison between a model's prediction words and a human annotation's set of words.
+            
+        \subsubsection{F-score}
+            \emph{F-score} is the harmonic mean between precision and recall. This metric is used in section \ref{eval_expertise_prediction} for the task of \emph{Expertise Prediction} to calculate the correct word matches between a model's generated set of prediction words and a human annotation's set of words.
+            
+            % TO DO: define precision and recall too.
 
-\section{Previous Work}
+\section{Related Work}
+
+    \subsection{About Mining Stack Overflow and GitHub}
+    % StackOverflow and GitHub: Associations Between Software Development and Crowdsourced Knowledge
+        Vasilescu et al. \cite{vasilescu2013stackoverflow} was one of the first researchers to explore the interaction between Stack Overflow and GitHub activities, and the software development process. The authors have linked Stack Overflow and GitHub user accounts to explore development activities on both platforms. This study also looked at commit patterns and question/answer activities of active developers and analyzed on which platform are developers more active. Their findings are significant, as they conclude that active GitHub users ask less questions and provide more answers than other users. Furthermore, the study shows that active Stack Overflow users split their work in more non-uniform ways than users who do not ask questions. Lastly, the study also concludes that the rate of activity on Stack Overflow is correlated with the rate of code changes on GitHub.
+        
+    % Involvement, Contribution and Influence in Github and Stack Overflow
+        Building on the work of Vasilescu et al. \cite{vasilescu2013stackoverflow}, Badashian et al. \cite{badashian2014involvement} investigated influence, involvement, and contribution across the same two platforms, by correlating activities on GitHub and Stack Overflow users. The authors have used the same data set as Vasilescu et al. \cite{vasilescu2013stackoverflow}. The study suggests that the early users of GitHub are also early users of Stack Overflow, which shows a sense of belonging to a community. The findings of the study also indicate that before 2010 users were more active on Stack Overflow but after 2010 GitHub activity increased significantly and users were more active on GitHub than Stack Overflow. Lastly, in terms of type of activities performed across the two platforms, there are two distinguishable groups: typical users and highly-active users. The most frequent activities of typical users were committing, posting and answering questions, while highly-active users posted more answers, committed more often and barely asked questions. 
+        
+    % GitHub and Stack Overflow: Analyzing Developer Interests Across Multiple Social Collaborative Platforms
+        Lee and Lo \cite{lee2017github} took Badashian et al. \cite{badashian2014involvement}'s work one step further and analyzed developer interest across the same two platforms, GitHub and Stack Overflow. The authors were looking into whether developers share interests across their GitHub and Stack Overflow accounts, and do developers share interests with other users who participated in similar activities as them. Their findings conclude that there are common interests between GitHub repositories and Stack Overflow posts of a user, and the similarity of interest in on average, 39\%. Furthermore, many users share common interests with other users who participated in similar activities as them.
+        
+    % The GHTorent dataset and tool suite
+        After the popularity of Github and Stack Overflow in the software engineering research community (\cite{vasilescu2013stackoverflow}, \cite{badashian2014involvement}, \cite{lee2017github}) Gousios et al. \cite{gousios2013ghtorent} has published the \emph{GHTorrent project}, which is a public mirror data set of all public projects available on Github. This new data set contains 16 entities about all aspects related to Github context, including projects, users, commits, followers, watchers, issues and pull requests. The \emph{GHTorrent} data set became a crucial resource for almost all GitHub related research ever since its released, as it enabled researchers to easily retrieve all public projects hosted on GitHub. 
+        
+    % The Promises and Perils of Mining GitHub
+        Kalliamvakou et al. \cite{kalliamvakou2014promises}'s work builds on top of the research hype of mining GitHub's events data, trying to understand how developers use GitHub to collaborate on open source projects. The authors focus on studying the quality and characteristics of repositories on GitHub. The findings of their study concluded that GitHub is indeed a rich data source, there are a handful of insights mined from repositories, such as that over 70\% of of projects are personal, and only a small percentage of them use pull requests. According to the authors, surprisingly, a large portion of repositories on GitHub are not used for software development purposes, but rather for free source code storage and other reasons. Another interesting finding is that over half of the projects are personal and inactive, while close to half of all pull requests do not show up as merged in, but they actually are.
+        
+    % What are developers talking about? an analysis of topics and trends in stack overflow
+        Barua et al. \cite{barua2014developers}
+        
+    %How social Q\&A sites are changing knowledge sharing in open source software communities
+        Vasilescu et al. \cite{vasilescu2014social}
+        
+    % Source code retrieval on stackoverflow using lda
+        Arwan et al. \cite{arwan2015source}
+        
+    % Mining StackOverflow to Filter out Off-topic IRC Discussion
+        Chowdhury and Hindle \cite{chowdhury2015mining}
+        
+    % Stack Overflow in Github: Any Snippets There?
+        Yang et al. \cite{yang2017stack}
+        
+    % Sotorrent: Reconstructing and analyzing the evolution of stack overflow posts
+        Baltes et al. \cite{baltes2018sotorrent}
+        
+    % Sotorrent: Studying the origin, evolution, and usage of stack overflow code snippets
+        In 2019, the \emph{SOTorrent} dataset became the annual mining challenge\footnote{\url{https://2019.msrconf.org/track/msr-2019-Mining-Challenge?track=MSR\%20\%20Mining\%20Challenge\#Call-for-Mining-Challenge-Papers}} at the Mining Software Repositories (MSR) conference. Baltes et al. \cite{baltes2019sotorrent} encouraged researchers in the MSR community to explore the maintenance of code snippets on Stack Overflow, or design ways to better detect clones of code snippets. Other suggested topics to discover were detecting source code containing bugs, predicting bug-fixing edits, understanding the evolution and migration of Stack Overflow code snippets into GitHub repositories, or predicting popularity of code snippets. This mining challenge designed by Baltes et al. \cite{baltes2019sotorrent} opened up new, innovative research avenues and made even more popular the mining of software artifacts, such as Stack Overflown in the software engineering community. 
+        
+    % Exploratory Study of Slack Q&A Chats as a Mining Source for Software Engineering Tools
+        Chatterjee et al.\cite{chatterjee2019exploratory}
+        
+    % Predicting Good Configurations for GitHub and Stack Overflow Topic Models
+        Treude and Wagner \cite{treude2019predicting} studied the characteristics of GitHub and Stack Overflow text corpora to predict good configurations for LDA models built on such corpora. Their work was purely data-driven by sampling 40 text corpora from GitHub and another 40 from Stack Overflow to discover the impact of software artifact related corpus characteristics on parameter selection of topic models. Their findings are significant, as they conclude that general guidelines for parameter selection of LDA models do not apply to GitHub and Stack Overflow corpora, as such data contains different characteristics to ordinary textual data. Lastly, Treude and Wagner conclude that in order to achieve good model fit, LDA parameters can be predicted even for unseen data by studying the characteristics of corpora.
+        
+    % What do developers know about machine learning: a study of ML discussions on StackOverflow
+         Treude and Wagner \cite{treude2019predicting}'s work on LDA parameter selection is highly relevant when it is linked with the proper application, such as Bangash et al. \cite{bangash2019developers}'s work on applying LDA models to Stack Overflow posts about machine learning. Their study focuses on questions such as what machine learning topics are discussed in posts, and what characteristics do machine learning posts have on Stack Overflow. The results of the study are surprising as even though machine learning is a really popular field of computer science, Bangash et al. suggest that many developers do not have adequate introductory knowledge of machine learning, and the feedback from online communities in not helping them close the gaps in their knowledge. Lastly, through topic modeling it was discovered that the most frequent machine learning topics discussed on Stack Overflow are algorithms, classification, and training data-set related.
+        
+    % Categorizing the Content of GitHub README Files
+        Prana et al. \cite{prana2019categorizing} worked on better understanding and categorizing content in GitHub repository README files. The authors have manually annotated over 4000 README file sections from almost 400 randomly sampled GitHub projects in order to create a classifier that can distinguish a README file's sections automatically. The main goal of this research work was to allow repository owners to provide better documentation and to make browsing through information on description files easier for other GitHub users. Findings of the study show that many description files do not have information about the purpose and status of the project. The classification model built during this study achieved an an accuracy of almost 75\%, and this classifier was also used to label sections in unseen README files from other GitHub repositories.
+
+    % Status, identity, and language: A study of issue discussions in GitHub
+        Liao et al. \cite{liao2019status}
+
+    \subsection{About Expertise Learning and Recommendation in Software Engineering}
+        
+        % Predicting best answerers for new questions: An approach leveraging topic modeling and collaborative voting
+        Tian et al. \cite{tian2013predicting}
+        
+        % Crowdsourced bug triaging: Leveraging q\&a platforms for bug assignment
+        Badashian et al. \cite{badashian2016crowdsourced}
+        
+        % Identifying Experts in Software Libraries and Frameworks among GitHub Users
+        Montandon et al. \cite{montandon2019identifying}
+        
+        % Towards a theory of software development expertise
+        Baltes and Diehl \cite{baltes2018towards}
+
+        % Beyond Support and Confidence: Exploring Interestingness Measures for Rule-Based Specification Mining
+        Le and Lo \cite{le2015beyond}
+        
+    
