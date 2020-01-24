@@ -1,7 +1,9 @@
 \chapter{Background and Related Work}
-
-\section{Background}
-
+    This chapter outlines the necessary background knowledge needed for this project in section \ref{sec:background}, then all related work is listed in section \ref{sec:relatedWork}.
+    
+\section{Background} \label{sec:background}
+    
+    
     \subsection{GitHub and Stack Overflow}
         TO DO: GitHub (GH) is ...
     
@@ -203,9 +205,10 @@
             
             % TO DO: define precision and recall too.
 
-\section{Related Work}
+\section{Related Work}\label{sec:relatedWork}
 
-    \subsection{About Mining Stack Overflow and GitHub}
+    \subsection{Mining Stack Overflow and GitHub}
+    % ---- 17 papers in total for this subsection --------
     % StackOverflow and GitHub: Associations Between Software Development and Crowdsourced Knowledge
         Vasilescu et al. \cite{vasilescu2013stackoverflow} was one of the first researchers to explore the interaction between Stack Overflow and GitHub activities, and the software development process. The authors have linked Stack Overflow and GitHub user accounts to explore development activities on both platforms. This study also looked at commit patterns and question/answer activities of active developers and analyzed on which platform are developers more active. Their findings are significant, as they conclude that active GitHub users ask less questions and provide more answers than other users. Furthermore, the study shows that active Stack Overflow users split their work in more non-uniform ways than users who do not ask questions. Lastly, the study also concludes that the rate of activity on Stack Overflow is correlated with the rate of code changes on GitHub.
         
@@ -215,63 +218,121 @@
     % GitHub and Stack Overflow: Analyzing Developer Interests Across Multiple Social Collaborative Platforms
         Lee and Lo \cite{lee2017github} took Badashian et al. \cite{badashian2014involvement}'s work one step further and analyzed developer interest across the same two platforms, GitHub and Stack Overflow. The authors were looking into whether developers share interests across their GitHub and Stack Overflow accounts, and do developers share interests with other users who participated in similar activities as them. Their findings conclude that there are common interests between GitHub repositories and Stack Overflow posts of a user, and the similarity of interest in on average, 39\%. Furthermore, many users share common interests with other users who participated in similar activities as them.
         
+    % How social Q\&A sites are changing knowledge sharing in open source software communities
+        Vasilescu et al. \cite{vasilescu2014social} built on their work from the previous year (\cite{vasilescu2013stackoverflow}) and investigated how mailing lists and Stack Exchange provide knowledge sharing in open source software communities. Their research questions focused on investigating the differences between active members of both mailing lists and Stack Exchange and members active on a single platform, also what are there differences between the two online communities (mailing lists and Stack Exchange)? The study's findings show that mailing list participation decreases drastically since 2010. Around the same time more questions started to be asked about R on Stack Overflow and Cross Validated. Vasilescu et al. concluded that it is very likely that part of the mailing list population has migrated over to Stack Exchange at some point during 2010, where they can answer and get answers to questions much faster than on the mailing list.
+        
+    % What are developers talking about? an analysis of topics and trends in stack overflow
+        Barua et al. \cite{barua2014developers}'s study is connected to Vasilescu et al. \cite{vasilescu2014social}'s work by studying the process of sharing and gaining knowledge through being part of and interacting with like-minded developers in open source software communities. Barua et al. \cite{barua2014developers}'s goal was to analyze the textual data of Stack Overflow posts with the use of LDA topic models and discover topic trend in developer discussions. Barua et al. collected two years worth of Stack Overflow data between July 2008 and 2010. Some of the findings of their analysis shows that in that two year period mobile application development was increasing in popularity at an even faster rate than web development. According to the authors both Android and iPhone development was much more relevant than development for Blackberry's. In terms of programming language popularity, PHP was becoming quite popular between 2008 and 2010, and  Java was still considered as one of the main programming languages. Furthermore, other insights coming out of their analysis show that Git overtook SVN in version control popularity, while at that time MySQL was the most popular database.
+        
     % The GHTorent dataset and tool suite
-        After the popularity of Github and Stack Overflow in the software engineering research community (\cite{vasilescu2013stackoverflow}, \cite{badashian2014involvement}, \cite{lee2017github}) Gousios et al. \cite{gousios2013ghtorent} has published the \emph{GHTorrent project}, which is a public mirror data set of all public projects available on Github. This new data set contains 16 entities about all aspects related to Github context, including projects, users, commits, followers, watchers, issues and pull requests. The \emph{GHTorrent} data set became a crucial resource for almost all GitHub related research ever since its released, as it enabled researchers to easily retrieve all public projects hosted on GitHub. 
+        Considering the popularity of Github and Stack Overflow in the software engineering research community (\cite{vasilescu2013stackoverflow}, \cite{badashian2014involvement}, \cite{lee2017github}) Gousios et al. \cite{gousios2013ghtorent} has published the \emph{GHTorrent project}, which is a public mirror data set of all public projects available on Github. This new data set contains 16 entities about all aspects related to Github context, including projects, users, commits, followers, watchers, issues and pull requests. The \emph{GHTorrent} data set became a crucial resource for almost all GitHub related research ever since its released, as it enabled researchers to easily retrieve all public projects hosted on GitHub. 
         
     % The Promises and Perils of Mining GitHub
         Kalliamvakou et al. \cite{kalliamvakou2014promises}'s work builds on top of the research hype of mining GitHub's events data, trying to understand how developers use GitHub to collaborate on open source projects. The authors focus on studying the quality and characteristics of repositories on GitHub. The findings of their study concluded that GitHub is indeed a rich data source, there are a handful of insights mined from repositories, such as that over 70\% of of projects are personal, and only a small percentage of them use pull requests. According to the authors, surprisingly, a large portion of repositories on GitHub are not used for software development purposes, but rather for free source code storage and other reasons. Another interesting finding is that over half of the projects are personal and inactive, while close to half of all pull requests do not show up as merged in, but they actually are.
         
-    % What are developers talking about? an analysis of topics and trends in stack overflow
-        Barua et al. \cite{barua2014developers}
-        
-    %How social Q\&A sites are changing knowledge sharing in open source software communities
-        Vasilescu et al. \cite{vasilescu2014social}
-        
     % Source code retrieval on stackoverflow using lda
-        Arwan et al. \cite{arwan2015source}
+        While others have focused on trends and knowledge sharing on Stack Overflow, Arwan et al. \cite{arwan2015source} have looked at source code retrieval on Stack Overflow. The authors have collected data from the public Stack Exchange data dumps, then applied LDA topic modeling to retrieve source code relevant to a queried concept. The authors have concluded that LDA is capable of retrieving source code with the best accuracy of 86\% precision and 70\% recall. It was also found that the proportion of relevant documents to the query concept highly impacts the precision and recall values achieved.
         
     % Mining StackOverflow to Filter out Off-topic IRC Discussion
-        Chowdhury and Hindle \cite{chowdhury2015mining}
+        Chowdhury and Hindle \cite{chowdhury2015mining} show one of the many real life applications of mining Stack Overflow data by designing a chat filtering algorithm that can hide off-topic discussion in Stack Overflow and other online forum discussions. The authors ended up considering only two machine learning algorithms, Support Vector Machine and Naive Bayes classifiers to discover off-topic discussions with an F-score of 87.9\%.
         
     % Stack Overflow in Github: Any Snippets There?
-        Yang et al. \cite{yang2017stack}
+        In another application of data mining in software engineering, Yang et al. \cite{yang2017stack} studied how code snippets are copied into new projects. The authors were curious of code snippets are copied from Stack Overflow and pasted into source files that end up on GitHub, and if this is the case, them how much change is made to the original code snippet. The authors analyzed close to 1 million unique Python projects hosted on GitHub, and detected 1.9 million Python code snippets from Stack Overflow. Their analysis shows the rare (less than 1\%) existence of exact duplication of code, but rather token-level duplication is the more common type of code similarity. Furthermore, after carefully reviewing the findings of the analysis, the authors noticed that the majority of code duplication are usually 2 lines of code, and in most cases no comments are provided. Lastly, the authors did find evidence of small 'migration' of code from Stack Overflow to GitHub, and in serious cases this is being mentioned in the form of comments.
         
     % Sotorrent: Reconstructing and analyzing the evolution of stack overflow posts
-        Baltes et al. \cite{baltes2018sotorrent}
+        After seeing the popularity of mining Stack Overflow and GitHub data together (\cite{vasilescu2013stackoverflow}, \cite{lee2017github}, \cite{badashian2014involvement}, \cite{yang2017stack}), Baltes et al. \cite{baltes2018sotorrent} followed the foot steps of Gousios et al. \cite{gousios2013ghtorent} and created the \emph{SOTorrent} open data set based on the official Stack Overflow data dump. \emph{SOTorrent} stored version histories of Stack Overflow data on two separate levels: entire posts and individual code and text blocks. What contributed to the fast growing popularity of \emph{SOTorrent} is the ability to link Stack Overflow posts to Github repositories by detecting hyperlink references from GitHub files to Stack Overflow posts. After releasing \emph{SOTorrent} data set to the public the authors have performed the first analysis on the entirety of Stack Overflow data. Their analysis shows that out of all posts on Stack Overflow, 36.1\% of them have been edited after their creation. Furthermore, Baltes et al. argued that all edited posts are very rich in comments, having a large number of comments compared to posts with no edits. Baltes et al. inferred that these comments lead to the edit of the post.
+        Finally, the authors' vision was that \emph{SOTorrent} will used to explore and understand the evolution of Stack Overflow posts and their relation to other online software communities.
         
     % Sotorrent: Studying the origin, evolution, and usage of stack overflow code snippets
-        In 2019, the \emph{SOTorrent} dataset became the annual mining challenge\footnote{\url{https://2019.msrconf.org/track/msr-2019-Mining-Challenge?track=MSR\%20\%20Mining\%20Challenge\#Call-for-Mining-Challenge-Papers}} at the Mining Software Repositories (MSR) conference. Baltes et al. \cite{baltes2019sotorrent} encouraged researchers in the MSR community to explore the maintenance of code snippets on Stack Overflow, or design ways to better detect clones of code snippets. Other suggested topics to discover were detecting source code containing bugs, predicting bug-fixing edits, understanding the evolution and migration of Stack Overflow code snippets into GitHub repositories, or predicting popularity of code snippets. This mining challenge designed by Baltes et al. \cite{baltes2019sotorrent} opened up new, innovative research avenues and made even more popular the mining of software artifacts, such as Stack Overflown in the software engineering community. 
-        
-    % Exploratory Study of Slack Q&A Chats as a Mining Source for Software Engineering Tools
-        Chatterjee et al.\cite{chatterjee2019exploratory}
+        In 2019, the above mentioned 'vision' turned into reality, when the \emph{SOTorrent} dataset became the annual mining challenge\footnote{\url{https://2019.msrconf.org/track/msr-2019-Mining-Challenge?track=MSR\%20\%20Mining\%20Challenge\#Call-for-Mining-Challenge-Papers}} at the Mining Software Repositories (MSR) conference. Baltes et al. \cite{baltes2019sotorrent} encouraged researchers in the MSR community to explore the maintenance of code snippets on Stack Overflow, or design ways to better detect clones of code snippets. Other suggested topics to discover were detecting source code containing bugs, predicting bug-fixing edits, understanding the evolution and migration of Stack Overflow code snippets into GitHub repositories, or predicting popularity of code snippets. This mining challenge designed by Baltes et al. \cite{baltes2019sotorrent} opened up new, innovative research avenues and made even more popular the mining of software artifacts, such as Stack Overflown in the software engineering community. 
         
     % Predicting Good Configurations for GitHub and Stack Overflow Topic Models
-        Treude and Wagner \cite{treude2019predicting} studied the characteristics of GitHub and Stack Overflow text corpora to predict good configurations for LDA models built on such corpora. Their work was purely data-driven by sampling 40 text corpora from GitHub and another 40 from Stack Overflow to discover the impact of software artifact related corpus characteristics on parameter selection of topic models. Their findings are significant, as they conclude that general guidelines for parameter selection of LDA models do not apply to GitHub and Stack Overflow corpora, as such data contains different characteristics to ordinary textual data. Lastly, Treude and Wagner conclude that in order to achieve good model fit, LDA parameters can be predicted even for unseen data by studying the characteristics of corpora.
+        Treude and Wagner \cite{treude2019predicting} used the \emph{SOTorrent} dataset from Baltes et al. \cite{baltes2019sotorrent}'s work and studied the characteristics of GitHub and Stack Overflow text corpora to predict good configurations for LDA models built on such corpora. Their work was purely data-driven by sampling 40 text corpora from GitHub and another 40 from Stack Overflow to discover the impact of software artifact related corpus characteristics on parameter selection of topic models. Their findings are significant, as they conclude that general guidelines for parameter selection of LDA models do not apply to GitHub and Stack Overflow corpora, as such data contains different characteristics to ordinary textual data. Lastly, Treude and Wagner conclude that in order to achieve good model fit, LDA parameters can be predicted even for unseen data by studying the characteristics of corpora.
         
     % What do developers know about machine learning: a study of ML discussions on StackOverflow
          Treude and Wagner \cite{treude2019predicting}'s work on LDA parameter selection is highly relevant when it is linked with the proper application, such as Bangash et al. \cite{bangash2019developers}'s work on applying LDA models to Stack Overflow posts about machine learning. Their study focuses on questions such as what machine learning topics are discussed in posts, and what characteristics do machine learning posts have on Stack Overflow. The results of the study are surprising as even though machine learning is a really popular field of computer science, Bangash et al. suggest that many developers do not have adequate introductory knowledge of machine learning, and the feedback from online communities in not helping them close the gaps in their knowledge. Lastly, through topic modeling it was discovered that the most frequent machine learning topics discussed on Stack Overflow are algorithms, classification, and training data-set related.
-        
+         
+    % Exploratory Study of Slack Q&A Chats as a Mining Source for Software Engineering Tools
+        Chatterjee et al. \cite{chatterjee2019exploratory} performed a similar study to Bangash et al. \cite{bangash2019developers} by exploring the content of Slack chats as a potential source of software artifact related information to be mined, such as Stack Overflow. Their study focuses on the characteristic similarities of Slack chats and Stack Overflow posts, also could automatic mining of chat data be useful towards the improvement of software engineering tools. Throughout the study it was observed that most of the information mined from Stack Overflow posts is also available on Slack channels, but there is an exception: API mentions, which is more available on Stack Overflow posts rather than Slack chats. Other findings of their study include the insight that majority of Slack conversations are about software design and in some cases there are a large number of accepted answers from Stack Overflow posts present in Slack chats.
+         
     % Categorizing the Content of GitHub README Files
         Prana et al. \cite{prana2019categorizing} worked on better understanding and categorizing content in GitHub repository README files. The authors have manually annotated over 4000 README file sections from almost 400 randomly sampled GitHub projects in order to create a classifier that can distinguish a README file's sections automatically. The main goal of this research work was to allow repository owners to provide better documentation and to make browsing through information on description files easier for other GitHub users. Findings of the study show that many description files do not have information about the purpose and status of the project. The classification model built during this study achieved an an accuracy of almost 75\%, and this classifier was also used to label sections in unseen README files from other GitHub repositories.
 
     % Status, identity, and language: A study of issue discussions in GitHub
-        Liao et al. \cite{liao2019status}
+        Other researchers, like Liao et al. \cite{liao2019status} chose to take advantage of the large variety of diverse data being available on GitHub and use discussion data to study the ``socio-linguistics perspectives" of tagging in open source projects. The study's emphasis was on the usage of language in projects. The authors were wondering whether it is possible to detect very productive or relevant developers just by the language that they use in issue discussions. The authors used multiple language models to convert textual data into vector representation of words, as they found that learning the semantic context of discussions is important. Their study found the tagged developers in discussions could be predicted with a 'reasonable' level of accuracy.
 
-    \subsection{About Expertise Learning and Recommendation in Software Engineering}
+    \subsection{Developer Expertise Learning and Recommendation}
+    % ------- 23 papers in total for this subsection ------- ... to much .. reduce it
         
-        % Predicting best answerers for new questions: An approach leveraging topic modeling and collaborative voting
-        Tian et al. \cite{tian2013predicting}
+    % Predicting best answerers for new questions: An approach leveraging topic modeling and collaborative voting
+        Tian et al. \cite{tian2013predicting} formulated the task of finding expert developers in open source software communities as building a model to predict the best answerer for new question posted on Stack Overflow. The authors proposed the idea of modeling a Stack Overflow user's topical expertise and interest using LDA models. Tian et al. made some assumptions along the way: firstly, the user considered to be the best answerer for a question should have high interest and expertise on the specific question being answered. Secondly, Stack Overflow questions belong to or come from a mixture of topics (to agree with LDA's most importance assumption) and lastly, user interest and expertise in Stack Overflow questions are affected only by user's interest and expertise on the related topics. Based on these assumptions the authors build a user profile consisting of previous questions answered or asked, for each user. The authors measure the accuracy of their approach using the \emph{Success at N} evaluation metric, where N varies. In the end the topic modeling based approach is compared with a frequency based (TF-IDF) baseline approach. The authors concluded that their proposed approach outperforms the baseline approach, but there is still room to improve the effectiveness of the technique.
         
-        % Crowdsourced bug triaging: Leveraging q\&a platforms for bug assignment
+    % Crowdsourced bug triaging: Leveraging q\&a platforms for bug assignment
         Badashian et al. \cite{badashian2016crowdsourced}
         
-        % Identifying Experts in Software Libraries and Frameworks among GitHub Users
-        Montandon et al. \cite{montandon2019identifying}
+    % Identifying Experts in Software Libraries and Frameworks among GitHub Users
+        Montandon et al. \cite{montandon2019identifying} surveyed developers about their expertise in three software libraries and frameworks, then merged the self-reported expertise areas with features extracted from each developer's GitHub account. Their study focused on studying what features distinguish the expertise of developers from the collected data, then how accurately could a machine learning algorithm classify different expert classes found in the data. In the results of the study the authors suggested that standard machine learning algorithms could not accurate predict expertise based on GitHub data only, as not all survey subjects had a strong public activity on GitHub. Better results were achieved using cluster analysis, thus the authors have proposed the detection of experts based on how similar the expertise of a new developer is to the already pre-determined cluster of experts from the surveyed data.
         
-        % Towards a theory of software development expertise
+    % Towards a theory of software development expertise
         Baltes and Diehl \cite{baltes2018towards}
 
-        % Beyond Support and Confidence: Exploring Interestingness Measures for Rule-Based Specification Mining
+    % Beyond Support and Confidence: Exploring Interestingness Measures for Rule-Based Specification Mining
         Le and Lo \cite{le2015beyond}
         
+    % What distinguishes great software engineers?
+        Li et al. \cite{li2019distinguishes}
+        
+    % A Survey on Expert Recommendation in Community Question Answering
+        Wang et al. \cite{wang2018survey}
+        
+    % Geek Talents: Who are the Top Experts on GitHub and Stack Overflow?
+        Tian et al. \cite{tian2019geek}
+        
+    % Find your library experts
+        Teyton et al. \cite{teyton2013find}
+        
+    % Assigning change requests to software developers
+        Kagdi et al. \cite{kagdi2012assigning}
+        
+    % Identifying designers and their design knowledge
+        Hammad et al. \cite{hammad2013identifying}
+        
+    % DevRank: Mining influential developers in GitHub
+        Liao et al. \cite{liao2017devrank}
+        
+    % Expertise Identification and Visualization from CVS
+        Alonso et al. \cite{alonso2008expertise}
+        
+    % Matching GitHub developer profiles to job advertisements 
+        Hauff and Gousios \cite{hauff2015matching}
+
+    % Reviewer Recommender of Pull-Requests in GitHub
+        Yu et al. \cite{yu2014reviewer}
+    
+    % Inferring Developer Expertise through Defect Analysis
+        Nguyen et al. \cite{nguyen2012inferring}
+        
+    % Recommending People in Developers’ Collaboration Network
+        Surian et al. \cite{surian2011recommending}
+        
+    % Recommending Relevant Projects via User Behaviour-An Exploratory Study on Github
+        Zhang et al. \cite{zhang2014recommending}
+    
+    % Reviewer Recommender of Pull-Requests in GitHub
+        Yu et al. \cite{yu2014reviewer}
+        
+    % Reviewer recommendation for pull-requests in GitHub-What can we learn from code review and bug assignment
+        Yu et al. \cite{yu2016reviewer}
+    
+    % CVExplorer: Identifying Candidate Developers by Mining and Exploring Their Open Source Contributions
+        Greene and Fischer \cite{greene2016cvexplorer}
+    
+    % CORRECT-Code Reviewer Recommendation in GitHub Based on Cross-Project and Technology Experience
+        Rahman et al. \cite{rahman2016correct}
+    
+    % Identifying Domain Expertise of Developers from Source code
+        Sindhgatta \cite{sindhgatta2008identifying}
+    
+   
+    
     
