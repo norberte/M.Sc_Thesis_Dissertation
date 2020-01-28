@@ -262,77 +262,64 @@
         Other researchers, like Liao et al. \cite{liao2019status} chose to take advantage of the large variety of diverse data being available on GitHub and use discussion data to study the ``socio-linguistics perspectives" of tagging in open source projects. The study's emphasis was on the usage of language in projects. The authors were wondering whether it is possible to detect very productive or relevant developers just by the language that they use in issue discussions. The authors used multiple language models to convert textual data into vector representation of words, as they found that learning the semantic context of discussions is important. Their study found the tagged developers in discussions could be predicted with a 'reasonable' level of accuracy.
 
     \subsection{Developer Expertise Learning and Recommendation}
-    % ------- 23 papers in total for this subsection ------- ... to much .. reduce it
+    % ------- 20 papers in total for this subsection -------
         
     % Predicting best answerers for new questions: An approach leveraging topic modeling and collaborative voting
         Tian et al. \cite{tian2013predicting} formulated the task of finding expert developers in open source software communities as building a model to predict the best answerer for new question posted on Stack Overflow. The authors proposed the idea of modeling a Stack Overflow user's topical expertise and interest using LDA models. Tian et al. made some assumptions along the way: firstly, the user considered to be the best answerer for a question should have high interest and expertise on the specific question being answered. Secondly, Stack Overflow questions belong to or come from a mixture of topics (to agree with LDA's most importance assumption) and lastly, user interest and expertise in Stack Overflow questions are affected only by user's interest and expertise on the related topics. Based on these assumptions the authors build a user profile consisting of previous questions answered or asked, for each user. The authors measure the accuracy of their approach using the \emph{Success at N} evaluation metric, where N varies. In the end the topic modeling based approach is compared with a frequency based (TF-IDF) baseline approach. The authors concluded that their proposed approach outperforms the baseline approach, but there is still room to improve the effectiveness of the technique.
         
     % Crowdsourced bug triaging: Leveraging q\&a platforms for bug assignment
-        Badashian et al. \cite{badashian2016crowdsourced}
+        Badashian et al. \cite{badashian2016crowdsourced} worked on the task of bug report assignment, which consisted in assigning a software's bug report to the developer who is most fit to address the bug. In this task a list of developers with relevant skills and knowledge need to be compiled, then ranking the developers based on their expertise is needed. For this task Badashian et al. created a novel approach, determining a developer’s expertise based on their contributions on Stack Overflow. By the use of this approach the authors concluded that Stack Overflow is a rich source of developer expertise related data. In the evaluation process the authors report that the proposed novel approach reached state-of-the-art accuracy.
         
     % Identifying Experts in Software Libraries and Frameworks among GitHub Users
         Montandon et al. \cite{montandon2019identifying} surveyed developers about their expertise in three software libraries and frameworks, then merged the self-reported expertise areas with features extracted from each developer's GitHub account. Their study focused on studying what features distinguish the expertise of developers from the collected data, then how accurately could a machine learning algorithm classify different expert classes found in the data. In the results of the study the authors suggested that standard machine learning algorithms could not accurate predict expertise based on GitHub data only, as not all survey subjects had a strong public activity on GitHub. Better results were achieved using cluster analysis, thus the authors have proposed the detection of experts based on how similar the expertise of a new developer is to the already pre-determined cluster of experts from the surveyed data.
         
+     % Identifying Domain Expertise of Developers from Source code
+        Similar to Montandon et al. \cite{montandon2019identifying}'s work, Sindhgatta \cite{sindhgatta2008identifying} applied information retrieval and document clustering techniques in order to detect domain expertise of developers from source code. The proposed technique generated documents from text documents from source code by filtering out all the programming language related keywords, then clustering is used to group documents and extract relevant concepts. The author has performed multiple case studies to evaluate the above technique and conclude that their technique can extract the relevant concepts from source code. 
+        
     % Towards a theory of software development expertise
-        Baltes and Diehl \cite{baltes2018towards}
-
-    % Beyond Support and Confidence: Exploring Interestingness Measures for Rule-Based Specification Mining
-        Le and Lo \cite{le2015beyond}
+        Baltes and Diehl \cite{baltes2018towards} are credited with proposing the first comprehensive theory of software development expertise based on a data driven mixed methods survey. The authors have described their work as a grounded theory of expertise, which is a qualitative and quantitative combination of knowledge and experience. They argue that among other things, skills and work context influence the creation of expertise, which can be detected through ``well-structured, readable, and maintainable source code". Furthermore, throughout the process of grounded theory the authors augment their conceptual theory by introducing a ``task-specific view on expertise". This represents the addition of the concept of ``deliberate practice", which includes the process of practise, asking for feedback and performing self-reflection on the work. The authors introduced this crucial aspect of their conceptual theory to focus on performance as a consequence of gaining more expertise.
         
     % What distinguishes great software engineers?
-        Li et al. \cite{li2019distinguishes}
-        
+        In a very recent study Li et al. \cite{li2019distinguishes} surveyed almost two thousand senior software engineers asking them what attributes make a great software engineer. The authors compiled all survey responses and found that the five highest ranked attributes to be a great software engineer are: i.) producing good source code, ii.) maximizing the value of work, iii.) practicing knowledgeable decision-making, iv.) not making someone else's jobs more difficult, and v.) continuous learning. The lowest ranked attribute was favor trading.
+       
     % A Survey on Expert Recommendation in Community Question Answering
-        Wang et al. \cite{wang2018survey}
+        Wang et al. \cite{wang2018survey} have created a survey paper type overview of the latest research techniques proposed for the problem of expert recommendation in question answering communities, such as Stack Overflow. The authors categorized the currently existing methods into 8 categories: simple, language model based, topic model based, network based, classification based, probabilistic, collaborative filtering- and hybrid methods. Data sets vary between \emph{Yahoo! Answers, Stack Overflow, Tripadvisor, Java Developer Forum}, other \emph{Stack Exchange} sites and many others. Evaluation metrics between the above listed categories of methods do not agree, as Wang et al. found over 10 different evaluation metrics used for the task of expertise recommendation. Some of these evaluation metrics include: precision, recall, F1-score, Precision at top $n$, matching set count, Pearson correlation coefficient, area under ROC curve, accuracy by rank and many others. For future work, Wang et al. recommended using more external data to develop more realistic user models, emphasized the importance of model robustness, and opened up a new research avenue focusing on the recommendation of experts as a collaborative group.
         
     % Geek Talents: Who are the Top Experts on GitHub and Stack Overflow?
-        Tian et al. \cite{tian2019geek}
+        Tian et al. \cite{tian2019geek} have addressed the problem of user recommendation in GitHub and Stack Overflow. The authors have proposed a novel methodology to extract talented developers from both GitHub and Stack Overflow and built a complete system that automatically ranks developers in various areas of computer science. Tian et al. have also created a user interface to visualize the user recommendations, ranked based on their skills.
         
     % Find your library experts
-        Teyton et al. \cite{teyton2013find}
+        Teyton et al. \cite{teyton2013find} proposed an approach to finding relevant experts of common libraries among GitHub developers. The authors' definition of a library expert is a developer who committed changes to the underlining source code of the library. Teyton et al. \cite{teyton2013find}'s work involved designing a 'search engine' for library experts by creating a novel query language to detect expert developers. While such tool can be useful to open source software communities, the authors note that their proposed system is underused, and lacks appropriate validation. 
         
-    % Assigning change requests to software developers
-        Kagdi et al. \cite{kagdi2012assigning}
+        % DevRank: Mining influential developers in GitHub
+        Liao et al. \cite{liao2017devrank}'s work is similar to Teyton et al. \cite{teyton2013find} and Tian et al. \cite{tian2019geek}, as they suggested ranking influential developers on GitHub. The authors define the influence of a developer as the number of followers it gains over some period of time. The authors design a novel network-based algorithm named '\emph{DevRank}', which ranks developers based on influence and commit behavior. Liao et al. compared their approach to link analysis and traditional network-based algorithms like \emph{PageRank} and \emph{HITS}, and achieved better precision scores.
         
     % Identifying designers and their design knowledge
-        Hammad et al. \cite{hammad2013identifying}
+        Hammad et al. \cite{hammad2013identifying}'s work is similar Teyton et al. \cite{teyton2013find} by exploring how to identify the appropriate software designer for the task of changing the inner architecture of a software. The authors also propose a methodology to detect the type of design knowledge a developer possesses, and the type of design knowledge needed for a task. The system proposed by Hammad et al. automatically recommends a list of candidate software designers suited to work a design change task, and creates a ranking of the candidates based on their knowledge. Lastly, the authors conclude that their system is useful for handling requests in large software projects consisting of many developers.
         
-    % DevRank: Mining influential developers in GitHub
-        Liao et al. \cite{liao2017devrank}
+    % Assigning change requests to software developers
+        Similar to Hammad et al. \cite{hammad2013identifying}'s work, Kagdi et al. \cite{kagdi2012assigning} proposed an approach to suggest a ranked list of experts to implement software changes. The authors credit themselves with the first use of a 'concept location' technique combined software repository mining techniques in order to recommend expert developers. Their approach was evaluated using change requests from three open-source software. The authors report accuracy values between 47\% and 96\% for correctly recommending developers to fix specific bugs, while for recommending developers to implement specific features the accuracy values are between 43\% and 60\%.
         
     % Expertise Identification and Visualization from CVS
-        Alonso et al. \cite{alonso2008expertise}
-        
-    % Matching GitHub developer profiles to job advertisements 
-        Hauff and Gousios \cite{hauff2015matching}
-
-    % Reviewer Recommender of Pull-Requests in GitHub
-        Yu et al. \cite{yu2014reviewer}
-    
-    % Inferring Developer Expertise through Defect Analysis
-        Nguyen et al. \cite{nguyen2012inferring}
+        Alonso et al. \cite{alonso2008expertise} conducted a study that used rule-based classification of source code trees as a way to detect expertise of committers and other contributors to open source projects. The authors explain that only a small number of people are developers in a project (they have commit privileges), but there are plenty of other people who can contribute to the source code, via bug fixes and patches. One of the author's secondary goals (beside detecting expertise) is to be able to distinguish the developers from contributors. Alonso et al. also developed a visualization of the results of the proposed technique, and concluded that it is possible to autotically detect and extract the expertise of developers from version control log files and source code trees.
         
     % Recommending People in Developers’ Collaboration Network
-        Surian et al. \cite{surian2011recommending}
+        Surian et al. \cite{surian2011recommending} built a graph-based model to represent developers collaborating on projects. Their goal was to recommend a set of developers that are good matches to work on an input project based on their previous experiences and skills that they have. In Surian et al. \cite{surian2011recommending}'s work an edge connected a developer and a project if the developer worked on that project. Another edge connected a project and a property if the project has that specific property. The authors have computed similarity measures based on random walks of the graph with restarts and extracted the top $n$ recommended developers. This approach resulted in a 83.33\% accuracy on a ground truth data set.
+        
+    % Matching GitHub developer profiles to job advertisements 
+        Similar to Surian et al. \cite{surian2011recommending}, Hauff and Gousios \cite{hauff2015matching} worked on matching GitHub developer profiles to job advertisements by automatically suggesting job opportunities to developers based on their GitHub activities. Their approach involved concept extraction from job descriptions and GitHub profiles, introducing a weighting system for the concepts extracted to create a hierarchy, then matching job descriptions to developers. The job - developer matches are obtained by computing the similarity between weighted concept vectors, which are essentially feature vectors. Hauff and Gousios have created a great tool, but perhaps it could be improved with the addition of a formal validation and filtering stage for the candidate matches.
+
+    % Inferring Developer Expertise through Defect Analysis
+        Nguyen et al. \cite{nguyen2012inferring} have conducted a study to infer the expertise of developers based on characteristics of their work when assigned to fix defects in a software. The authors categorize each corrected defect by topic and rank developers by inferring their expertise in the defect’s each topic. Nguyen et al. concluded that the amount of time required to fix a defect is determined by the expertise of the developer in the defect’s topic. To validate their work the authors have interviewed many project managers and asked them to compare their own ranking of developer expertise with the results of the study. The authors have concluded that automated developer expertise ranking could be valuable for software development. 
         
     % Recommending Relevant Projects via User Behaviour-An Exploratory Study on Github
-        Zhang et al. \cite{zhang2014recommending}
-    
-    % Reviewer Recommender of Pull-Requests in GitHub
-        Yu et al. \cite{yu2014reviewer}
+        Zhang et al. \cite{zhang2014recommending} explored how to recommend compatible projects to developers based their user activity and behavior data on GitHub. The authors focus on specific research questions, such as what type of user behavior data is needed in recommend suitable projects, and is there a relationship between recommended projects found using user behavior? The findings show that \emph{'fork', 'watch', 'pull-request' and 'member'} are the user activities and behaviors relevant for recommending projects to developers. Furthermore, Zhang et al. discovered that majority of recommended projects are either dependent on one another, or they are used together, or they are just similar projects.
         
     % Reviewer recommendation for pull-requests in GitHub-What can we learn from code review and bug assignment
-        Yu et al. \cite{yu2016reviewer}
-    
+        Yu et al. \cite{yu2016reviewer} investigated whether previous approaches used in code review assignment can be adapted and improved to recommend reviewers for pull requests. The authors have tried three methods based on traditional machine learning adapted from bug and code-review assignment, then proposed a novel method for pull requests recommendation by mining social relationships between the submitter of the pull request and potential reviewers. The results show that traditional machine learning adapted methods outperform the baseline, while the authors' novel approach achieves similar F-scores as the traditional machine learning approaches. Finally, Yu et al. also experimented with a hybrid approach, which resulted in significant increase in precision and recall, and the overall accuracy is more balanced than using one or the other approaches independently.
+        
     % CVExplorer: Identifying Candidate Developers by Mining and Exploring Their Open Source Contributions
-        Greene and Fischer \cite{greene2016cvexplorer}
+        Greene and Fischer \cite{greene2016cvexplorer} have created a tool called \emph{'CVExplorer'}, which extracts, explores and visualizes technical skills of developers from their GitHub account. Their approach uses mines and aggregates the technical skills of developers from multiple data sources and generates an 'interactive tag cloud' to allow potential recruiters to further exploration. The authors claimed that they evaluated \emph{'CVExplorer'} by recommending candidates for open positions at two companies, and showed that such tool could be very useful to non-technical recruiters. 
     
     % CORRECT-Code Reviewer Recommendation in GitHub Based on Cross-Project and Technology Experience
-        Rahman et al. \cite{rahman2016correct}
-    
-    % Identifying Domain Expertise of Developers from Source code
-        Sindhgatta \cite{sindhgatta2008identifying}
-    
-   
-    
-    
+        Similar to Yu et al. \cite{yu2016reviewer}'s work, Rahman et al. \cite{rahman2016correct} have proposed a novel code reviewer recommendation technique that takes into account the cross-project experience of a developer in specific technologies on top of looking into their previous projects on GitHub. Their approach goes even further and attempts to detect the developer's expertise as a candidate code reviewer by making associations between the developer's previous pull requests and their experience and skill levels in specific technologies. The authors have done extensive experiments using ten commercial projects and ten external libraries dependent on the commercial projects. The results of their experiments show that their technique's accuracy is between 85\% and 92\% in code reviewer recommendation, which beat the state-of-the-art technique at that time.
