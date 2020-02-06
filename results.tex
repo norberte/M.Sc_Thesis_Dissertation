@@ -1,9 +1,182 @@
 \chapter{Results}
 
-\section{RQ1:}
-
-\section{RQ2:}
-
-\section{RQ3:}
-
-\section{RQ4:}
+    \section{Expertise Extraction}
+    
+        \begin{table}
+          \centering
+          \caption{Results 1}\label{tab:results1}
+            \vspace{6pt} % Required to get proper spacing between caption and table
+          \begin{tabular}{|c|c|c|c|c|}
+            \hline
+            \thead{Top 3\\Results}& \diaghead{\theadfont DiagonColumn Head}{Metrics}{Techniques} &
+            \thead{Topic Distribution}&\thead{LDA based Emb.}&\thead{Word2Vec based Emb.}\\
+            \hline
+            \multirow{3}*{1} & Cosine Similarity & t311 & text312 & text313  \\
+                  & Jaccard Similarity & t312 & text322 & text323 \\
+                  & BLEU Score & t312 & text322 & text323 \\
+            \hline
+            \multirow{3}*{2} & Cosine Similarity & t311 & text312 & text313  \\
+                   & Jaccard Similarity & t312 & text322 & text323 \\
+                   & BLEU Score & t312 & text322 & text323 \\
+            \hline
+            \multirow{3}*{3} & Cosine Similarity & t311 & text312 & text313  \\
+                   & Jaccard Similarity & t312 & text322 & text323 \\
+                   & BLEU Score & t312 & text322 & text323 \\
+          \hline 
+        \end{tabular}
+        \end{table}
+        
+        \begin{table}
+          \centering
+          \caption{Parameters 1}\label{tab:params1}
+            \vspace{6pt} % Required to get proper spacing between caption and table
+          \begin{tabular}{|c|c|c|c|c|}
+            \hline
+            \thead{Top 3\\Results}& \diaghead{\theadfont DiagonColumn Head}{Parameters}{Techniques} &
+            \thead{Topic Distribution}&\thead{LDA based Emb.}&\thead{Word2Vec based Emb.}\\
+            \hline
+            \multirow{3}*{1} & Topic Number & t311 & text312 & text313  \\
+                  & Beta Value & t312 & text322 & text323 \\
+                  & Threshold Value & t312 & text322 & text323 \\
+            \hline
+            \multirow{3}*{2} & Cosine Similarity & t311 & text312 & text313  \\
+                   & Beta Value & t312 & text322 & text323 \\
+                   & Threshold Value & t312 & text322 & text323 \\
+            \hline
+            \multirow{3}*{3} & Topic Number & t311 & text312 & text313  \\
+                   & Beta Value & t312 & text322 & text323 \\
+                   & Threshold Value & t312 & text322 & text323 \\
+          \hline 
+        \end{tabular}
+        \end{table}
+    
+    \section{Cross-platform Expertise}
+        
+        \begin{figure}
+          % Requires 
+          \centering
+          \includegraphics[width=\textwidth]{figures/GH_SO_recent.jpeg}\\
+          \caption{Density Plot(A) and Histogram(B) of GH-recent and SO-recent data set comparison}
+          \label{fig:GH_SO_recent}
+        \end{figure}
+        
+        \begin{figure}
+          % Requires 
+          \centering
+          \includegraphics[width=\textwidth]{figures/GH_SO_past.jpeg}\\
+          \caption{Density Plot(A) and Histogram(B) of GH-past and SO-past data set comparison}
+          \label{fig:GH_SO_past}
+        \end{figure}
+        
+        
+        \begin{figure}
+          % Requires 
+          \centering
+          \includegraphics[width=\textwidth]{figures/overlap_GH_SO_recent.jpeg}\\
+          \caption{Overlap levels between GH-recent and SO-recent data sets}
+          \label{fig:overlap_GH_SO_recent}
+        \end{figure}
+        
+        \begin{figure}
+          % Requires 
+          \centering
+          \includegraphics[width=\textwidth]{figures/overlap_SO_GH_past.jpeg}\\
+          \caption{Overlap levels between GH-past and SO-past data sets}
+          \label{fig:overlap_GH_SO_past}
+        \end{figure}
+        
+        
+    
+    \section{Cross-platform Transferable Knowledge}
+    
+        \begin{table}
+          \centering
+          \caption{Most common words in GH-past and SO-past data sets.}\label{tab:RQ3_past}
+            \vspace{6pt} % Required to get proper spacing between caption and table
+          \begin{tabular}{|c c c | c c c|}
+            \hline
+            Ranking & Keyword & Frequency & Ranking & Keyword & Frequency \\
+            \hline\hline
+            1 & library & 43123 & 16 & base & 16798 \\
+            2 & code & 37621 & 17 & implementation & 16670 \\
+            3 & simple & 32762 & 18 & client & 15833 \\
+            4 & type & 30948 & 19 & test & 15723 \\
+            5 & javascript & 30044 & 20 & http & 15674 \\
+            6 & project & 26255 & 21 & page & 15423 \\
+            7 & web & 25083 & 22 & game & 13890 \\
+            8 & tool & 24967 & 23 & website & 13255 \\
+            9 & https & 24738 & 24 & package & 12982 \\
+            10 & file & 24737 & 25 & repository & 11690 \\
+            11 & html & 22333 & 26 & add & 11421 \\
+            12 & github & 21317 & 27 & method & 11421 \\
+            13 & script & 20318 & 28 & line & 11252 \\
+            14 & source & 20266 & 29 & api & 11144 \\
+            15 & language & 19855 & 30 & datum & 10980 \\
+            \hline
+          \end{tabular}
+        \end{table}
+        
+        
+        \begin{table}
+          \centering
+          \caption{Most common words in GH-recent and SO-recent data sets.}\label{tab:RQ3_recent}
+            \vspace{6pt} % Required to get proper spacing between caption and table
+          \begin{tabular}{|c c c | c c c|}
+            \hline
+            Ranking & Keyword & Frequency & Ranking & Keyword & Frequency \\
+            \hline\hline
+            1 & test & 56302 & 16 & heroku & 15764 \\
+            2 & simple & 51226 & 17 & buildpack & 15764 \\
+            3 & library & 44781 & 18 & cli & 15764 \\
+            4 & app & 43750 & 19 & rb & 15764 \\
+            5 & api & 35881 & 20 & activerecord & 15764 \\
+            6 & base & 26075 & 21 & rspec & 15764 \\
+            7 & client & 25381 & 22 & active & 15764 \\
+            8 & code & 22052 & 23 & github & 15297 \\
+            9 & file & 21538 & 24 & web & 12890 \\
+            10 & application & 19620 & 25 & add & 12849 \\
+            11 & https & 16764 & 26 & change & 12849\\
+            12 & ruby & 15764  & 27 & remove & 12849 \\
+            13 & rail & 15764 & 28 & check & 12849\\
+            14 & ember & 15764 & 29 & make & 11231 \\
+            15 & gem & 15764 & 30 & comment & 11231\\
+            \hline
+          \end{tabular}
+        \end{table}
+        
+        Co-occuring keywords: \textbf{test, simple, library, api, base, client, code, file, https, github, web} and \textbf{add}.
+    
+    \section{Expertise Evolution}
+    
+        \begin{figure}
+          % Requires 
+          \centering
+          \includegraphics[width=\textwidth]{figures/GH_past-recent.jpeg}\\
+          \caption{Density Plot(A) and Histogram(B) of GitHub past and recent data set comparison}
+          \label{fig:GH_past_recent}
+        \end{figure}
+        
+        \begin{figure}
+          % Requires 
+          \centering
+          \includegraphics[width=\textwidth]{figures/SO_past-recent.jpeg}\\
+          \caption{Density Plot(A) and Histogram(B) of Stack Overflow past and recent data set comparison}
+          \label{fig:SO_past_recent}
+        \end{figure}
+        
+        
+        \begin{figure}
+          % Requires 
+          \centering
+          \includegraphics[width=\textwidth]{figures/change_level_GH_past-recent.jpeg}\\
+          \caption{Change levels between GitHub past and recent data sets}
+          \label{fig:change_GH_past_recent}
+        \end{figure}
+        
+        \begin{figure}
+          % Requires 
+          \centering
+          \includegraphics[width=\textwidth]{figures/change_levels_SO_past-recent.jpeg}\\
+          \caption{Change levels between Stack Overflow past and recent data sets}
+          \label{fig:change_SO_past_recent}
+        \end{figure}

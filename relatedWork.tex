@@ -3,13 +3,11 @@
     
 \section{Background} \label{sec:background}
     
-    
     \subsection{GitHub and Stack Overflow}
-        TO DO: GitHub (GH) is ...
+        %% TO DO: GitHub (GH) is ...
+        %% "GitHub is a social coding platform that enables developers to efficiently work on projects, connect with other developers, collaborate and generally “be seen” by the community. This visibility also extends to prospective employers and HR personnel who may use GitHub to learn more about a developer’s skills and interests." \cite{hauff2015matching}}
     
         Stack Overflow (SO) is the most popular question answering website for software developers, providing a large amount of code snippets and free-form text on a wide variety of topics. In a recent public data dump from December 9th 2018 SO listed over 42 million posts from almost 10 million registered users. Similar to other software artifacts such as source code files and documentation, text and code snippets on SO evolve over time. An example of this is when the SO community fixes bugs in code snippets, clarifies questions and answers, and updates documentation to match new API versions. Studying Stack Overflow, its posts, users, and trends will shed some light on the evolution of expertise in such software artifacts.
-    
-    %% TO DO: \subsection{Text Processing}
     
     \subsection{Topic Modeling}
         
@@ -183,11 +181,15 @@
     \subsection{Evaluation Metrics Used \label{background:metrics}}
         
         \subsubsection{Topic Coherence\label{background:T_coherence}}
-            To be Completed ...
-            % Exploring the space of topic coherence measures
-            % R{\"o}der et al. \cite{roder2015exploring}
-            
-            %% "Topic coherence metrics are motivated by measuring word association between pairs of words in the list of the top-10 most likely topic words (here, top-10 is chosen arbitrarily as the typical number of terms displayed to a user; other settings such as top-20 could work equally as well). The intuition is that a topic will likely be judged as coherent if pairs of words from that topic are associated." Boyd-Graber et al. \cite{boyd2014care}
+            Human judgement and interpretability of topics are attempted to be quantified by \emph{Topic Coherence} metrics. Boyd-Graber et al. \cite{boyd2014care} refers to \emph{Topic Coherence} metrics as measures of association between word pairs from a set of top $n$ topic words of a topic. The main concept is that a topic might be evaluated as coherent if word pairs from that topic are associated with each other. R{\"o}der et al. \cite{roder2015exploring} worked on a comprehensive study on topic coherence measures to create state-of-the-art hybrid coherence metrics by combining different components of already existing coherence metrics. According to R{\"o}der et al. there are two types of aspects behind recent research on topic coherence: scientific philosophy and topic modeling. R{\"o}der et al. proposed a coherence framework that consists of four steps: i.) segmentation of word pairs, ii.) estimation of word probabilities, iii.) computation of 'confirmation measures', which test how strong is the coherence between any two word pairs, then iv.) aggregating 'confirmation measures' to form a single coherence score. Based on R{\"o}der et al.'s research four promising topic coherence metrics emerge as the metrics that are most correlated with human judgements and interpretability:
+                \begin{itemize}
+                    \item $UCI$ is a metric based on Point-wise Mutual Information (PMI), and it estimates word probabilities based on word co-occurrences. $UCI$ is also known for having the largest correlation with human annotations.
+                    \item $UMASS$ is an asymmetric 'confirmation' metric between top word pairs, and it takes into consideration the ordering of topic words in a topic.
+                    \item $NPMI$ is a metric based on normalized Point-wise Mutual Information (PMI), and it works by generating context vectors for each topic word in a topic.
+                    \item $C_V$ is the best performing coherence metric, being a hybrid metric between indirect cosine similarity measures, the $NPMI$ metric and a boolean sliding window approach.
+                \end{itemize}
+                
+            These four coherence metrics were used to guide model selection in Section~\ref{sec:topic_modeling}.
         
         \subsubsection{Jaccard Similarity and Distance\label{background:jaccard}}
             \emph{Jaccard similarity} measures the similarity and diversity of sets, and is it defined as ``the size of the intersection divided by the size of the union of the sets" \cite{jaccard_wiki}. \emph{Jaccard similarity} is used in section \ref{RQ2_task} in the task of \emph{Cross-platform Expertise}, and also in section \ref{eval_expertise_prediction} for the task of \emph{Expertise Prediction}, to measure the similarity between a model's set of prediction words and a human annotation's set of words.
@@ -200,9 +202,8 @@
         \subsubsection{Cosine Similarity}
             \emph{Cosine similarity} measures ``the cosine of the angle between two non-zero vectors of an inner product space'' \cite{cosSim_def}. \emph{Cosine similarity} is highly used in data mining and information retrieval tasks as a means of comparing high dimensional feature vectors. Two feature vectors aligned in the same orientation have a cosine similarity score of 1, meanwhile two feature vectors aligned perpendicularly produce a similarity score of 0. Lastly, two feature vectors oriented in exactly opposite directions produce a similarity score of -1. In most data mining and information retrieval applications \emph{Cosine similarity} is used only in the positive space, being bounded between 0 and 1. \emph{Cosine similarity} is used in section \ref{eval_expertise_prediction} for the task of \emph{Expertise Prediction} to compute a multi-word comparison between a model's prediction words and a human annotation's set of words.
             
-        \subsubsection{F-score}
-            \emph{F-score} is the harmonic mean between precision and recall. This metric is used in section \ref{eval_expertise_prediction} for the task of \emph{Expertise Prediction} to calculate the correct word matches between a model's generated set of prediction words and a human annotation's set of words.
-            
+        %\subsubsection{F-score}
+            %\emph{F-score} is the harmonic mean between precision and recall. This metric is used in section \ref{eval_expertise_prediction} for the task of \emph{Expertise Prediction} to calculate the correct word matches between a model's generated set of prediction words and a human annotation's set of words.
             % TO DO: define precision and recall too.
 
 \section{Related Work}\label{sec:relatedWork}
