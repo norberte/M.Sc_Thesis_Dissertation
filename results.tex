@@ -69,6 +69,25 @@
         
         Table~\ref{tab:GH_params1} present in the Appendix \ref{appendix:model_params} contains all major parameters used to fit the models outlined in Table~\ref{tab:GH_results1}. The models were fitted using a hyper-parameter optimization process described in Section~\ref{sec:hyper-parameter_selection} and their parameters come from the parameter search space defined in the above mentioned Section. Table~\ref{tab:GH_params1} suggests a general pattern of the GitHub data containing a relatively small number of topics: 10 in \textbf{LDA\_AVG}, 11 being the most popular in \textbf{TDistr}, \textbf{LDA\_MAX} \& \textbf{W2V\_MAX}, and 16 in the superior \textbf{W2V\_AVG}. The parameter $\beta$ highly varies between 0.001, 0.005, 0.01 and 0.05, but in most cases $\beta=0.005$.
         
+        % Continue here with examples of model extraction comparisons
+        Table \ref{tab:expertise_extractions} ...
+        
+        \begin{table}
+          \centering
+          \caption{Sample Annotation and Model Extraction Comparison from Experiment \emph{1A}} \label{tab:expertise_extractions}
+            \vspace{6pt} % Required to get proper spacing between caption and table
+             \resizebox{\textwidth}{!}{
+            \begin{tabular}{|p{2cm}|p{5cm}|p{5cm}|p{1cm}|p{1cm}|}
+                \hline
+                Example Type & Human Annotation & Model Extraction & Match & Cosine Sim.\\
+                \hline
+                Bad & [ui, linux, images, books, perl, c, data\_process, proxy, blogs, python, go, shell, c\#, javascript, web, maintaining, creating, java, css, html, dockerfile, image\_process, software, libraries, docker, ruby, tex, c++, groovy, writing, \textbf{development}, makefile, agile] & [php, wordpress, laravel, bundle, symfony, drupal, wp, framework, plugin, magento, composer, doctrine, symfony2, api, extension, redmine, simple, phpunit, library, cms, module, zend, p, form, admin, standards, integration, skeleton, silex, documentation, guzzle, custom, \textbf{development}] & 1/33 & 0.5361 \\ 
+                Mediocre & [tls, programming, oss\_fuzz, c, bcyrpt, go, security, ssl, \textbf{rust}, \textbf{java}, homebrew, urllib3, \textbf{python}, software\_engineering, objective\_c, \textbf{ruby}, azure, powershell, \textbf{shell}, infra, propery\_base\_testing, cryptography, networking, makefile, html, open\_ssl, cpython, algorithms, \textbf{clojure}, vorbis]  & [\textbf{python}, \textbf{ruby}, php, scala, emacs, \textbf{clojure}, javascript, haskell, emacs\_lisp, c, \textbf{rust}, \textbf{java}, perl, spring, c++, rails, docker, mode, \textbf{shell}, r, ansible, awesome, elm, react, django, grails, elixir] & 6/30 & 0.7749 \\
+                Good & [objective\_c, type, go, css, typescript, \textbf{dockerfile}, \textbf{java}, \textbf{scala}, \textbf{python}, \textbf{ruby}, \textbf{javascript}, \textbf{shell}, \textbf{php}, \textbf{haskell}, script, swift, \textbf{c++}, smarty, html, \textbf{django}, \textbf{clojure}, vim\_script]  & [\textbf{python}, \textbf{ruby}, \textbf{php}, \textbf{scala}, \textbf{clojure}, \textbf{javascript}, \textbf{haskell}, c, rust, \textbf{java}, perl, spring, \textbf{c++}, rails, \textbf{docker}, \textbf{shell}, r, ansible, awesome, elm, react, \textbf{django}] & 12/22 & 0.9138  \\
+                \hline
+            \end{tabular}}
+        \end{table}
+        
         Table~\ref{tab:SO_results1} shows the top-$3$ highest evaluation metric scores for each one of the 5 models from \emph{Experiment 1B} - Expertise Extraction from Stack Overflow Data. Same as before, the top-$3$ models are ranked based on the highest \emph{Cosine Similarity} scores, and the models are compared against a \emph{Baseline}.
         
         \begin{table}
@@ -112,21 +131,20 @@
             \thead{Top 3\\Results}& \diaghead{\theadfont DiagonalHead}{Metrics}{Model} &
             \thead{\textbf{TDistr}} & \thead{\textbf{LDA\_AVG}} & \thead{\textbf{LDA\_MAX}} & \thead{\textbf{W2V\_AVG}} & \thead{\textbf{W2V\_MAX}} & \thead{\textbf{Baseline}}\\
             \hline
-            \multirow{3}*{1} & Cosine Sim. & 0.6828 & 0.7377 & 0.7602 &  &  & 0.5962 \\
-                  & Jaccard Sim. & 0.0246 & 0.0218 & 0.0251 &  &  &  0.0286 \\
-                  & BLEU Score & 0.0277 & 0.0245 & 0.0279 &  &  &  0.0540 \\
+            \multirow{3}*{1} & Cosine Sim. & 0.6828 & 0.7377 & 0.7602 & 0.7761 &  & 0.5962 \\
+                  & Jaccard Sim. & 0.0246 & 0.0218 & 0.0251 & 0.0209 &  &  0.0286 \\
+                  & BLEU Score & 0.0277 & 0.0245 & 0.0279 & 0.0212 &  & 0.0540 \\
             \hline
-            \multirow{3}*{2} & Cosine Sim. & 0.6827 & 0.7364 & 0.7598 &  &  & 0.5962 \\
-                   & Jaccard Sim. & 0.0249 & 0.0256 & 0.0254 &  &  & 0.0286 \\
-                   & BLEU Score & 0.0281 & 0.0292 & 0.0288 &  &  &  0.0540 \\
+            \multirow{3}*{2} & Cosine Sim. & 0.6827 & 0.7364 & 0.7598 & 0.7750 &  & 0.5962 \\
+                   & Jaccard Sim. & 0.0249 & 0.0256 & 0.0254 & 0.0204 &  & 0.0286 \\
+                   & BLEU Score & 0.0281 & 0.0292 & 0.0288 & 0.0208 &  & 0.0540 \\
             \hline
-            \multirow{3}*{3} & Cosine Sim. & 0.6821 & 0.7362 & 0.7595 &  &  & 0.5962 \\
-                   & Jaccard Sim. & 0.0241 & 0.0244 & 0.0259 &  &  & 0.0286 \\
-                   & BLEU Score & 0.0271 & 0.0278 & 0.0295 &  &  &  0.0540 \\
+            \multirow{3}*{3} & Cosine Sim. & 0.6821 & 0.7362 & 0.7595 & 0.7748 &  & 0.5962 \\
+                   & Jaccard Sim. & 0.0241 & 0.0244 & 0.0259 & 0.0218 &  & 0.0286 \\
+                   & BLEU Score & 0.0271 & 0.0278 & 0.0295 & 0.0222 &  & 0.0540 \\
           \hline 
         \end{tabular}}
         \end{table}
-        
         
         \begin{table}
           \centering
@@ -138,35 +156,19 @@
             \thead{Top 3\\Results}& \diaghead{\theadfont DiagonalHead}{Metrics}{Model} &
             \thead{\textbf{TDistr}} & \thead{\textbf{LDA\_AVG}} & \thead{\textbf{LDA\_MAX}} & \thead{\textbf{W2V\_AVG}} & \thead{\textbf{W2V\_MAX}} & \thead{\textbf{Baseline}}\\
             \hline
-            \multirow{3}*{1} & Cosine Sim. & 0.5263 &  & 0.5837 &  &  & 0.3721 \\
-                  & Jaccard Sim. & 0.0099 &  & 0.0435 &  &  & 0.0104 \\
-                  & BLEU Score & 0.0117 &  & 0.0822 &  &  & 0.0199 \\
+            \multirow{3}*{1} & Cosine Sim. & 0.5263 &  & 0.5837 &  & 0.5117 & 0.3721 \\
+                  & Jaccard Sim. & 0.0099 &  & 0.0435 &  & 0.0102 & 0.0104 \\
+                  & BLEU Score & 0.0117 &  & 0.0822 &  & 0.0087 & 0.0199 \\
             \hline
-            \multirow{3}*{2} & Cosine Sim. & 0.5080 &  & 0.5717 &  &  & 0.3721 \\
-                  & Jaccard Sim. & 0.0223 &  & 0.0816 &  &  & 0.0104 \\
-                  & BLEU Score & 0.0267 &  & 0.1471 &  &  &  0.0199 \\
+            \multirow{3}*{2} & Cosine Sim. & 0.5080 &  & 0.5717 &  & 0.5087 & 0.3721 \\
+                  & Jaccard Sim. & 0.0223 &  & 0.0816 &  & 0.0120 & 0.0104 \\
+                  & BLEU Score & 0.0267 &  & 0.1471 &  & 0.0101 & 0.0199 \\
             \hline
-            \multirow{3}*{3} & Cosine Sim. & 0.5036 &  & 0.5697 &  &  & 0.3721 \\
-                  & Jaccard Sim. & 0.0111 &  & 0.0303 &  &  & 0.0104 \\
-                  & BLEU Score & 0.0136 &  & 0.0579 &  &  & 0.0199 \\
+            \multirow{3}*{3} & Cosine Sim. & 0.5036 &  & 0.5697 &  & 0.5086 & 0.3721 \\
+                  & Jaccard Sim. & 0.0111 &  & 0.0303 &  & 0.0106 & 0.0104 \\
+                  & BLEU Score & 0.0136 &  & 0.0579 &  & 0.0090 & 0.0199 \\
           \hline 
         \end{tabular}}
-        \end{table}
-        
-        \begin{table}
-          \centering
-          \caption{Examples} \label{tab:expertise_extractions}
-            \vspace{6pt} % Required to get proper spacing between caption and table
-             \resizebox{\textwidth}{!}{
-            \begin{tabular}{|p{2cm}|p{5cm}|p{5cm}|p{1cm}|p{1cm}|}
-                \hline
-                Example Type & Human Annotation & Model Extraction & Match & Cosine Sim.\\
-                \hline
-                Bad & X & Y & 1 & 0  \\
-                Mediocre & [tls, programming, oss\_fuzz, c, bcyrpt, go, security, ssl, \textbf{rust}, \textbf{java}, homebrew, urllib3, \textbf{python}, software\_engineering, objective\_c, \textbf{ruby}, azure, powershell, \textbf{shell}, infra, propery\_base\_testing, cryptography, networking, makefile, html, open\_ssl, cpython, algorithms, \textbf{clojure}, vorbis]  & [\textbf{python}, \textbf{ruby}, php, scala, emacs, \textbf{clojure}, javascript, haskell, emacs\_lisp, c, \textbf{rust}, \textbf{java}, perl, spring, c++, rails, docker, mode, \textbf{shell}, r, ansible, awesome, elm, react, django, grails, elixir] & 6/30 & 0.7749 \\
-                Good & [objective\_c, type, go, css, typescript, \textbf{dockerfile}, \textbf{java}, \textbf{scala}, \textbf{python}, \textbf{ruby}, \textbf{javascript}, \textbf{shell}, \textbf{php}, \textbf{haskell}, script, swift, \textbf{c++}, smarty, html, \textbf{django}, \textbf{clojure}, vim\_script]  & [\textbf{python}, \textbf{ruby}, \textbf{php}, \textbf{scala}, \textbf{clojure}, \textbf{javascript}, \textbf{haskell}, c, rust, \textbf{java}, perl, spring, \textbf{c++}, rails, \textbf{docker}, \textbf{shell}, r, ansible, awesome, elm, react, \textbf{django}] & 12/22 & 0.9138  \\
-                \hline
-                \end{tabular}}
         \end{table}
         
         \subsection{GitHub and Stack Overflow Topic Patterns}
@@ -271,18 +273,22 @@
           \label{fig:overlap_GH_SO_past}
         \end{figure}
         
-        Figure \ref{fig:overlap_GH_SO_past} confirms the findings above by considering the same five overlap levels as in Figure \ref{fig:overlap_GH_SO_recent}. When comparing the expertise terms in the GH-past - SO-past text corpora Figure \ref{fig:overlap_GH_SO_past} shows that 67\% of the population has no overlap, 20\% has slight overlap, 5\% has moderate overlap, 1\% has large overlap, and 7\% has a very large overlap.
+        Figure \ref{fig:overlap_GH_SO_past} confirms the findings above by considering the same five overlap levels as in Figure \ref{fig:overlap_GH_SO_recent}. When comparing the expertise terms in the GH-past - SO-past text corpora Figure \ref{fig:overlap_GH_SO_past} shows that 67\% of the population has no overlap, 20\% has slight overlap, 5\% has moderate overlap, 1\% has large overlap, and 7\% has a very large overlap. \\
         
-        \fbox{\begin{minipage}{\textwidth}
+        \fbox{\begin{minipage}{5.5in}
             Answer to RQ2: The comparison of GH-recent and SO-recent text corpora showed that 64\% of the population have no overlap, while the GH-past and SO-past comparison concluded that 67\% of the population have no overlap. These results suggest that the expertise developed by users on GitHub and Stack Overflow is mostly different.
         \end{minipage}}
     
     \section{Cross-platform Transferable Knowledge\label{sec:results_rq3}}
         % RQ3:  What knowledge is transferable from one platform to another?
         
+        This section is concerned with discovering what knowledge is transferable from one platform to another. This question is answered by qualitatively analyzing the \emph{Top-$30$} most frequent common expertise terms for each user between the two platforms. For the experiment set-up behind this analysis see Section \ref{RQ3_task}.
+        
+        Table \ref{tab:RQ3_past} displays the frequencies of common expertise terms in the pair of \{GH-past, SO-past\} text corpora, while Table \ref{tab:RQ3_recent} presents the same kind of common expertise terms in the pair of \{GH-recent, SO-recent\} text corpora.
+        
         \begin{table}
           \centering
-          \caption{Most common words in GH-past and SO-past data sets.}\label{tab:RQ3_past}
+          \caption{Most common words in GH-past and SO-past text corpora}\label{tab:RQ3_past}
             \vspace{6pt} % Required to get proper spacing between caption and table
           \begin{tabular}{|c c c | c c c|}
             \hline
@@ -307,10 +313,11 @@
           \end{tabular}
         \end{table}
         
+        In Table \ref{tab:RQ3_past} one can notice a general pattern of mostly web development related terms showing up in the \emph{Top-$30$} most frequent common expertise terms used in GH-past and SO-past text corpora. Examples of such terms include \emph{javascript, web, https, html, client, http, page, website}, and \emph{api}. Another noticeable trend is the source code and version control related keywords, such as \emph{library, code, project, tool, file, github, script, source, language, implementation, test, package, repository}, and \emph{method}. The first pattern could suggest that most common conversations in the GH-past and SO-past text corpora involve discussions about web development. The second pattern is intuitive, as both collaborative platforms contain source code and project related software artifacts, thus a possible knowledge transfer could occur by the cross-platform interaction of developers. 
         
         \begin{table}
           \centering
-          \caption{Most common words in GH-recent and SO-recent data sets.}\label{tab:RQ3_recent}
+          \caption{Most common words in GH-recent and SO-recent text corpora}\label{tab:RQ3_recent}
             \vspace{6pt} % Required to get proper spacing between caption and table
           \begin{tabular}{|c c c | c c c|}
             \hline
@@ -335,13 +342,19 @@
           \end{tabular}
         \end{table}
         
-        Co-occuring keywords: \textbf{test, simple, library, api, base, client, code, file, https, github, web} and \textbf{add}.
+        In Table \ref{tab:RQ3_recent} one can see the same general pattern of web development related terms dominated the \emph{Top-$30$} most frequent common expertise terms used in GH-recent and SO-recent text corpora, however there is one noticeable discrepancy. In the \emph{recent} text corpora (containing data between 2016 and 2019) the list of common expertise terms have shifted towards \emph{Ruby and Heroku} related terms. Examples of this pattern include keywords like \emph{ruby, rail, gem, heroku, buildpack, rb, activerecord}, and \emph{rspec}. The web development pattern is also present in Table \ref{tab:RQ3_recent} by terms such as \emph{app, api, client, application, https, ember}, and \emph{web}. Finally, there is also a smaller cluster of source code and version control related keywords, such as \emph{test, library, code, file, github}, and \emph{comment}. These patterns suggest that most common conversations in GH-recent and SO-recent text corpora involve discussions about web development, source code, version control, and there might have been a large trend in \emph{Ruby on Rails} discussions that the LDA model's topics detected more often than other programming language related discussions. 
         
-        \boxed{$Answer to RQ3:$}
+        The co-occuring keywords in both Table \ref{tab:RQ3_past} and \ref{tab:RQ3_recent} are \emph{test, simple, library, api, base, client, code, file, https, github, web}, and \emph{add}. These keywords could be subjectively labelled a combination of \emph{source code, GitHub and web development} related words. \\
+        
+        \fbox{\begin{minipage}{5.5in}
+            Answer to RQ3: Common expertise terms used in both GitHub and Stack Overflow text corpora suggest that \emph{source code, version control and web development} related skills are most transferable knowledge. 
+        \end{minipage}}
     
     \section{Expertise Evolution\label{sec:results_rq4}}
         % RQ4: How does developer expertise evolve on Stack Overflow and GitHub?
-                
+        
+        The \emph{Expertise Evolution Analysis} is concerned with comparing the evolution of expertise of same users on Stack Overflow and GitHub. This analysis should answer the research question about how developer expertise changes over time on the two collaborative platforms. In this analysis the change over time of GitHub and Stack Overflow text corpora are being analyzed. Two separate comparisons are considered: GH-past with GH-recent, and SO-past with SO-recent. For further details on the experiment set-up behind this analysis see Section \ref{RQ4_task}.
+        
         \begin{figure}
           % Requires 
           \centering
@@ -350,14 +363,9 @@
           \label{fig:GH_past_recent}
         \end{figure}
         
-        \begin{figure}
-          % Requires 
-          \centering
-          \includegraphics[width=\textwidth]{figures/SO_past-recent.jpeg}\\
-          \caption{Density Plot(A) and Histogram(B) of Stack Overflow past and recent data set comparison}
-          \label{fig:SO_past_recent}
-        \end{figure}
-        
+         Figure \ref{fig:GH_past_recent} and \ref{fig:change_GH_past_recent} show the results of comparing the past and recent activity of users on GitHub. For the rest of the analysis this will be referred to as the \emph{GH past-recent} comparison. We chose \emph{Jaccard Distance} as the distance metric for this analysis, as we are interested in measuring the difference, thus distance (or dissimilarity) between two sets of keywords for each user, coming from the \emph{GH-past} and \emph{GH-recent} text corpora. Figure \ref{fig:GH_past_recent} illustrates the distribution of the \emph{Jaccard Distance} scores obtained from the \emph{GH past-recent} comparison. Plot A shows a density plot, while Plot B is a  histogram of the \emph{Jaccard Similarity} scores. 
+         
+         The distribution from Figure \ref{fig:GH_past_recent} shows that the majority of the population has very large \emph{Jaccard Distance} scores, which means that there is significant difference between most user's \emph{GH-past} and \emph{GH-recent} data. However, it can be seen on the histogram that there is a spike at \emph{Jaccard Similarity} score of 0, meaning that there are some users who have the same expertise data in both \emph{GH-past} and \emph{GH-recent} text corpora. 
         
         \begin{figure}
           % Requires 
@@ -365,6 +373,16 @@
           \includegraphics[width=\textwidth]{figures/change_level_GH_past-recent.jpeg}\\
           \caption{Change levels between GitHub past and recent data sets}
           \label{fig:change_GH_past_recent}
+        \end{figure}
+        
+        The distribution seen in Figure \ref{fig:GH_past_recent} suggests a diverse, mixed population of users between high and low \emph{Jaccard Similarity} scores. Figure \ref{fig:change_GH_past_recent} should paint a more clear picture by creating five non-overlapping sub-intervals of \emph{Jaccard Distance} scores from the [0,1] range, classifying each sub-interval of values to a scale of \emph{No, Slight, Moderate, Large and Very Large Change}. The \emph{GH past-recent} comparison in Figure \ref{fig:change_GH_past_recent} clearly shows that 20\% of the population has no change, 4\% has slight change, 12\% has moderate change, 27\% has a large change, while 37\% has a very large change over time, thus concluding that most of the population has largely changed its expertise over time.
+        
+        \begin{figure}
+          % Requires 
+          \centering
+          \includegraphics[width=\textwidth]{figures/SO_past-recent.jpeg}\\
+          \caption{Density Plot(A) and Histogram(B) of Stack Overflow past and recent data set comparison}
+          \label{fig:SO_past_recent}
         \end{figure}
         
         \begin{figure}
@@ -375,4 +393,6 @@
           \label{fig:change_SO_past_recent}
         \end{figure}
         
-        \boxed{$Answer to RQ4:$}
+        \fbox{\begin{minipage}{5.5in}
+            Answer to RQ4: 
+        \end{minipage}}
