@@ -15,9 +15,7 @@
             \item Model 5: Expertise Extraction using Pre-trained Word2Vec based User and Topic Embeddings obtained by Max-pooling, labelled in tables as \textbf{W2V\_AVG} 
         \end{itemize}
         
-        The above listed 5 models are evaluated against a baseline (naive) model (see Section~\ref{subsec:random_model}), which is a frequency based random model. When
-12
- evaluating the extraction of expertise areas, two similar experiments were used. In the first experiment each model's performance is evaluated against the ground truth knowledge from section \ref{sec:expertise_survey} with the specification that a model has to output exactly as many expertise terms as the ground truth annotation contains. This case is referred to as \emph{Experiment 1}. In the second experiment each model is evaluated against the ground truth annotation, but there are no restrictions applied to the number of expertise terms to be returned by each model. In this scenario the models can be more robust, as they can return all the expertise terms found by the underlying algorithm, without needing to rank and return only the top-$n$ expertise terms. Throughout this chapter this more robust, less restrictive experiment setup will be referred to as \emph{Experiment 2}. Furthermore, each one of the above mentioned experiments has to variations: expertise extraction from i.) GitHub data (labelled \emph{Experiment} \textbf{A}) and ii.) Stack Overflow data (labelled \emph{Experiment} \textbf{B}). 
+        The above listed 5 models are evaluated against a baseline (naive) model (see Section~\ref{subsec:random_model}), which is a frequency based random model. When evaluating the extraction of expertise areas, two similar experiments were used. In the first experiment each model's performance is evaluated against the ground truth knowledge from section \ref{sec:expertise_survey} with the specification that a model has to output exactly as many expertise terms as the ground truth annotation contains. This case is referred to as \emph{Experiment 1}. In the second experiment each model is evaluated against the ground truth annotation, but there are no restrictions applied to the number of expertise terms to be returned by each model. In this scenario the models can be more robust, as they can return all the expertise terms found by the underlying algorithm, without needing to rank and return only the top-$n$ expertise terms. Throughout this chapter this more robust, less restrictive experiment setup will be referred to as \emph{Experiment 2}. Furthermore, each one of the above mentioned experiments has to variations: expertise extraction from i.) GitHub data (labelled \emph{Experiment} \textbf{A}) and ii.) Stack Overflow data (labelled \emph{Experiment} \textbf{B}). 
         
         Table~\ref{tab:GH_results1} shows the top-$3$ highest evaluation metric scores for each one of the 5 models from \emph{Experiment 1A} - Expertise Extraction from GitHub Data. The top-$3$ ranking is done based on the highest \emph{Cosine Similarity} scores. The 5 models are compared against a frequency based random model (referred to as \emph{Baseline}), whose evaluation metrics comes from averaging the results of 10,000 random samples.
         
@@ -114,20 +112,21 @@
             \thead{Top 3\\Results}& \diaghead{\theadfont DiagonalHead}{Metrics}{Model} &
             \thead{\textbf{TDistr}} & \thead{\textbf{LDA\_AVG}} & \thead{\textbf{LDA\_MAX}} & \thead{\textbf{W2V\_AVG}} & \thead{\textbf{W2V\_MAX}} & \thead{\textbf{Baseline}}\\
             \hline
-            \multirow{3}*{1} & Cosine Sim. &  &  &  &  &  & 0.5962 \\
-                  & Jaccard Sim. &  &  &  &  &  &  0.0286 \\
-                  & BLEU Score &  &  &  &  &  &  0.0540 \\
+            \multirow{3}*{1} & Cosine Sim. & 0.6828 & 0.7377 & 0.7602 &  &  & 0.5962 \\
+                  & Jaccard Sim. & 0.0246 & 0.0218 & 0.0251 &  &  &  0.0286 \\
+                  & BLEU Score & 0.0277 & 0.0245 & 0.0279 &  &  &  0.0540 \\
             \hline
-            \multirow{3}*{2} & Cosine Sim. &  &  &  &  &  & 0.5962 \\
-                   & Jaccard Sim. &  &  &  &  &  & 0.0286 \\
-                   & BLEU Score &  &  &  &  &  &  0.0540 \\
+            \multirow{3}*{2} & Cosine Sim. & 0.6827 & 0.7364 & 0.7598 &  &  & 0.5962 \\
+                   & Jaccard Sim. & 0.0249 & 0.0256 & 0.0254 &  &  & 0.0286 \\
+                   & BLEU Score & 0.0281 & 0.0292 & 0.0288 &  &  &  0.0540 \\
             \hline
-            \multirow{3}*{3} & Cosine Sim. &  &  &  &  &  &  0.5962 \\
-                   & Jaccard Sim. &  &  &  &  &  &  0.0286 \\
-                   & BLEU Score &  &  &  &  &  &  0.0540 \\
+            \multirow{3}*{3} & Cosine Sim. & 0.6821 & 0.7362 & 0.7595 &  &  & 0.5962 \\
+                   & Jaccard Sim. & 0.0241 & 0.0244 & 0.0259 &  &  & 0.0286 \\
+                   & BLEU Score & 0.0271 & 0.0278 & 0.0295 &  &  &  0.0540 \\
           \hline 
         \end{tabular}}
         \end{table}
+        
         
         \begin{table}
           \centering
@@ -139,17 +138,17 @@
             \thead{Top 3\\Results}& \diaghead{\theadfont DiagonalHead}{Metrics}{Model} &
             \thead{\textbf{TDistr}} & \thead{\textbf{LDA\_AVG}} & \thead{\textbf{LDA\_MAX}} & \thead{\textbf{W2V\_AVG}} & \thead{\textbf{W2V\_MAX}} & \thead{\textbf{Baseline}}\\
             \hline
-            \multirow{3}*{1} & Cosine Sim. &  &  &  &  &  & 0.3721 \\
-                  & Jaccard Sim. &  &  &  &  &  & 0.0104 \\
-                  & BLEU Score  &  &  &  &  &  & 0.0199 \\
+            \multirow{3}*{1} & Cosine Sim. & 0.5263 &  & 0.5837 &  &  & 0.3721 \\
+                  & Jaccard Sim. & 0.0099 &  & 0.0435 &  &  & 0.0104 \\
+                  & BLEU Score & 0.0117 &  & 0.0822 &  &  & 0.0199 \\
             \hline
-            \multirow{3}*{2} & Cosine Sim.  &  &  &  &  &  & 0.3721 \\
-                  & Jaccard Sim. &  &  &  &  &  & 0.0104 \\
-                  & BLEU Score &  &  &  &  &  &  0.0199 \\
+            \multirow{3}*{2} & Cosine Sim. & 0.5080 &  & 0.5717 &  &  & 0.3721 \\
+                  & Jaccard Sim. & 0.0223 &  & 0.0816 &  &  & 0.0104 \\
+                  & BLEU Score & 0.0267 &  & 0.1471 &  &  &  0.0199 \\
             \hline
-            \multirow{3}*{3} & Cosine Sim.  &  &  &  &  &  & 0.3721 \\
-                  & Jaccard Sim. &  &  &  &  &  & 0.0104 \\
-                  & BLEU Score &  &  &  &  &  & 0.0199 \\
+            \multirow{3}*{3} & Cosine Sim. & 0.5036 &  & 0.5697 &  &  & 0.3721 \\
+                  & Jaccard Sim. & 0.0111 &  & 0.0303 &  &  & 0.0104 \\
+                  & BLEU Score & 0.0136 &  & 0.0579 &  &  & 0.0199 \\
           \hline 
         \end{tabular}}
         \end{table}
@@ -171,6 +170,32 @@
         \end{table}
         
         \subsection{GitHub and Stack Overflow Topic Patterns}
+        
+            The best performing LDA model from Experiment \emph{1A} and \emph{1B} has been extracted, and its topics have been manually labelled based on the methodology outlined in Section \ref{topicLabeling}. For Experiment \emph{1A} a LDA model with 16 topics using the \textbf{W2V\_AVG} algorithm had the highest \emph{Cosine Similarity} score, while a LDA model with 33 topics paired with the \textbf{LDA\_MAX} algorithm performed the best for \emph{Experiment 1B}. Table \ref{tab:GH_LDA_labels} reveals the labelled topics of the LDA model trained on GitHub data for Experiment \emph{1A}, while Table \ref{tab:SO_LDA_labels} exposes the hidden patterns in Stack Overflow expertise terms using 33 labelled topics for Experiment \emph{1B}.
+     
+            \begin{table}
+              \centering
+              \caption{Labels given to topics of the best LDA model trained on GitHub}\label{tab:GH_LDA_labels}
+                \vspace{6pt} % Required to get proper spacing between caption and table
+                %\resizebox{\textwidth}{!} {
+              \begin{tabular}{|c c|c c|}
+                \hline
+                Topic & Given Name & Topic & Given Name \\
+                \hline
+                1 & Discarded Topic & 9 & Mobile App Development \\
+                2 & Web Development & 10 & Research \\
+                3 & Cloud Computing & 11 & Unix \\
+                4 & Front-end Web Development & 12 & Rust \\
+                5 & C/C++ & 13 & PHP \\
+                6 & Web Layout & 14 & Big Data \\
+                7 & Ruby & 15 & JVM \\
+                8 & Data Science & 16 & Emacs \\
+                \hline
+              \end{tabular}%}
+            \end{table}
+            
+            Table \ref{tab:GH_LDA_labels} paints a clear picture of what are the major trends of topics in GitHub expertise terms. Topic \#1 contains really general keywords as topic words, thus it was discarded. Topics \#2 to \#4, and \#6 are heavy in Web development related technologies, while topics \#5, \#7, \#12 and \# 13 are very specific to a programming language like, C/C++, Ruby, Rust or PHP. Furthermore, other topics include very specific fields within or related to software development, like \emph{Data Science, Mobile Application Development, Research} and \emph{Big Data}. Other loosely connected topics present in the data are \emph{Unix, JVM} and \emph{Emacs}. The impressiveness of these results is shown in topics mapping to a specific programming language or field of Computer Science, which makes this LDA model useful and interpretable for practitioners.  
+            
             \begin{table}
               \centering
               \caption{Labels given to topics of the best LDA model trained on Stack Overflow}\label{tab:SO_LDA_labels}
@@ -194,35 +219,20 @@
                 \hline
               \end{tabular}}
             \end{table}
-     
-            \begin{table}
-              \centering
-              \caption{Labels given to topics of the best LDA model trained on GitHub}\label{tab:GH_LDA_labels}
-                \vspace{6pt} % Required to get proper spacing between caption and table
-                %\resizebox{\textwidth}{!} {
-              \begin{tabular}{|c c|c c|}
-                \hline
-                Topic & Given Name & Topic & Given Name \\
-                \hline
-                1 & Discarded Topic & 9 & Mobile App Development \\
-                2 & Web Development & 10 & Research \\
-                3 & Cloud Computing & 11 & Unix \\
-                4 & Front-end Web Development & 12 & Rust \\
-                5 & C/C++ & 13 & PHP \\
-                6 & Web Layout & 14 & Big Data \\
-                7 & Ruby & 15 & JVM \\
-                8 & Data Science & 16 & Emacs \\
-                \hline
-              \end{tabular}%}
-            \end{table}
+            
+            Table \ref{tab:SO_LDA_labels} sheds a light on the major trends of topics in Stack Overflow expertise terms. The obvious difference between the topics of Stack Overflow and GitHub are that the former contains much more topics. Out of the 33 topics 31 of them map to recognizable entities or artifacts in software development, leaving only 2 topics being discarded due to containing too general terms. Topics \#3, \#4, \#7, \#9, \#20 and \#25 lead to Web Development related software artifacts, while topics \#5, \#10, \#12, \#18 and \#29 map to programming languages such as Python, Java, C/C++, Ruby and PHP. Much more specific areas of Computer Science, such as \emph{Data Management, Version Control, Algorithms, Data Types, Data Visualization, Databases, iOS Development, Parallel Programming, Android Development}, and \emph{Encryption} could also be found as topics within the LDA model's list of topics. Other topics loosely connected to software development include \emph{Distance Calculation, File Management}, and \emph{Data Searching}.
+            
+            There are numerous similarities and differences between the discovered topics outlined in Tables \ref{tab:GH_LDA_labels} and \ref{tab:SO_LDA_labels}. Both GitHub and Stack Overflow expertise areas include a few popular programming language related topics, and both seem to be dominated by web development related skills, technologies, platforms, frameworks or software artifacts. The difference between the two collaborative platform's expertise areas is that GitHub expertise areas tend to be few, and more general, while Stack Overflow expertise areas tend to be more specific and numerous.  \\
         
-            \fbox{\begin{minipage}{\textwidth}
-                Answer to RQ1: From the 3 novel techniques evaluated we found that  \textbf{W2V\_AVG} performs best for \emph{Experiment 1A}, \textbf{LDA\_MAX} performs best for \emph{Experiment 1B}, \textbf{??} performs best for \emph{Experiment 2A}, and \textbf{??} performs best for \emph{Experiment 2B}
+            \fbox{\begin{minipage}{5.5in}
+            Answer to RQ1: From the 3 novel techniques evaluated we found that  \textbf{W2V\_AVG} performs best for \emph{Experiment 1A}, \textbf{LDA\_MAX} performs best for \emph{Experiment 1B}, \textbf{??} performs best for \emph{Experiment 2A}, and \textbf{??} performs best for \emph{Experiment 2B}. 
             \end{minipage}}
     
     \section{Cross-platform Expertise\label{sec:results_rq2}}
         %RQ2: How similar are developer expertise profiles in two different collaborator platforms, Stack Overflow and GitHub?
-
+        
+        The \emph{Cross-platform Expertise Analysis} is concerned with comparing the expertise gained by users in two separate collaborative platforms, Stack Overflow and GitHub. This analysis should answer the research question about the similarity of developer expertise profiles in Stack Overflow and GitHub. In this analysis the similarity of four separate text corpora (GH-past, GH-recent, SO-past, SO-recent; see Section \ref{past_recent_full_segm}) are compared. For the experiment set-up behind this analysis see Section \ref{RQ2_task}.
+        
         \begin{figure}
           % Requires 
           \centering
@@ -231,14 +241,7 @@
           \label{fig:GH_SO_recent}
         \end{figure}
         
-        \begin{figure}
-          % Requires 
-          \centering
-          \includegraphics[width=\textwidth]{figures/GH_SO_past.jpeg}\\
-          \caption{Density Plot(A) and Histogram(B) of GH-past and SO-past data set comparison}
-          \label{fig:GH_SO_past}
-        \end{figure}
-        
+        Figure \ref{fig:GH_SO_recent} and \ref{fig:overlap_GH_SO_recent} show the results of comparing the most recent activity of users on GitHub and Stack Overflow. For the rest of the analysis this will be referred to as the \emph{GH-recent - SO-recent} comparison. We chose \emph{Jaccard Similarity} as the similarity metric for this analysis, as we are interested in measuring the similarity between two sets of keywords for each user, coming from the \emph{GH-recent} and \emph{SO-recent} text corpora. Figure \ref{fig:GH_SO_recent} illustrates the distribution of the \emph{Jaccard Similarity} scores obtained from the \emph{GH-recent - SO-recent} comparison. Plot A shows a density plot, while Plot B is a  histogram of the \emph{Jaccard Similarity} scores. The distribution from Figure \ref{fig:GH_SO_recent} shows that the majority of the population has very low \emph{Jaccard Similarity} scores, which means that there is very low similarity between most user's \emph{GH-recent} and \emph{SO-recent} data. The histogram paints the most clear picture by showing that the highest relative percentage of \emph{Jaccard Similarity} scores are \{0, 0.05, 0.10 and 1\}.
         
         \begin{figure}
           % Requires 
@@ -248,6 +251,18 @@
           \label{fig:overlap_GH_SO_recent}
         \end{figure}
         
+         Figure \ref{fig:overlap_GH_SO_recent} drives home this point by creating five non-overlapping sub-intervals of \emph{Jaccard Similarity} scores from the [0,1] range, classifying each sub-interval of values to a scale of \emph{No, Slight, Moderate, Large and Very Large Overlap}. When comparing the GH-recent - SO-recent text corpora Figure \ref{fig:overlap_GH_SO_recent} clearly shows that 64\% of the population has no overlap, 15\% has slight overlap, 4\% has moderate overlap, and 17\% has a very large overlap. 
+        
+        \begin{figure}
+          % Requires 
+          \centering
+          \includegraphics[width=\textwidth]{figures/GH_SO_past.jpeg}\\
+          \caption{Density Plot(A) and Histogram(B) of GH-past and SO-past data set comparison}
+          \label{fig:GH_SO_past}
+        \end{figure}
+        
+        Figure \ref{fig:GH_SO_past} and \ref{fig:overlap_GH_SO_past} show the results of comparing the past activity of users on GitHub and Stack Overflow. This will be referred to as the \emph{GH-past - SO-past} comparison. Same as above, \emph{Jaccard Similarity} is the similarity metric chosen to measure the similarity between two sets of keywords for each user, coming from the \emph{GH-past} and \emph{SO-past} text corpora. Figure \ref{fig:GH_SO_past} illustrates the distribution of the \emph{Jaccard Similarity} scores obtained from the \emph{GH-past - SO-past} comparison. Plot A shows a density plot, while Plot B is a  histogram of the \emph{Jaccard Similarity} scores. The distribution from Figure \ref{fig:GH_SO_past} is similar to the one from Figure \ref{fig:GH_SO_recent} and it shows that the majority of the population has very low \emph{Jaccard Similarity} scores. The density plot shows that most of the population has \emph{Jaccard Similarity} scores of \{0.05, 0.10, 0.15\}, while there are quite a few extreme scores of 0 and 1. This distribution suggests that there is very low similarity between most user's expertise terms found in the \emph{GH-past} and \emph{SO-past} corpora. 
+        
         \begin{figure}
           % Requires 
           \centering
@@ -256,7 +271,11 @@
           \label{fig:overlap_GH_SO_past}
         \end{figure}
         
-        \boxed{$Answer to RQ2:$}
+        Figure \ref{fig:overlap_GH_SO_past} confirms the findings above by considering the same five overlap levels as in Figure \ref{fig:overlap_GH_SO_recent}. When comparing the expertise terms in the GH-past - SO-past text corpora Figure \ref{fig:overlap_GH_SO_past} shows that 67\% of the population has no overlap, 20\% has slight overlap, 5\% has moderate overlap, 1\% has large overlap, and 7\% has a very large overlap.
+        
+        \fbox{\begin{minipage}{\textwidth}
+            Answer to RQ2: The comparison of GH-recent and SO-recent text corpora showed that 64\% of the population have no overlap, while the GH-past and SO-past comparison concluded that 67\% of the population have no overlap. These results suggest that the expertise developed by users on GitHub and Stack Overflow is mostly different.
+        \end{minipage}}
     
     \section{Cross-platform Transferable Knowledge\label{sec:results_rq3}}
         % RQ3:  What knowledge is transferable from one platform to another?
