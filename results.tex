@@ -146,6 +146,11 @@
         \end{tabular}}
         \end{table}
         
+        %16	[0.05 0.05 0.05 ]	0.012673993	0.014390791	0.7679698
+        %16	[0.01 0.01 0.01 ]	0.012214386	0.013788219	0.7671518
+        %16	[0.001 0.001 0.001]	0.011640888	0.013062798	0.7670858
+
+        
         \begin{table}
           \centering
           \caption{Results of Experiment 2B - Expertise Extraction from Stack Overflow Data} \label{tab:SO_results2}
@@ -171,7 +176,7 @@
         \end{tabular}}
         \end{table}
         
-        \subsection{GitHub and Stack Overflow Topic Patterns}
+        \subsection{GitHub and Stack Overflow Topic Patterns\label{topic_patterns}}
         
             The best performing LDA model from Experiment \emph{1A} and \emph{1B} has been extracted, and its topics have been manually labelled based on the methodology outlined in Section \ref{topicLabeling}. For Experiment \emph{1A} a LDA model with 16 topics using the \textbf{W2V\_AVG} algorithm had the highest \emph{Cosine Similarity} score, while a LDA model with 33 topics paired with the \textbf{LDA\_MAX} algorithm performed the best for \emph{Experiment 1B}. Table \ref{tab:GH_LDA_labels} reveals the labelled topics of the LDA model trained on GitHub data for Experiment \emph{1A}, while Table \ref{tab:SO_LDA_labels} exposes the hidden patterns in Stack Overflow expertise terms using 33 labelled topics for Experiment \emph{1B}.
      
@@ -227,7 +232,7 @@
             There are numerous similarities and differences between the discovered topics outlined in Tables \ref{tab:GH_LDA_labels} and \ref{tab:SO_LDA_labels}. Both GitHub and Stack Overflow expertise areas include a few popular programming language related topics, and both seem to be dominated by web development related skills, technologies, platforms, frameworks or software artifacts. The difference between the two collaborative platform's expertise areas is that GitHub expertise areas tend to be few, and more general, while Stack Overflow expertise areas tend to be more specific and numerous.  \\
         
             \fbox{\begin{minipage}{5.5in}
-            Answer to RQ1: From the 3 novel techniques evaluated we found that  \textbf{W2V\_AVG} performs best for \emph{Experiment 1A}, \textbf{LDA\_MAX} performs best for \emph{Experiment 1B}, \textbf{??} performs best for \emph{Experiment 2A}, and \textbf{??} performs best for \emph{Experiment 2B}. 
+            Answer to RQ1: From the 3 novel techniques evaluated we found that  \textbf{W2V\_AVG} performs best for \emph{Experiment 1A}, \textbf{LDA\_MAX} performs best for \emph{Experiment 1B}, \textbf{W2V\_AVG} performs best for both \emph{Experiment 2A} and \emph{Experiment 2B}. 
             \end{minipage}}
     
     \section{Cross-platform Expertise\label{sec:results_rq2}}
@@ -384,6 +389,8 @@
           \caption{Density Plot(A) and Histogram(B) of Stack Overflow past and recent data set comparison}
           \label{fig:SO_past_recent}
         \end{figure}
+        
+        Figure \ref{fig:SO_past_recent} and \ref{fig:change_SO_past_recent} show the results of comparing the past and recent activity of users on Stack Overflow. For the rest of the analysis this will be referred to as the \emph{SO past-recent} comparison. %% continue here
         
         \begin{figure}
           % Requires 
