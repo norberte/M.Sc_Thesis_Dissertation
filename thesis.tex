@@ -2,7 +2,7 @@
 %
 % Review cuthesis.sty for more documentation on available options
 % for this package.
-\usepackage{cuthesis}
+\usepackage[4committee]{cuthesis}
 \usepackage{makecell}
 \usepackage{multirow,multicol,booktabs}
 \usepackage{hyperref}       % hyperlinks
@@ -53,14 +53,14 @@
 %     2committee = supervisor + firstcommittee
 %     3committee = supervisor + firstcommittee + secondcommittee
 % Default setting is 1committee
-\supervisor{Olga Baysal, Supervisor}
-\firstcommittee{Majid Komeili}
-\secondcommittee{Diana Inkpen}
-\thirdcommittee{Ahmed El-Roby}
+\supervisor{Prof. Olga Baysal, Supervisor}
+\firstcommittee{Prof. Majid Komeili}
+\secondcommittee{Prof. Diana Inkpen}
+\thirdcommittee{Prof. Ahmed El-Roby}
 %\fourthcommittee{B. Donner}
 
 % Specify department chair
-% \departmentchair{B. Guy, Department Chair}
+\departmentchair{Prof. X, Department Chair} % TO DO: Ask Olga about this
 
 % This is the name of the .bib files that holds all of your references.
 % It can be a comma separated list if there is more than one file.
@@ -93,7 +93,6 @@
 \newchapter{results}
 \newchapter{discussion}
 \newchapter{conclusion}
-
 
 % Include any appendices.
 \newappendix{appendix}

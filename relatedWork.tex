@@ -13,7 +13,7 @@
         
         \Olga{may be add a para saying that SO has been a hot topic o of research in SE, add a ref to your RW section on it.}
     
-    \subsection{Topic Modeling}
+    \subsection{Topic Modeling\label{LDA_bestPractises}}
         
         Topic modeling is a technique used in the field of text mining to discover hidden patterns in a collection of textual documents. These hidden patterns are called \emph{topics} and they can be modeled using distributions. A \emph{topic} can be defined as a collection of co-occurring words that have been grouped together by a topic modeling algorithm.
         
@@ -106,7 +106,7 @@
         
         %% These topic assignments can be used to estimate the topic mixtures of each document (by counting the proportion of words assigned to each topic within that document) and the words associated to each topic (by counting the proportion of words assigned to each topic overall).
         
-        \subsubsection{Common Misuses and Pitfalls of LDA}
+        \subsubsection{Common Misuses and Pitfalls of LDA\label{LDA_pitfalls}}
             Agrawal et al. \cite{agrawal2018wrong} examined the most common and important mis-practises of LDA in software engineering and pointed out way of correctly using LDA models. The first major mistake that the authors emphasize is the use of unstable LDA models. It is crucial to only make conclusions based on a stable LDA. Model stability in this context means that LDA needs be trained for enough Gibbs Sampling iterations that the model converges. The authors suggest that in order to achieve a stable model LDA needs to be tuned. Parameter tuning in this context refers to carefully choosing LDA's parameters based on an evaluation metric of the modeler's choice. Topics extracted from an untuned LDA model can produce unstable model outputs. Agrawal et al. \cite{agrawal2018wrong} work's findings state that using arbitrary chosen or default parameters for LDA models trained on software engineering data will not necessarily result in stable models and can lead to systematic errors. This finding is corroborated by Treude and Wagner \cite{treude2019predicting}, who stated that general rules of thumb for LDA parameter configuration are not applicable to textual corpora coming from software engineering domain. In their findings, Agrawal et al. \cite{agrawal2018wrong} also mentions that it is not recommended to reuse an already tuned LDA model's parameters, as LDA parameter tuning is data set dependent. When performing parameter tuning, it is suggested to always re-tune the model, when training on new data.
             
             Campbell et al. \cite{campbell2015latent} writes about LDA's common pitfalls too. Topics coming out of an LDA model are independent topics generated from word distributions. The authors warn that due to that independence of topics correlated concepts or LDA topics will not  necessarily be translated into human ideas, or even concepts. The authors also note that comparing topics by associating document contents to topics could be difficult assuming the independence between topics.
@@ -332,8 +332,6 @@
         Similar to Yu et al. \cite{yu2016reviewer}'s work, Rahman et al. \cite{rahman2016correct} have proposed a novel code reviewer recommendation technique that takes into account the cross-project experience of a developer in specific technologies on top of looking into their previous projects on GitHub. Their approach goes even further and attempts to detect the developer's expertise as a candidate code reviewer by making associations between the developer's previous pull requests and their experience and skill levels in specific technologies. The authors have done extensive experiments using ten commercial projects and ten external libraries dependent on the commercial projects. The results of their experiments show that their technique's accuracy is between 85\% and 92\% in code reviewer recommendation, which beat the state-of-the-art technique at that time.
         
         % TO DO: Cross platform expert recommendation: Diverse social platforms enable the distinctive opportunity for understanding the user from multiple aspects. By combining cross platform user profiles and incorporating various user activity information, much research has been performed to find correlation, and based on this, to recommend experts.
-        
-        %Chen et al. [Chen and Xing (2016)] analyzed the searches in Google and Stack Overflow communities. They tried to find out correlations between the search keyword in Google, in fetching a Stack Overflow result.
         
         %Silvestri et al. [Silvestri, Yang, Bozzon et al. (2015)] conducted a comparative study to investigate the correlations between user interactions across Stack Overflow, GitHub and Twitter.
         

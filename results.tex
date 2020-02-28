@@ -8,174 +8,195 @@
         For the \emph{Expertise Extraction} task \emph{3 novel techniques} have been proposed: Topic Distribution based Expertise Extraction \emph{(Technique 1)}, Expertise Extraction using LDA based User and Topic Embeddings \emph{(Technique 2)}, and Expertise Extraction using Pre-trained Word2Vec based User and Topic Embeddings \emph{(Technique 3)}. Techniques 2 and 3 have two different variations each: the first one using \emph{Average-pooling}, while the second one using \emph{Max-pooling} technique for down-sampling. Including these two variations, a total of 5 models are considered:
         
         \begin{itemize}
-            \item Model 1: Topic Distribution based Expertise Extraction, labelled in tables as \textbf{TDistr}
+            \item Model 1: Topic Distribution based Expertise Extraction, labelled as \textbf{TDistr}
             \item Model 2: Expertise Extraction using LDA based User and Topic Embeddings obtained by Average-pooling, labelled in tables as \textbf{LDA\_AVG}
             \item Model 3: Expertise Extraction using LDA based User and Topic Embeddings obtained by Max-pooling, labelled in tables as \textbf{LDA\_MAX}
             \item Model 4: Expertise Extraction using Pre-trained Word2Vec based User and Topic Embeddings obtained by Average-pooling, labelled in tables as \textbf{W2V\_AVG} 
             \item Model 5: Expertise Extraction using Pre-trained Word2Vec based User and Topic Embeddings obtained by Max-pooling, labelled in tables as \textbf{W2V\_AVG} 
         \end{itemize}
         
-        The above listed 5 models are evaluated against a baseline (naive) model (see Section~\ref{subsec:random_model}), which is a frequency based random model. When evaluating the extraction of expertise areas, two similar experiments were used. In the first experiment each model's performance is evaluated against the ground truth knowledge from section \ref{sec:expertise_survey} with the specification that a model has to output exactly as many expertise terms as the ground truth annotation contains. This case is referred to as \emph{Experiment 1}. In the second experiment each model is evaluated against the ground truth annotation, but there are no restrictions applied to the number of expertise terms to be returned by each model. In this scenario the models can be more robust, as they can return all the expertise terms found by the underlying algorithm, without needing to rank and return only the top-$n$ expertise terms. Throughout this chapter this more robust, less restrictive experiment setup will be referred to as \emph{Experiment 2}. Furthermore, each one of the above mentioned experiments has to variations: expertise extraction from i.) GitHub data (labelled \emph{Experiment} \textbf{A}) and ii.) Stack Overflow data (labelled \emph{Experiment} \textbf{B}). 
+        The above listed 5 models are evaluated against a baseline (naive) model (see Section~\ref{subsec:random_model}), which is a frequency based random model. When evaluating the extraction of expertise areas, two similar experiments were used. In the first experiment each model's performance is evaluated against the ground truth knowledge from section \ref{sec:expertise_survey} with the specification that a model has to output exactly as many expertise terms as the ground truth annotation contains. This case is referred to as \emph{Experiment 1}. In the second experiment each model is evaluated against the ground truth annotation, but there are no restrictions applied to the number of expertise terms to be returned by each model. In this scenario the models can be more robust, as they can return all the expertise terms found by the underlying algorithm, without needing to rank and return only the top-$n$ expertise terms. Throughout this chapter this more robust, less restrictive experiment setup will be referred to as \emph{Experiment 2}. Furthermore, each one of the above mentioned experiments has to variations: expertise extraction from i.) GitHub data (labelled \emph{Experiment} \textbf{A}) and ii.) Stack Overflow data (labelled \emph{Experiment} \textbf{B}).
         
-        Table~\ref{tab:GH_results1} shows the top-$3$ highest evaluation metric scores for each one of the 5 models from \emph{Experiment 1A} - Expertise Extraction from GitHub Data. The top-$3$ ranking is done based on the highest \emph{Cosine Similarity} scores. The 5 models are compared against a frequency based random model (referred to as \emph{Baseline}), whose evaluation metrics comes from averaging the results of 10,000 random samples.
+        \subsection{Experiment 1}
         
-        \begin{table}
-          \centering
-          \caption{Results of Experiment 1A - Expertise Extraction from GitHub Data}\label{tab:GH_results1}
-            \vspace{6pt} % Required to get proper spacing between caption and table
-            \resizebox{\textwidth}{!}{
-          \begin{tabular}{|c|c|c|c|c|c|c|c|}
-            \hline
-            \thead{Top 3\\Results}& \diaghead{\theadfont DiagonalHead}{Metrics}{Model} &
-            \thead{\textbf{TDistr}} & \thead{\textbf{LDA\_AVG}} & \thead{\textbf{LDA\_MAX}} & \thead{\textbf{W2V\_AVG}} & \thead{\textbf{W2V\_MAX}} & \thead{\textbf{Baseline}}\\
-            \hline
-            \multirow{3}*{1} & Cosine Sim. & 0.6690 & 0.7187 & 0.7357 & \textbf{0.7998} & 0.7317 & 0.5962 \\
-                  & Jaccard Sim. & 0.0658 & 0.0751 & 0.1040 & 0.0765 & 0.1049 & 0.0286 \\
-                  & BLEU Score & 0.1197 & 0.1340 & 0.1767 & 0.1368 & 0.1782 & 0.0540 \\
-            \hline
-            \multirow{3}*{2} & Cosine Sim. & 0.6689 & 0.7183 & 0.7351 & 0.7959 & 0.7316 & 0.5962 \\
-                   & Jaccard Sim. & 0.0658 & 0.0750 & 0.1037 & 0.0818 & 0.1049 & 0.0286 \\
-                   & BLEU Score & 0.1197 & 0.1338 & 0.1762 & 0.1452 & 0.1782 & 0.0540 \\
-            \hline
-            \multirow{3}*{3} & Cosine Sim. & 0.6683 & 0.7183 & 0.7351 & 0.7959 & 0.7316 & 0.5962 \\
-                   & Jaccard Sim. & 0.0652 & 0.0750 & 0.1037 & 0.0818 & 0.1049 & 0.0286 \\
-                   & BLEU Score & 0.1186 & 0.1338 & 0.1762 & 0.1452 & 0.1782 & 0.0540 \\
-          \hline 
-        \end{tabular}}
-        \end{table}
-        
-        The results from Table~\ref{tab:GH_results1} indicate very clearly that each model's top-$3$ highest evaluation scores out-perform the baseline model's each one of the three metrics. \textbf{W2V\_AVG}, which is named Expertise Extraction using Pre-trained Word2Vec based User and Topic Embeddings obtained by Average-pooling achieves the highest \emph{Cosine Similarity} score (\textbf{0.7998}), thus it can be considered the superior technique on the GitHub data set. The baseline \emph{Cosine Similarity} score of the baseline, random model is \textbf{0.5962}. \emph{Jaccard Similarity} and \emph{BLEU Score} are also reported, but \emph{Cosine Similarity} is considered the primary evaluation metric when comparing different techniques' performance, due to the reasons explained in Section~\ref{sec:eval_expertise_prediction}. \textbf{TDistr} is performing the worst, having its best \emph{Cosine Similarity} score of \textbf{0.6690}, and that is expected, since it is a topic probability distribution based technique, and does not use User and Topic Embeddings. \textbf{LDA\_MAX} and \textbf{W2V\_MAX} are performing very similarly, both plateauing around a \emph{Cosine Similarity} score of \textbf{0.73}. \textbf{LDA\_AVG} performs a little worse than  \textbf{LDA\_MAX} and \textbf{W2V\_MAX} by having the maximum \emph{Cosine Similarity} score of \textbf{0.7187}. It is difficult to understand how accurate these techniques are only based on \emph{Cosine Similarity} scores obtained from calculating the semantic similarity between the bag of words of human annotations and model extraction. To illustrate different levels of semantic similarity of \emph{Cosine Similarity} scores Table~\ref{tab:cos_sim} contains examples of word-pairs and their respective \emph{Cosine Similarity} scores. These \emph{Cosine Similarity} scores were obtained using the same pre-trained Word2Vec model\cite{efstathiou2018word} used in Section \ref{word2vec_model}. 
-        
-         \begin{table}
+            Table~\ref{tab:GH_results1} shows the top-$3$ highest evaluation metric scores for each one of the 5 models from \emph{Experiment 1A} - Expertise Extraction from GitHub Data. The top-$3$ ranking is done based on the highest \emph{Cosine Similarity} scores. The 5 models are compared against a frequency based random model (referred to as \emph{Baseline}), whose evaluation metrics comes from averaging the results of 10,000 random samples.
+            
+            \begin{table}
               \centering
-              \caption{Example of Cosine Similarity Scores between Word-Pairs} \label{tab:cos_sim}
+              \caption{Results of Experiment 1A - Expertise Extraction from GitHub Data}\label{tab:GH_results1}
                 \vspace{6pt} % Required to get proper spacing between caption and table
                 \resizebox{\textwidth}{!}{
-              \begin{tabular}{|c c c|c c c|}
+              \begin{tabular}{|c|c|c|c|c|c|c|c|}
                 \hline
-                Word 1 & Word 2 & Cosine Similarity & Word 1 & Word 2 & Cosine Similarity \\
+                \thead{Top 3\\Results}& \diaghead{\theadfont DiagonalHead}{Metrics}{Model} &
+                \thead{\textbf{TDistr}} & \thead{\textbf{LDA\_AVG}} & \thead{\textbf{LDA\_MAX}} & \thead{\textbf{W2V\_AVG}} & \thead{\textbf{W2V\_MAX}} & \thead{\textbf{Baseline}}\\
                 \hline
-                php & python & 0.2529 & html & javascript & 0.6024 \\
-                java & python & 0.3929 & ajax & jquery & 0.6315 \\
-                analysis & visualization & 0.4524 & sklearn & tensorflow & 0.6858 \\ 
-                nodejs & reactjs & 0.4909 & bagging & randomforest & 0.7251 \\
-                java & jdk& 0.5517 & mysql & postgresql & 0.7997 \\
-                xml & json & 0.5866 & keras & tensorflow & 0.8391 \\
+                \multirow{3}*{1} & Cosine Sim. & 0.6690 & 0.7187 & 0.7357 & \textbf{0.7998} & 0.7317 & 0.5962 \\
+                      & Jaccard Sim. & 0.0658 & 0.0751 & 0.1040 & 0.0765 & 0.1049 & 0.0286 \\
+                      & BLEU Score & 0.1197 & 0.1340 & 0.1767 & 0.1368 & 0.1782 & 0.0540 \\
                 \hline
-              \end{tabular}}
-        \end{table}
-            
-        Based on the sample \emph{Cosine Similarity} scores from Table~\ref{tab:cos_sim} one can say that \textbf{W2V\_AVG}'s best model extracts expertise terms with similar semantic similarity level to the contextual similarity between the 'mysql' and 'postgresql' word-pair. Likewise, \textbf{LDA\_AVG}, \textbf{LDA\_MAX} and \textbf{W2V\_MAX} extract expertise terms with similar semantic similarity level to 'randomforest' and 'bagging' word-pair, while \textbf{TDistr}'s best \emph{Cosine Similarity} score classifies its semantic similarity level just below 'tensorflow' and 'sklearn' word-pair's. One could argue that the above mentioned semantic similarity levels correspond to contextually similar software engineering related word associations, thus illustrating that Table~\ref{tab:GH_results1}'s results lead to high levels of semantic similarity between the bags of words of human annotations and expertise terms extracted by the models. Unfortunately as far as we are aware the same kind of representation of similarity levels can not be easily created for \emph{Jaccard Similarities} and \emph{BLEU Scores}. \emph{Jaccard Similarity} is a measure of set similarity, and it highly depends not only on the magnitude of set intersection, but set union as well. \emph{BLEU Score} values range between 0 and 1, and the inventors of \emph{BLEU Score} report that in their study a professional human translator was able to achieve a score of \emph{0.3468} calculated against four reference annotations and \emph{0.2571} against two references annotations\cite{papineni2002bleu}.
-        
-        Table~\ref{tab:GH_params1} present in the Appendix \ref{appendix:model_params} contains all major parameters used to fit the models outlined in Table~\ref{tab:GH_results1}. The models were fitted using a hyper-parameter optimization process described in Section~\ref{sec:hyper-parameter_selection} and their parameters come from the parameter search space defined in the above mentioned Section. Table~\ref{tab:GH_params1} suggests a general pattern of the GitHub data containing a relatively small number of topics: 10 in \textbf{LDA\_AVG}, 11 being the most popular in \textbf{TDistr}, \textbf{LDA\_MAX} \& \textbf{W2V\_MAX}, and 16 in the superior \textbf{W2V\_AVG}. The parameter $\beta$ highly varies between 0.001, 0.005, 0.01 and 0.05, but in most cases $\beta=0.005$.
-        
-        % Continue here with examples of model extraction comparisons
-        Table \ref{tab:expertise_extractions} ...
-        
-        \begin{table}
-          \centering
-          \caption{Sample Annotation and Model Extraction Comparison from Experiment \emph{1A}} \label{tab:expertise_extractions}
-            \vspace{6pt} % Required to get proper spacing between caption and table
-             \resizebox{\textwidth}{!}{
-            \begin{tabular}{|p{2cm}|p{5cm}|p{5cm}|p{1cm}|p{1cm}|}
+                \multirow{3}*{2} & Cosine Sim. & 0.6689 & 0.7183 & 0.7351 & 0.7959 & 0.7316 & 0.5962 \\
+                       & Jaccard Sim. & 0.0658 & 0.0750 & 0.1037 & 0.0818 & 0.1049 & 0.0286 \\
+                       & BLEU Score & 0.1197 & 0.1338 & 0.1762 & 0.1452 & 0.1782 & 0.0540 \\
                 \hline
-                Example Type & Human Annotation & Model Extraction & Match & Cosine Sim.\\
-                \hline
-                Bad & [ui, linux, images, books, perl, c, data\_process, proxy, blogs, python, go, shell, c\#, javascript, web, maintaining, creating, java, css, html, dockerfile, image\_process, software, libraries, docker, ruby, tex, c++, groovy, writing, \textbf{development}, makefile, agile] & [php, wordpress, laravel, bundle, symfony, drupal, wp, framework, plugin, magento, composer, doctrine, symfony2, api, extension, redmine, simple, phpunit, library, cms, module, zend, p, form, admin, standards, integration, skeleton, silex, documentation, guzzle, custom, \textbf{development}] & 1/33 & 0.5361 \\ 
-                Mediocre & [tls, programming, oss\_fuzz, c, bcyrpt, go, security, ssl, \textbf{rust}, \textbf{java}, homebrew, urllib3, \textbf{python}, software\_engineering, objective\_c, \textbf{ruby}, azure, powershell, \textbf{shell}, infra, propery\_base\_testing, cryptography, networking, makefile, html, open\_ssl, cpython, algorithms, \textbf{clojure}, vorbis]  & [\textbf{python}, \textbf{ruby}, php, scala, emacs, \textbf{clojure}, javascript, haskell, emacs\_lisp, c, \textbf{rust}, \textbf{java}, perl, spring, c++, rails, docker, mode, \textbf{shell}, r, ansible, awesome, elm, react, django, grails, elixir] & 6/30 & 0.7749 \\
-                Good & [objective\_c, type, go, css, typescript, \textbf{dockerfile}, \textbf{java}, \textbf{scala}, \textbf{python}, \textbf{ruby}, \textbf{javascript}, \textbf{shell}, \textbf{php}, \textbf{haskell}, script, swift, \textbf{c++}, smarty, html, \textbf{django}, \textbf{clojure}, vim\_script]  & [\textbf{python}, \textbf{ruby}, \textbf{php}, \textbf{scala}, \textbf{clojure}, \textbf{javascript}, \textbf{haskell}, c, rust, \textbf{java}, perl, spring, \textbf{c++}, rails, \textbf{docker}, \textbf{shell}, r, ansible, awesome, elm, react, \textbf{django}] & 12/22 & 0.9138  \\
-                \hline
+                \multirow{3}*{3} & Cosine Sim. & 0.6683 & 0.7183 & 0.7351 & 0.7959 & 0.7316 & 0.5962 \\
+                       & Jaccard Sim. & 0.0652 & 0.0750 & 0.1037 & 0.0818 & 0.1049 & 0.0286 \\
+                       & BLEU Score & 0.1186 & 0.1338 & 0.1762 & 0.1452 & 0.1782 & 0.0540 \\
+              \hline 
             \end{tabular}}
-        \end{table}
+            \end{table}
+            
+            The results from Table~\ref{tab:GH_results1} indicate very clearly that each model's top-$3$ highest evaluation scores out-perform the baseline model's each one of the three metrics. \textbf{W2V\_AVG}, which is named \emph{Expertise Extraction using Pre-trained Word2Vec based User and Topic Embeddings obtained by Average-pooling} achieves the highest \emph{Cosine Similarity} score (\textbf{0.7998}). The baseline \emph{Cosine Similarity} score of the random model is \textbf{0.5962}. \emph{Jaccard Similarity} and \emph{BLEU Score} are also reported, but \emph{Cosine Similarity} is considered the primary evaluation metric when comparing different techniques' performance, due to the reasons explained in Section~\ref{sec:eval_expertise_prediction}. \textbf{TDistr} is performing the worst, having its best \emph{Cosine Similarity} score of \textbf{0.6690}, and that is expected, since it is a topic probability distribution based technique, and does not use user and topic embeddings. \textbf{LDA\_MAX} and \textbf{W2V\_MAX} are performing very similarly, both plateauing around a \emph{Cosine Similarity} score of \textbf{0.73}. \textbf{LDA\_AVG} performs a little worse than  \textbf{LDA\_MAX} and \textbf{W2V\_MAX} by having the maximum \emph{Cosine Similarity} score of \textbf{0.7187}. 
+            
+            It is difficult to understand how accurate these techniques are only based on \emph{Cosine Similarity} scores obtained from calculating the semantic similarity between the bag of words of human annotations and model extraction. To illustrate different levels of semantic similarity of \emph{Cosine Similarity} scores Table~\ref{tab:cos_sim} contains examples of word-pairs and their respective \emph{Cosine Similarity} scores. These \emph{Cosine Similarity} scores were obtained using the same pre-trained Word2Vec model\cite{efstathiou2018word} used in Section \ref{word2vec_model}. 
+            
+            \begin{table}
+                  \centering
+                  \caption{Example of Cosine Similarity Scores between Word-Pairs} \label{tab:cos_sim}
+                  \vspace{6pt} % Required to get proper spacing between caption and table
+                  \resizebox{\textwidth}{!}{
+                  \begin{tabular}{|c c c|c c c|}
+                    \hline
+                    Word 1 & Word 2 & Cosine Similarity & Word 1 & Word 2 & Cosine Similarity \\
+                    \hline
+                    php & python & 0.2529 & html & javascript & 0.6024 \\
+                    java & python & 0.3929 & ajax & jquery & 0.6315 \\
+                    analysis & visualization & 0.4524 & sklearn & tensorflow & 0.6858 \\ 
+                    nodejs & reactjs & 0.4909 & bagging & randomforest & 0.7251 \\
+                    java & jdk& 0.5517 & mysql & postgresql & 0.7997 \\
+                    xml & json & 0.5866 & keras & tensorflow & 0.8391 \\
+                    \hline
+                  \end{tabular}}
+            \end{table}
+            
+            Based on the sample \emph{Cosine Similarity} scores from Table~\ref{tab:cos_sim} one can say that \textbf{W2V\_AVG}'s best model extracts expertise terms with similar semantic similarity level to the contextual similarity between the `mysql' and `postgresql' word-pair. Likewise, \textbf{LDA\_AVG}, \textbf{LDA\_MAX} and \textbf{W2V\_MAX} extract expertise terms with similar semantic similarity level to `randomforest' and `bagging' word-pair, while \textbf{TDistr}'s best \emph{Cosine Similarity} score classifies its semantic similarity level just below `tensorflow' and `sklearn' word-pair's. One could argue that the above mentioned semantic similarity levels correspond to contextually similar software engineering related word associations, thus illustrating that Table~\ref{tab:GH_results1}'s results lead to high levels of semantic similarity between the bags of words of human annotations and expertise terms extracted by the models.
+            
+            Unfortunately as far as we are aware the same kind of representation of similarity levels can not be easily created for \emph{Jaccard Similarities} and \emph{BLEU Scores}. \emph{Jaccard Similarity} is a measure of set similarity, and it highly depends not only on the magnitude of set intersection, but set union as well. \emph{BLEU Score} values range between 0 and 1, and the inventors of \emph{BLEU Score} report that in their study a professional human translator was able to achieve a score of \emph{0.3468} calculated against four reference annotations and \emph{0.2571} against two references annotations\cite{papineni2002bleu}.
         
-        Table~\ref{tab:SO_results1} shows the top-$3$ highest evaluation metric scores for each one of the 5 models from \emph{Experiment 1B} - Expertise Extraction from Stack Overflow Data. Same as before, the top-$3$ models are ranked based on the highest \emph{Cosine Similarity} scores, and the models are compared against a \emph{Baseline}.
+            Table~\ref{tab:GH_params1} found in Appendix \ref{appendix:model_params} contains all major parameters used to fit the models outlined in Table~\ref{tab:GH_results1}. The models were fitted using a hyper-parameter optimization process described in Section~\ref{sec:hyper-parameter_selection} and their parameters come from the parameter search space defined in the above mentioned Section. Table~\ref{tab:GH_params1} suggests a general pattern of the GitHub data containing a relatively small number of topics: 10 in \textbf{LDA\_AVG}, 11 being the most popular in \textbf{TDistr}, \textbf{LDA\_MAX} \& \textbf{W2V\_MAX}, and 16 in the superior \textbf{W2V\_AVG}. The parameter $\beta$ highly varies between 0.001, 0.005, 0.01 and 0.05, but in most cases $\beta=0.005$.
+            
+            Table \ref{tab:expertise_extractions} offers \emph{good, very good and bad} examples of actual expertise words extracted by our models during Experiment \emph{1A}, compared with the ground truth human annotations. The expertise words showing up in both human annotation and model extraction have been \textbf{bolded}. Alongside the expertise words the number of word matches, and the cosine similarity between the two bags of words are also included in Table \ref{tab:expertise_extractions}. This type of expertise terms comparison should prove that Experiment \emph{1A}'s results lead to high levels of semantic similarity between the bags of words of human annotations and expertise terms extracted by the models.
         
-        \begin{table}
-          \centering
-          \caption{Results of Experiment 1B - Expertise Extraction from Stack Overflow Data} \label{tab:SO_results1}
-            \vspace{6pt} % Required to get proper spacing between caption and table
-            \resizebox{\textwidth}{!}{
-          \begin{tabular}{|c|c|c|c|c|c|c|c|}
-            \hline
-            \thead{Top 3\\Results}& \diaghead{\theadfont DiagonalHead}{Metrics}{Model} &
-            \thead{\textbf{TDistr}} & \thead{\textbf{LDA\_AVG}} & \thead{\textbf{LDA\_MAX}} & \thead{\textbf{W2V\_AVG}} & \thead{\textbf{W2V\_MAX}} & \thead{\textbf{Baseline}}\\
-            \hline
-            \multirow{3}*{1} & Cosine Sim. & 0.5044 & 0.5582 & \textbf{0.5837} & 0.5607 & 0.5820 & 0.3721 \\
-                  & Jaccard Sim. & 0.0160 & 0.0406 & 0.0435 & 0.0320 & 0.0556 & 0.0104 \\
-                  & BLEU Score & 0.0313 & 0.0770 & 0.0823 & 0.0612 & 0.1041 & 0.0199 \\
-            \hline
-            \multirow{3}*{2} & Cosine Sim. & 0.4997 & 0.5560 & 0.5717 & 0.5574 & 0.5746 & 0.3721 \\
-                  & Jaccard Sim. & 0.0295 & 0.0747 & 0.0814 & 0.0404 & 0.0784 & 0.0104 \\
-                  & BLEU Score & 0.0560 & 0.1366 & 0.1471 & 0.0768 & 0.1424 & 0.0199 \\
-            \hline
-            \multirow{3}*{3} & Cosine Sim. & 0.4755 & 0.5409 & 0.5676 & 0.5537 & 0.5736 & 0.3721 \\
-                  & Jaccard Sim. & 0.0127 & 0.0754 & 0.0821 & 0.0718 & 0.0305 & 0.0104 \\
-                  & BLEU Score & 0.0247 & 0.1366 & 0.1478 & 0.1312 & 0.0584 & 0.0199 \\
-          \hline 
-        \end{tabular}}
-        \end{table}
+            \begin{table}
+              \centering
+              \caption{Sample Annotation and Model Extraction Comparison from Experiment \emph{1A}} \label{tab:expertise_extractions}
+                \vspace{6pt} % Required to get proper spacing between caption and table
+                 \resizebox{\textwidth}{!}{
+                \begin{tabular}{|p{2cm}|p{5cm}|p{5cm}|p{1cm}|p{1cm}|}
+                    \hline
+                    Type of Example & Human Annotation & Model Extraction & Match & Cosine Sim.\\
+                    \hline
+                    Bad & [ui, linux, images, books, perl, c, data\_process, proxy, blogs, python, go, shell, c\#, javascript, web, maintaining, creating, java, css, html, dockerfile, image\_process, software, libraries, docker, ruby, tex, c++, groovy, writing, \textbf{development}, makefile, agile] & [php, wordpress, laravel, bundle, symfony, drupal, wp, framework, plugin, magento, composer, doctrine, symfony2, api, extension, redmine, simple, phpunit, library, cms, module, zend, p, form, admin, standards, integration, skeleton, silex, documentation, guzzle, custom, \textbf{development}] & 1/33 & 0.5361 \\ 
+                    Good & [tls, programming, oss\_fuzz, c, bcyrpt, go, security, ssl, \textbf{rust}, \textbf{java}, homebrew, urllib3, \textbf{python}, software\_engineering, objective\_c, \textbf{ruby}, azure, powershell, \textbf{shell}, infra, propery\_base\_testing, cryptography, networking, makefile, html, open\_ssl, cpython, algorithms, \textbf{clojure}, vorbis]  & [\textbf{python}, \textbf{ruby}, php, scala, emacs, \textbf{clojure}, javascript, haskell, emacs\_lisp, c, \textbf{rust}, \textbf{java}, perl, spring, c++, rails, docker, mode, \textbf{shell}, r, ansible, awesome, elm, react, django, grails, elixir] & 6/30 & 0.7749 \\
+                    Very Good & [objective\_c, type, go, css, typescript, \textbf{dockerfile}, \textbf{java}, \textbf{scala}, \textbf{python}, \textbf{ruby}, \textbf{javascript}, \textbf{shell}, \textbf{php}, \textbf{haskell}, script, swift, \textbf{c++}, smarty, html, \textbf{django}, \textbf{clojure}, vim\_script]  & [\textbf{python}, \textbf{ruby}, \textbf{php}, \textbf{scala}, \textbf{clojure}, \textbf{javascript}, \textbf{haskell}, c, rust, \textbf{java}, perl, spring, \textbf{c++}, rails, \textbf{docker}, \textbf{shell}, r, ansible, awesome, elm, react, \textbf{django}] & 12/22 & 0.9138  \\
+                    \hline
+                \end{tabular}}
+            \end{table}
+            
+            Table~\ref{tab:SO_results1} shows the top-$3$ highest evaluation metric scores for each one of the 5 models from \emph{Experiment 1B} - Expertise Extraction from Stack Overflow Data. Same as before, the top-$3$ models are ranked based on the highest \emph{Cosine Similarity} scores, and the models are compared against a \emph{Baseline}.
+            
+            \begin{table}
+              \centering
+              \caption{Results of Experiment 1B - Expertise Extraction from Stack Overflow Data} \label{tab:SO_results1}
+                \vspace{6pt} % Required to get proper spacing between caption and table
+                \resizebox{\textwidth}{!}{
+              \begin{tabular}{|c|c|c|c|c|c|c|c|}
+                \hline
+                \thead{Top 3\\Results}& \diaghead{\theadfont DiagonalHead}{Metrics}{Model} &
+                \thead{\textbf{TDistr}} & \thead{\textbf{LDA\_AVG}} & \thead{\textbf{LDA\_MAX}} & \thead{\textbf{W2V\_AVG}} & \thead{\textbf{W2V\_MAX}} & \thead{\textbf{Baseline}}\\
+                \hline
+                \multirow{3}*{1} & Cosine Sim. & 0.5044 & 0.5582 & \textbf{0.5837} & 0.5607 & 0.5820 & 0.3721 \\
+                      & Jaccard Sim. & 0.0160 & 0.0406 & 0.0435 & 0.0320 & 0.0556 & 0.0104 \\
+                      & BLEU Score & 0.0313 & 0.0770 & 0.0823 & 0.0612 & 0.1041 & 0.0199 \\
+                \hline
+                \multirow{3}*{2} & Cosine Sim. & 0.4997 & 0.5560 & 0.5717 & 0.5574 & 0.5746 & 0.3721 \\
+                      & Jaccard Sim. & 0.0295 & 0.0747 & 0.0814 & 0.0404 & 0.0784 & 0.0104 \\
+                      & BLEU Score & 0.0560 & 0.1366 & 0.1471 & 0.0768 & 0.1424 & 0.0199 \\
+                \hline
+                \multirow{3}*{3} & Cosine Sim. & 0.4755 & 0.5409 & 0.5676 & 0.5537 & 0.5736 & 0.3721 \\
+                      & Jaccard Sim. & 0.0127 & 0.0754 & 0.0821 & 0.0718 & 0.0305 & 0.0104 \\
+                      & BLEU Score & 0.0247 & 0.1366 & 0.1478 & 0.1312 & 0.0584 & 0.0199 \\
+              \hline 
+            \end{tabular}}
+            \end{table}
+            
+            The results from Table~\ref{tab:SO_results1} show that each model's top-$3$ highest evaluation scores out-perform the baseline model on each one of the three metrics. \textbf{LDA\_MAX}, which is named Expertise Extraction using LDA based User and Topic Embeddings obtained by Max-pooling achieves the highest \emph{Cosine Similarity} score (\textbf{0.5837}) thus it can be considered the superior technique on the Stack Overflow data set. The baseline \emph{Cosine Similarity} score of the random model is \textbf{0.3721}, which is much lower than all other model's \emph{Cosine Similarity} scores. \textbf{TDistr} is performing the worst, having its best \emph{Cosine Similarity} score of \textbf{0.5044}. \textbf{LDA\_AVG} and \textbf{W2V\_AVG} are performing very similarly, both plateauing close to a \emph{Cosine Similarity} score of \textbf{0.56}. \textbf{W2V\_MAX} is a very close second by having a maximum \emph{Cosine Similarity} score of \textbf{0.5820}, and barely being outperformed by the superior \textbf{LDA\_MAX}.
+            
+            The results of Table~\ref{tab:SO_results1} clearly show a trend of \textbf{LDA\_MAX} and \textbf{W2V\_MAX} outperforming \textbf{LDA\_AVG} and \textbf{W2V\_AVG}. This means that performing down-sampling using Max-pooling, instead of Average-pooling seems to work better on the Stack Overflow data set, which was not necessarily the case in Experiment 1A conducted on the GitHub data set.
+            
+            Sample \emph{Cosine Similarity} scores from Table~\ref{tab:cos_sim} can help associate semantic similarity levels to the results presented in Table~\ref{tab:SO_results1}. Based on Table~\ref{tab:cos_sim} one can say that  \textbf{LDA\_MAX} and \textbf{W2V\_MAX}'s best models extract expertise terms with similar semantic similarity level to the contextual similarity between the `xml' and `json' word-pair. Likewise, \textbf{LDA\_AVG} and \textbf{W2V\_AVG} extract expertise terms with similar semantic similarity level to `java' and `jdk' word-pair, while \textbf{TDistr}'s best \emph{Cosine Similarity} score classifies its semantic similarity level just above `nodejs' and `reactjs' word-pair's. The above mentioned word-pairs correspond to contextually similar software engineering related word associations with similar semantic similarity levels to the model performances in Table~\ref{tab:SO_results1}, thus one could argue that Table~\ref{tab:SO_results1}'s results lead to high levels of semantic similarity between the bags of words of human annotations and expertise terms extracted by the models.
+            
+            Table~\ref{tab:SO_params1} found in Appendix \ref{appendix:model_params} contains all major parameters used to fit the models outlined in Table~\ref{tab:SO_results1}. Table~\ref{tab:SO_params1} suggests a general pattern of the Stack Overflow data containing a relatively large number of topics: \{40,29,45\} in  \textbf{TDistr}, and \textbf{LDA\_AVG} and \textbf{LDA\_MAX} have 33 \& 27 number of topics in common, while \textbf{W2V\_AVG} and \textbf{W2V\_MAX} have 48 \& 31 number of topics in common. The most common number of topics out of the best performing models is 27. The parameter $\beta$ highly varies between 0.01, 0.1, 0.5 and 1, but in most cases $\beta=1$.
         
-        The results from Table~\ref{tab:SO_results1} show that each model's top-$3$ highest evaluation scores out-perform the baseline model on each one of the three metrics. \textbf{LDA\_MAX}, which is named Expertise Extraction using LDA based User and Topic Embeddings obtained by Max-pooling achieves the highest \emph{Cosine Similarity} score (\textbf{0.5837}) thus it can be considered the superior technique on the Stack Overflow data set. The baseline \emph{Cosine Similarity} score of the baseline, random model is \textbf{0.3721}, which is much lower than all other model's \emph{Cosine Similarity} scores. \textbf{TDistr} is performing the worst, having its best \emph{Cosine Similarity} score of \textbf{0.5044}. \textbf{LDA\_AVG} and \textbf{W2V\_AVG} are performing very similarly, both plateauing close to a \emph{Cosine Similarity} score of \textbf{0.56}. \textbf{W2V\_MAX} is a very close second by having a maximum \emph{Cosine Similarity} score of \textbf{0.5820}, and barely being outperformed by the superior \textbf{LDA\_MAX}. The results of Table~\ref{tab:SO_results1} clearly show a trend of \textbf{LDA\_MAX} and \textbf{W2V\_MAX} outperforming \textbf{LDA\_AVG} and \textbf{W2V\_AVG}. This means that performing down-sampling using Max-pooling, instead of Average-pooling seems to work better on the Stack Overflow data set, which was not necessarily the case in Experiment 1A conducted on the GitHub data set.
-        
-        Sample \emph{Cosine Similarity} scores from Table~\ref{tab:cos_sim} can help associate semantic similarity levels to the results presented in Table~\ref{tab:SO_results1}. Based on Table~\ref{tab:cos_sim} one can say that  \textbf{LDA\_MAX} and \textbf{W2V\_MAX}'s best models extract expertise terms with similar semantic similarity level to the contextual similarity between the 'xml' and 'json' word-pair. Likewise, \textbf{LDA\_AVG} and \textbf{W2V\_AVG} extract expertise terms with similar semantic similarity level to 'java' and 'jdk' word-pair, while \textbf{TDistr}'s best \emph{Cosine Similarity} score classifies its semantic similarity level just above 'nodejs' and 'reactjs' word-pair's. The above mentioned word-pairs correspond to contextually similar software engineering related word associations with similar semantic similarity levels to the model performances in Table~\ref{tab:SO_results1}, thus one could argue that Table~\ref{tab:SO_results1}'s results lead to high levels of semantic similarity between the bags of words of human annotations and expertise terms extracted by the models.
-        
-        Table~\ref{tab:SO_params1} present in the Appendix \ref{appendix:model_params} contains all major parameters used to fit the models outlined in Table~\ref{tab:SO_results1}. Table~\ref{tab:SO_params1} suggests a general pattern of the GitHub data containing a relatively large number of topics: \{40,29,45\} in  \textbf{TDistr}, and \textbf{LDA\_AVG} and \textbf{LDA\_MAX} have 33 \& 27 number of topics in common, while \textbf{W2V\_AVG} and \textbf{W2V\_MAX} have 48 \& 31 number of topics in common. The most common number of topics out of the best performing models is 27. The parameter $\beta$ highly varies between 0.01, 0.1, 0.5 and 1, but in most cases $\beta=1$.
-        
-        \begin{table}
-          \centering
-          \caption{Results of Experiment 2A - Expertise Extraction from GitHub Data}\label{tab:GH_results2}
-            \vspace{6pt} % Required to get proper spacing between caption and table
-            \resizebox{\textwidth}{!}{
-          \begin{tabular}{|c|c|c|c|c|c|c|c|}
-            \hline
-            \thead{Top 3\\Results}& \diaghead{\theadfont DiagonalHead}{Metrics}{Model} &
-            \thead{\textbf{TDistr}} & \thead{\textbf{LDA\_AVG}} & \thead{\textbf{LDA\_MAX}} & \thead{\textbf{W2V\_AVG}} & \thead{\textbf{W2V\_MAX}} & \thead{\textbf{Baseline}}\\
-            \hline
-            \multirow{3}*{1} & Cosine Sim. & 0.6828 & 0.7377 & 0.7602 & 0.7761 &  & 0.5962 \\
-                  & Jaccard Sim. & 0.0246 & 0.0218 & 0.0251 & 0.0209 &  &  0.0286 \\
-                  & BLEU Score & 0.0277 & 0.0245 & 0.0279 & 0.0212 &  & 0.0540 \\
-            \hline
-            \multirow{3}*{2} & Cosine Sim. & 0.6827 & 0.7364 & 0.7598 & 0.7750 &  & 0.5962 \\
-                   & Jaccard Sim. & 0.0249 & 0.0256 & 0.0254 & 0.0204 &  & 0.0286 \\
-                   & BLEU Score & 0.0281 & 0.0292 & 0.0288 & 0.0208 &  & 0.0540 \\
-            \hline
-            \multirow{3}*{3} & Cosine Sim. & 0.6821 & 0.7362 & 0.7595 & 0.7748 &  & 0.5962 \\
-                   & Jaccard Sim. & 0.0241 & 0.0244 & 0.0259 & 0.0218 &  & 0.0286 \\
-                   & BLEU Score & 0.0271 & 0.0278 & 0.0295 & 0.0222 &  & 0.0540 \\
-          \hline 
-        \end{tabular}}
-        \end{table}
-        
-        %16	[0.05 0.05 0.05 ]	0.012673993	0.014390791	0.7679698
-        %16	[0.01 0.01 0.01 ]	0.012214386	0.013788219	0.7671518
-        %16	[0.001 0.001 0.001]	0.011640888	0.013062798	0.7670858
-
-        
-        \begin{table}
-          \centering
-          \caption{Results of Experiment 2B - Expertise Extraction from Stack Overflow Data} \label{tab:SO_results2}
-            \vspace{6pt} % Required to get proper spacing between caption and table
-            \resizebox{\textwidth}{!}{
-          \begin{tabular}{|c|c|c|c|c|c|c|c|}
-            \hline
-            \thead{Top 3\\Results}& \diaghead{\theadfont DiagonalHead}{Metrics}{Model} &
-            \thead{\textbf{TDistr}} & \thead{\textbf{LDA\_AVG}} & \thead{\textbf{LDA\_MAX}} & \thead{\textbf{W2V\_AVG}} & \thead{\textbf{W2V\_MAX}} & \thead{\textbf{Baseline}}\\
-            \hline
-            \multirow{3}*{1} & Cosine Sim. & 0.5263 &  & 0.5837 &  & 0.5117 & 0.3721 \\
-                  & Jaccard Sim. & 0.0099 &  & 0.0435 &  & 0.0102 & 0.0104 \\
-                  & BLEU Score & 0.0117 &  & 0.0822 &  & 0.0087 & 0.0199 \\
-            \hline
-            \multirow{3}*{2} & Cosine Sim. & 0.5080 &  & 0.5717 &  & 0.5087 & 0.3721 \\
-                  & Jaccard Sim. & 0.0223 &  & 0.0816 &  & 0.0120 & 0.0104 \\
-                  & BLEU Score & 0.0267 &  & 0.1471 &  & 0.0101 & 0.0199 \\
-            \hline
-            \multirow{3}*{3} & Cosine Sim. & 0.5036 &  & 0.5697 &  & 0.5086 & 0.3721 \\
-                  & Jaccard Sim. & 0.0111 &  & 0.0303 &  & 0.0106 & 0.0104 \\
-                  & BLEU Score & 0.0136 &  & 0.0579 &  & 0.0090 & 0.0199 \\
-          \hline 
-        \end{tabular}}
-        \end{table}
-        
+        \subsection{Experiment 2}
+            The results of Experiment \emph{2A} and \emph{2B} can be seen in Tables \ref{tab:GH_results2} and \ref{tab:SO_results2}. Note that Experiment \emph{2A} and \emph{2B} have no restrictions applied to the number of expertise terms returned by each model, thus the model will return as many expertise terms as it can find. This stipulation will significantly disadvantage the performance of \emph{Jaccard Similarity} and \emph{BLEU Score} (since the ratios change), but theoretically it could increase the \emph{Cosine Similarity} scores. 
+            
+            \begin{table}
+              \centering
+              \caption{Results of Experiment 2A - Expertise Extraction from GitHub Data}\label{tab:GH_results2}
+                \vspace{6pt} % Required to get proper spacing between caption and table
+                \resizebox{\textwidth}{!}{
+              \begin{tabular}{|c|c|c|c|c|c|c|c|}
+                \hline
+                \thead{Top 3\\Results}& \diaghead{\theadfont DiagonalHead}{Metrics}{Model} &
+                \thead{\textbf{TDistr}} & \thead{\textbf{LDA\_AVG}} & \thead{\textbf{LDA\_MAX}} & \thead{\textbf{W2V\_AVG}} & \thead{\textbf{W2V\_MAX}} & \thead{\textbf{Baseline}}\\
+                \hline
+                \multirow{3}*{1} & Cosine Sim. & 0.6828 & 0.7377 & 0.7602 & \textbf{0.7761} & 0.7680 & 0.5962 \\
+                      & Jaccard Sim. & 0.0246 & 0.0218 & 0.0251 & 0.0209 & 0.0144 & 0.0286 \\
+                      & BLEU Score & 0.0277 & 0.0245 & 0.0279 & 0.0212 & 0.0127 & 0.0540 \\
+                \hline
+                \multirow{3}*{2} & Cosine Sim. & 0.6827 & 0.7364 & 0.7598 & 0.7750 & 0.7672 & 0.5962 \\
+                       & Jaccard Sim. & 0.0249 & 0.0256 & 0.0254 & 0.0204 & 0.0138 & 0.0286 \\
+                       & BLEU Score & 0.0281 & 0.0292 & 0.0288 & 0.0208 & 0.0122 & 0.0540 \\
+                \hline
+                \multirow{3}*{3} & Cosine Sim. & 0.6821 & 0.7362 & 0.7595 & 0.7748 & 0.7671 & 0.5962 \\
+                       & Jaccard Sim. & 0.0241 & 0.0244 & 0.0259 & 0.0218 & 0.0131 & 0.0286 \\
+                       & BLEU Score & 0.0271 & 0.0278 & 0.0295 & 0.0222 & 0.0116 & 0.0540 \\
+              \hline 
+            \end{tabular}}
+            \end{table}
+            
+            Experiment \emph{2A}'s results from Table~\ref{tab:GH_results2} show that each model's top-$3$ highest \emph{Cosine Similarity} scores out-perform the baseline model's score. Unfortunately that is not the case with \emph{Jaccard Similarity} and \emph{BLEU Score}, as these two metrics have decreased, even below the baseline model's performance. Oddly, this makes sense, as both of these metrics are ratios, which get affected by having no restrictions applied to the number of expertise terms returned by each model. For example, \emph{Jaccard Similarity} is calculated by dividing the cardinality of set intersection with the cardinality of set union. Having applied no restrictions to the number of expertise term returned by the model, the set union increases drastically, and as a consequence \emph{Jaccard Similarity} scores have decreased. Same as for Experiment 1, when comparing different techniques' performance \emph{Cosine Similarity} is considered the primary evaluation metric, due to the reasons explained in Section~\ref{sec:eval_expertise_prediction}.
+            
+            Interpreting the results from Table~\ref{tab:GH_results2} one can see that \textbf{W2V\_AVG}, which is named Expertise Extraction using Pre-trained Word2Vec based User and Topic Embeddings obtained by Average-pooling achieves the highest \emph{Cosine Similarity} score (\textbf{0.7761}), thus it can be considered the superior technique on the GitHub data set, as this was the case in Experiment \emph{1A} as well. The baseline \emph{Cosine Similarity} score of the random model is \textbf{0.5962}. \textbf{TDistr} is the worst performing model, but it improved its best \emph{Cosine Similarity} score from \textbf{0.6690} on Experiment \emph{1A} to \textbf{0.6828} on Experiment \emph{2A}. This model having a low performance is no surprise, since \textbf{TDistr} is a topic probability distribution based model which does not use user and topic embeddings. \textbf{LDA\_MAX} and \textbf{W2V\_MAX} are performing very similarly, both plateauing around a \emph{Cosine Similarity} score of \textbf{0.76}, which is higher than the score of \textbf{0.73} achieved by both models in Experiment \emph{1A}. \textbf{LDA\_AVG} performs a little worse than \textbf{LDA\_MAX} and \textbf{W2V\_MAX} by having a maximum \emph{Cosine Similarity} score of \textbf{0.7377}, which is still an improvement from \textbf{0.7187} in Experiment \emph{1A}.
+            
+            Based on the examples of semantic similarity levels from Table~\ref{tab:cos_sim} one can say that \textbf{W2V\_AVG}'s best model extracts expertise words very close to the semantic similarity level between `mysql' and `postgresql' word-pair. In addition, \textbf{LDA\_AVG} extract expertise words with similar semantic similarity level to `randomforest' and `bagging'. Furthermore, \textbf{TDistr}'s best \emph{Cosine Similarity} score from Experiment \emph{2A} classifies its semantic similarity level similar to the word-pair of `tensorflow' and `sklearn'. These semantic similarity levels correspond to contextually similar software engineering related word associations, which strongly suggest that Table~\ref{tab:GH_results2}'s results lead to high levels of semantic similarity between the bags of words of human annotations and expertise terms extracted by the models.
+             
+            Table~\ref{tab:GH_params2} found in Appendix \ref{appendix:model_params} contains all major parameters used in the hyper-parameter optimization when fitting the models outlined in Table~\ref{tab:GH_results2}. The best models suggest a general pattern of the GitHub data containing a relatively small number of topics: 11 in \textbf{TDistr}, 16 being the most popular in \textbf{LDA\_MAX}, \textbf{W2V\_AVG} \& \textbf{W2V\_MAX}, while a surprising 21 in \textbf{LDA\_AVG}. The parameter $\beta$ highly varies between 0.001, 0.005, 0.01 and 0.05, but in most cases it is either $\beta=0.001$ or $\beta=0.005$.
+            
+            \begin{table}
+              \centering
+              \caption{Results of Experiment 2B - Expertise Extraction from Stack Overflow Data} \label{tab:SO_results2}
+                \vspace{6pt} % Required to get proper spacing between caption and table
+                \resizebox{\textwidth}{!}{
+              \begin{tabular}{|c|c|c|c|c|c|c|c|}
+                \hline
+                \thead{Top 3\\Results}& \diaghead{\theadfont DiagonalHead}{Metrics}{Model} &
+                \thead{\textbf{TDistr}} & \thead{\textbf{LDA\_AVG}} & \thead{\textbf{LDA\_MAX}} & \thead{\textbf{W2V\_AVG}} & \thead{\textbf{W2V\_MAX}} & \thead{\textbf{Baseline}}\\
+                \hline
+                \multirow{3}*{1} & Cosine Sim. & 0.5263 & 0.5361 & 0.5837 & \textbf{0.5902} & 0.5117 & 0.3721 \\
+                      & Jaccard Sim. & 0.0099 & 0.0230 & 0.0435 & 0.0295 & 0.0102 & 0.0104 \\
+                      & BLEU Score & 0.0117 & 0.0231 & 0.0822 & 0.0363 & 0.0087 & 0.0199 \\
+                \hline
+                \multirow{3}*{2} & Cosine Sim. & 0.5080 & 0.5304 & 0.5717 & 0.5821 & 0.5087 & 0.3721 \\
+                      & Jaccard Sim. & 0.0223 & 0.0175 & 0.0816 & 0.0196 & 0.0120 & 0.0104 \\
+                      & BLEU Score & 0.0267 & 0.0196 & 0.1471 & 0.0222 & 0.0101 & 0.0199 \\
+                \hline
+                \multirow{3}*{3} & Cosine Sim. & 0.5036 & 0.5266 & 0.5697 & 0.5698 & 0.5086 & 0.3721 \\
+                      & Jaccard Sim. & 0.0111 & 0.0149 & 0.0303 & 0.0180 & 0.0106 & 0.0104 \\
+                      & BLEU Score & 0.0136 & 0.0169 & 0.0579 & 0.0180 & 0.0090 & 0.0199 \\
+              \hline 
+            \end{tabular}}
+            \end{table}
+            
+            Experiment \emph{2B}'s results from Table~\ref{tab:SO_results2} show that each model's top-$3$ highest \emph{Cosine Similarity} scores out-perform the baseline model's score. Unfortunately this can not be said about \emph{Jaccard Similarity} and \emph{BLEU Score}, as these two metrics have decreased, even below the baseline model's performance. \textbf{W2V\_AVG}, which is named \emph{Expertise Extraction using Pre-trained Word2Vec based User and Topic Embeddings obtained by Average-pooling} achieves the highest \emph{Cosine Similarity} score (\textbf{0.5902}), slightly out-performing the best score (\textbf{0.5837}) from Experiment \emph{1B}. The baseline \emph{Cosine Similarity} score of the random model is \textbf{0.3721}, thus \textbf{W2V\_AVG} out-performs the baseline by over 0.20, which is a large difference. Interestingly, for the first time \textbf{W2V\_MAX} has the worst performance, obtaining a maximum \emph{Cosine Similarity} score of \textbf{0.5117}, which is much lower than its previous performance of \textbf{0.5820} in Experiment \emph{1B}. \textbf{LDA\_AVG} and \textbf{TDistr} are performing very similarly, both plateauing between \emph{Cosine Similarity} scores of \textbf{0.52} and \textbf{0.54}. \textbf{LDA\_MAX} is a very close second by having a maximum \emph{Cosine Similarity} score of \textbf{0.5837}, and barely being outperformed by the superior \textbf{W2V\_AVG}.
+            
+            Sample \emph{Cosine Similarity} scores from Table~\ref{tab:cos_sim} help associate semantic similarity levels to the results presented in Table~\ref{tab:SO_results2}. Based on Table~\ref{tab:cos_sim} one can say that \textbf{W2V\_AVG} and \textbf{LDA\_MAX}'s best models extract expertise terms with similar semantic similarity level to the contextual similarity between the `xml' and `json' word-pair. Likewise, \textbf{LDA\_AVG} extracts expertise terms close to the similar semantic similarity level of `java' and `jdk'. Furthermore, \textbf{W2V\_MAX}'s best \emph{Cosine Similarity} score from Experiment \emph{2B} classifies its semantic similarity level similar to the word-pair of `nodejs' and `reactjs'. The above mentioned word-pairs correspond to contextually similar software engineering related word associations, thus one could argue that Table~\ref{tab:SO_results2}'s results lead to acceptable semantic similarity levels between the bags of words of human annotations and expertise terms extracted by the models.
+            
+            Table~\ref{tab:SO_params2} found in Appendix \ref{appendix:model_params} contains all major parameters used to fit the models outlined in Table~\ref{tab:SO_results2}. Table~\ref{tab:SO_params2} suggests a general pattern of the Stack Overflow data containing a relatively large and versatile number of topics: 40 topics in \textbf{TDistr}'s best model, 13 topics in \textbf{LDA\_AVG}'s, while 33 topics in \textbf{LDA\_MAX}'s best model. \textbf{W2V\_AVG}'s model was fitted with 14 topics, and lastly  \textbf{W2V\_MAX} had 30 number of topics. The parameter $\beta$ highly varies between 0.001, 0.005, 0.01, 0.1, 0.5 and 1, but in most cases $\beta=0.1$.
+            
+            Overall, the results of Table~\ref{tab:SO_results2} show both improvements and declines in performance compared to Experiment \emph{1B} conducted on the same Stack Overflow data set. Interestingly, if one compares Experiments \emph{1A} and \emph{2A}, one could notice mostly improvements in performance, but the same can not be said about Experiments \emph{1B} and \emph{2B}, which have mixed performance differentials. 
+            
         \subsection{GitHub and Stack Overflow Topic Patterns\label{topic_patterns}}
         
             The best performing LDA model from Experiment \emph{1A} and \emph{1B} has been extracted, and its topics have been manually labelled based on the methodology outlined in Section \ref{topicLabeling}. For Experiment \emph{1A} a LDA model with 16 topics using the \textbf{W2V\_AVG} algorithm had the highest \emph{Cosine Similarity} score, while a LDA model with 33 topics paired with the \textbf{LDA\_MAX} algorithm performed the best for \emph{Experiment 1B}. Table \ref{tab:GH_LDA_labels} reveals the labelled topics of the LDA model trained on GitHub data for Experiment \emph{1A}, while Table \ref{tab:SO_LDA_labels} exposes the hidden patterns in Stack Overflow expertise terms using 33 labelled topics for Experiment \emph{1B}.
@@ -368,9 +389,9 @@
           \label{fig:GH_past_recent}
         \end{figure}
         
-         Figure \ref{fig:GH_past_recent} and \ref{fig:change_GH_past_recent} show the results of comparing the past and recent activity of users on GitHub. For the rest of the analysis this will be referred to as the \emph{GH past-recent} comparison. We chose \emph{Jaccard Distance} as the distance metric for this analysis, as we are interested in measuring the difference, thus distance (or dissimilarity) between two sets of keywords for each user, coming from the \emph{GH-past} and \emph{GH-recent} text corpora. Figure \ref{fig:GH_past_recent} illustrates the distribution of the \emph{Jaccard Distance} scores obtained from the \emph{GH past-recent} comparison. Plot A shows a density plot, while Plot B is a  histogram of the \emph{Jaccard Similarity} scores. 
-         
-         The distribution from Figure \ref{fig:GH_past_recent} shows that the majority of the population has very large \emph{Jaccard Distance} scores, which means that there is significant difference between most user's \emph{GH-past} and \emph{GH-recent} data. However, it can be seen on the histogram that there is a spike at \emph{Jaccard Similarity} score of 0, meaning that there are some users who have the same expertise data in both \emph{GH-past} and \emph{GH-recent} text corpora. 
+        Figure \ref{fig:GH_past_recent} and \ref{fig:change_GH_past_recent} show the results of comparing the past and recent activity of users on GitHub. For the rest of the analysis this will be referred to as the \emph{GH past-recent} comparison. We chose \emph{Jaccard Distance} as the distance metric for this analysis, as we are interested in measuring the difference, thus distance (or dissimilarity) between two sets of keywords for each user, coming from the \emph{GH-past} and \emph{GH-recent} text corpora. 
+        
+        Figure \ref{fig:GH_past_recent} illustrates the distribution of the \emph{Jaccard Distance} scores obtained from the \emph{GH past-recent} comparison. Plot A shows a density plot, while Plot B is a histogram of the \emph{Jaccard Distance} scores. The distribution from Figure \ref{fig:GH_past_recent} shows that the majority of the population has very large \emph{Jaccard Distance} scores, which means that there is significant difference between most user's \emph{GH-past} and \emph{GH-recent} data. However, it can be seen on the histogram that there is a spike at \emph{Jaccard Distance} score of 0, meaning that there are some users who have the same expertise data in both \emph{GH-past} and \emph{GH-recent} text corpora. 
         
         \begin{figure}
           % Requires 
@@ -380,7 +401,7 @@
           \label{fig:change_GH_past_recent}
         \end{figure}
         
-        The distribution seen in Figure \ref{fig:GH_past_recent} suggests a diverse, mixed population of users between high and low \emph{Jaccard Similarity} scores. Figure \ref{fig:change_GH_past_recent} should paint a more clear picture by creating five non-overlapping sub-intervals of \emph{Jaccard Distance} scores from the [0,1] range, classifying each sub-interval of values to a scale of \emph{No, Slight, Moderate, Large and Very Large Change}. The \emph{GH past-recent} comparison in Figure \ref{fig:change_GH_past_recent} clearly shows that 20\% of the population has no change, 4\% has slight change, 12\% has moderate change, 27\% has a large change, while 37\% has a very large change over time, thus concluding that most of the population has largely changed its expertise over time.
+        The distribution seen in Figure \ref{fig:GH_past_recent} suggests a diverse, mixed population of users between high and low \emph{Jaccard Distance} scores. Figure \ref{fig:change_GH_past_recent} should paint a more clear picture by creating five non-overlapping sub-intervals of \emph{Jaccard Distance} scores from the [0,1] range, classifying each sub-interval of values to a scale of \emph{No, Slight, Moderate, Large and Very Large Change}. The \emph{GH past-recent} comparison in Figure \ref{fig:change_GH_past_recent} shows that 20\% of the population has no change, 4\% has slight change, 12\% has moderate change, 27\% has a large change, while 37\% has a very large change over time, thus concluding that most of the population has largely changed its expertise over time.
         
         \begin{figure}
           % Requires 
@@ -390,7 +411,9 @@
           \label{fig:SO_past_recent}
         \end{figure}
         
-        Figure \ref{fig:SO_past_recent} and \ref{fig:change_SO_past_recent} show the results of comparing the past and recent activity of users on Stack Overflow. For the rest of the analysis this will be referred to as the \emph{SO past-recent} comparison. %% continue here
+        Figure \ref{fig:SO_past_recent} and \ref{fig:change_SO_past_recent} show the results of comparing the past and recent activity of users on Stack Overflow. For the rest of the analysis this will be referred to as the \emph{SO past-recent} comparison. In this analysis too we are measuring the difference between two sets of keywords for each user coming from the \emph{SO-past} and \emph{SO-recent} text corpora, thus \emph{Jaccard Distance} is still the chosen distance metric. Figure \ref{fig:SO_past_recent} illustrates the distribution of the \emph{Jaccard Distance} scores obtained from the \emph{SO past-recent} comparison. Plot A is a density plot, while Plot B is a histogram of the \emph{Jaccard Distance} scores. 
+         
+        The distribution from Figure \ref{fig:SO_past_recent} shows many spikes at various \emph{Jaccard Distance} values, which shows a very specific behaviour. From the histogram it can be seen that the largest spike it at a value of 0, meaning that there are some users who have the same expertise data in both \emph{SO-past} and \emph{SO-recent} text corpora. The second trend shows that some user activity comparison having the same \emph{Jaccard Distance} values of 0.40, 0.50 and 0.60, meaning that their more recent expertise differs from the past one.
         
         \begin{figure}
           % Requires 
@@ -400,6 +423,8 @@
           \label{fig:change_SO_past_recent}
         \end{figure}
         
+        The distribution seen in Figure \ref{fig:SO_past_recent} suggests a diverse population of both high and low \emph{Jaccard Distance} scores. Figure \ref{fig:change_SO_past_recent} offers more details about the population by creating five non-overlapping sub-intervals of \emph{Jaccard Distance} scores, classifying each sub-interval of values to a scale of \emph{No, Slight, Moderate, Large and Very Large Change}. The \emph{SO past-recent} comparison in Figure \ref{fig:change_SO_past_recent} reveals that 42\% of the population has no change, 17\% has slight change, 14\% has moderate change, 19\% has a large change, while only 7\% has a very large change over time, thus concluding that most analyzed population on Stack Overflow has \emph{no, slight or moderate changes} in their expertise over time.
+        
         \fbox{\begin{minipage}{5.5in}
-            Answer to RQ4: 
+            Answer to RQ4: The comparison of GH past-recent text corpora showed that 64\% of the analyzed population has either large or very large changes in their expertise, concluding that most of the analyzed GitHub population has largely changed their expertise over time. For the comparison of SO past-recent text corpora, this is not the case, as 42\% of the population has no change, while 31\% of the population has either slight or moderate changes in their expertise, concluding that most analyzed Stack Overflow population did not, or only slightly changed their expertise over time.
         \end{minipage}}

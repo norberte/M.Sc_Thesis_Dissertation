@@ -1,16 +1,23 @@
-\chapter{Future work and Conclusion\label{chap:conclusion}}
+\chapter{Conclusion\label{chap:conclusion}}
 
-    \section{Future work\label{sec:futurework}}
-        %%% How accurately can we learn cross-platform expertise in software engineering ?
+    Lastly, we conclude our work with a \emph{summary of our contributions} in Section~\ref{sec:conclusion}, then define \emph{future research paths} in Section~\ref{sec:futurework}.
         
-        %%% mention Lda2vec and ETM as alternatives for generating better topic embedding
+    \section{Summary of Contributions\label{sec:conclusion}}
         
-        %%% Calculate Distance between different Topic Distributions
+        This research work introduced novel, data-driven innovative ways into software developer expertise learning and made seven contributions to the research community. Firstly, we developed three novel techniques to extract developer expertise topics from Stack Overflow and GitHub. We have evaluated the proposed techniques using two separate experiments on two different data sets and found that technique \textbf{W2V\_AVG} performs the best. Secondly, we completed a ground truth study to collect human annotations on developer expertise. Thirdly, we analyzed developer expertise trends on Stack Overflow and GitHub, and discovered that expertise areas on GitHub tend to be few, and more general, while expertise areas on Stack Overflow tend to be more specific and numerous.
         
-        %%% Sri's topic classification
+        Fourthly, we created four new data sets for user activity profiles on GitHub and Stack Overflow. Fifthly, we compared developer expertise across the above mentioned collaborative platforms, and showed that the expertise developed by users on GitHub and Stack Overflow is mostly different. As our sixth contribution, we provided empirical evidence about knowledge transfer between the two collaborative platforms, and made the discovery that \emph{source code, version control and web development} related skills are most transferable knowledge between Stack Overflow and GitHub. Finally, our last contribution was the results of analysis conducted on developer expertise evolution trends from GitHub and Stack Overflow. Our study suggests that that most of the analyzed GitHub population has largely changed their expertise over time, while most analyzed Stack Overflow population did not, or only slightly changed their expertise over time.
         
-        %% separate text from source code in Stack Overflow posts
+        Lastly, the implications of our work are versatile, with numerous opportunities for real-world applications. We identified 4 main target audiences that could benefit from our work: recruiters \& recruitment oriented services, project managers \& software companies, Stack Overflow \& GitHub users, and research scientists. We believe that this research will positively impact their work and potentially help them solve their problems. 
         
-    \section{Conclusion\label{sec:conclusion}}
+    \section{Future Work\label{sec:futurework}} 
     
-     % This ignores the valuable coder-related part-who are the top experts (geek talents) in a specific area? This information is important to companies, open source projects, and to those who want to learn from an expert role model. Thus, how to find the right developers is quite a crucial yet challenging problem. Most of the current works mainly focus on recommending experts in a particular software engineering task and ignore the relationship between developers within different projects
+        There are plenty of research opportunities to be built on top of the current work. Firstly, our recommendation is that future research should definitely include the separation of natural text from source code snippets, especially when working with Stack Overflow posts. This task can be achieved by including a filtering stage in the data cleaning pipeline, potentially using the  NLoN\footnote{\url{https://github.com/M3SOulu/NLoN}} library developed by M{\"a}ntyl{\"a} et al. \cite{mantyla2018natural}.
+        
+        Secondly, there are several innovative alternatives for discovering better user and topic vector representation, such as Moody \cite{moody2016mixing}'s work on combining the LDA and Word2Vec models into LDA2Vec\footnote{\url{https://github.com/cemoody/lda2vec}} or Dieng et al. \cite{dieng2019topic}'s experimental work on topic modeling in embedding spaces implemented as ETM\footnote{\url{https://github.com/adjidieng/ETM}}.
+        
+        Thirdly, author-topic models \cite{rosen2012author} could be considered to model user activities as data being generate from multiple authors. In this case the author-topic model would learn the distribution of topics as a mixture of distributions associated with each user's data. 
+        
+        Fourthly, follow-up research could be conducted on measuring how accurately can we learn cross-platform expertise in software engineering ? This research avenue would require a survey to be conducted, asking Stack Overflow and GitHub users how accurately does our expertise terms extracted represent their actual perceived expertise? Further work along this line could be conducted on designing machine learning algorithms to predict, summarize or classify a user's expertise area.
+        
+        Lastly, potential follow up work could be on conducting an empirical analysis of similarities and differences between different expertise area topical distributions obtained from the already trained LDA models.
