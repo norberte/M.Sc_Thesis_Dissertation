@@ -2,7 +2,7 @@
 %
 % Review cuthesis.sty for more documentation on available options
 % for this package.
-\usepackage[4committee]{cuthesis}
+\usepackage[3committee]{cuthesis}
 \usepackage{makecell}
 \usepackage{multirow,multicol,booktabs}
 \usepackage{hyperref}       % hyperlinks
@@ -23,10 +23,7 @@
 \usepackage{longtable}
 
 \newcommand{\Olga}[1]{\textcolor{blue}{{\it [Olga: #1]}}}
-
-
-
-
+\newcommand{\Edited}[1]{\textcolor{green}{{\it [New Edit: #1]}}}
 
 % Defines relative path to folder containing your figures
 \graphicspath{{figures/}}
@@ -53,14 +50,13 @@
 %     2committee = supervisor + firstcommittee
 %     3committee = supervisor + firstcommittee + secondcommittee
 % Default setting is 1committee
-\supervisor{Prof. Olga Baysal, Supervisor}
-\firstcommittee{Prof. Majid Komeili}
-\secondcommittee{Prof. Diana Inkpen}
-\thirdcommittee{Prof. Ahmed El-Roby}
-%\fourthcommittee{B. Donner}
+\supervisor{Dr. Olga Baysal, Thesis Supervisor}
+\firstcommittee{Dr. Majid Komeili, Internal Examiner}
+\secondcommittee{Dr. Diana Inkpen, External Examiner}
+%\thirdcommittee{Dr. Ahmed El-Roby, Chair of Defense}
 
 % Specify department chair
-\departmentchair{Prof. X, Department Chair} % TO DO: Ask Olga about this
+\departmentchair{Dr. Michel Barbeau, Department Chair}
 
 % This is the name of the .bib files that holds all of your references.
 % It can be a comma separated list if there is more than one file.
@@ -80,11 +76,11 @@
 % respective section of the thesis.  If one of these sections
 % is not included, comment out the corresponding line.
 %
-%\abstract{abstract}
-%\acknowledgements{acknowledgements}
-%\nomenclature{nomenclature}
+\abstract{abstract}
+\acknowledgements{acknowledgements}
+\nomenclature{nomenclature}
 %\preface{preface}
-%\dedication{dedication}
+\dedication{dedication}
 
 % Include the chapters
 \newchapter{introduction}
