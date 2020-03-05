@@ -6,9 +6,8 @@
     In this section we first introduce GitHub and Stack Overflow in Section~\ref{background:GH_SO} as the two most popular collaborative platforms in software engineering. In Section~\ref{background:text_processing} we outline the best practises of pre-processing textual data containing software artifacts. Section~\ref{LDA_bestPractises} will introduce topic modeling, and we will offer a lengthy background on LDA models. Background will conclude with a brief introduction of all evaluation metrics used throughout the thesis in Section~\ref{background:metrics}.
     
     \subsection{GitHub and Stack Overflow\label{background:GH_SO}}
-        %\Edited{Adding intro about GH}
-        GitHub (GH) is ...
-        %% "GitHub is a social coding platform that enables developers to efficiently work on projects, connect with other developers, collaborate and generally “be seen” by the community. This visibility also extends to prospective employers and HR personnel who may use GitHub to learn more about a developer’s skills and interests." \cite{hauff2015matching}}
+        \Edited{Adding intro about GH}
+        GitHub (GH) is the most popular social coding platform that allows massive worldwide collaboration for software developers on open source projects. In 2018 it was reported that GitHub had a total of more than 100 million repositories \cite{johnson_2018}, but search results from March 2020 indicate only over 28,6 million repositories are public\footnote{\url{https://github.com/search?q=is:public}}. As of March 2020, GitHub search results report over 37,7 million users\footnote{\url{https://github.com/search?q=type:user&type=Users}}. As early as 2014 GitHub was already called \emph{`the largest code hosting website in the world'} by Gousios et al. \cite{gousios2014lean}. GitHub also reported that 10 million new users joined in 2019. What is even more incredible that a total of 1.7 million students have learned to code on GitHub in 2019, which is 55\% more than in the previous year \cite{octoverse_2019}. These statistics clearly show how important GitHub is for the software development process. Hauff and Gousios \cite{hauff2015matching} mentioned that a developer's GitHub profile could become of interest to potential employers and recruiters, as they could learn more about a candidate's skills and interests. 
     
         Stack Overflow (SO) is the most popular question answering website for software developers, providing a large amount of code snippets and free-form text on a wide variety of topics. In a recent public data dump from December 9th 2018~\footnote{\url{https://zenodo.org/record/2273117}}, SO listed over 42 million posts from almost 10 million registered users. Similar to other software artifacts such as source code files and documentation, text and code snippets on SO evolve over time. An example of this is when the SO community fixes bugs in code snippets, clarifies questions and answers, and updates documentation to match new API versions. Studying Stack Overflow, its posts, users, and trends will shed some light on the evolution of expertise in such software artifacts. Furthermore, mining Stack Overflow has been a very popular research topic in Software Engineering over the past few years, thus Section~\ref{RW:mining_GH_SO}
         
@@ -95,7 +94,7 @@
             %% could include more math by showing [6] and [7] from Griffith and Steyvers \cite{griffiths2004finding}
                     
             \begin{algorithm}
-                \caption{LDA Training Process using Gibbs Sampling}
+                \caption{LDA Training Process using Gibbs Sampling.}
                 \label{alg:training}
                 \begin{algorithmic}[1]
                     \REQUIRE $D$ documents, $K$ number topics, $IterNum$ - Maximum number of Gibbs Sampling iterations 
@@ -349,8 +348,6 @@
     
     % CORRECT-Code Reviewer Recommendation in GitHub Based on Cross-Project and Technology Experience
         Similar to Yu et al. \cite{yu2016reviewer}'s work, Rahman et al. \cite{rahman2016correct} have proposed a novel code reviewer recommendation technique that takes into account the cross-project experience of a developer in specific technologies on top of looking into their previous projects on GitHub. Their approach goes even further and attempts to detect the developer's expertise as a candidate code reviewer by making associations between the developer's previous pull requests and their experience and skill levels in specific technologies. The authors have done extensive experiments using ten commercial projects and ten external libraries dependent on the commercial projects. The results of their experiments show that their technique's accuracy is between 85\% and 92\% in code reviewer recommendation, which beat the state-of-the-art technique at that time.
-        
-        % TO DO: Cross platform expert recommendation: Diverse social platforms enable the distinctive opportunity for understanding the user from multiple aspects. By combining cross platform user profiles and incorporating various user activity information, much research has been performed to find correlation, and based on this, to recommend experts.
         
         \Edited{Adding 5 more papers on Cross platform expert recommendation here}
         
