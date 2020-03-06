@@ -349,21 +349,21 @@
             \hline
             Ranking & Keyword & Frequency & Ranking & Keyword & Frequency \\
             \hline\hline
-            1 & test & 56302 & 16 & heroku & 15764 \\
-            2 & simple & 51226 & 17 & buildpack & 15764 \\
-            3 & library & 44781 & 18 & cli & 15764 \\
-            4 & app & 43750 & 19 & rb & 15764 \\
-            5 & api & 35881 & 20 & activerecord & 15764 \\
-            6 & base & 26075 & 21 & rspec & 15764 \\
-            7 & client & 25381 & 22 & active & 15764 \\
-            8 & code & 22052 & 23 & github & 15297 \\
-            9 & file & 21538 & 24 & web & 12890 \\
-            10 & application & 19620 & 25 & add & 12849 \\
-            11 & https & 16764 & 26 & change & 12849\\
-            12 & ruby & 15764  & 27 & remove & 12849 \\
-            13 & rail & 15764 & 28 & check & 12849\\
-            14 & ember & 15764 & 29 & make & 11231 \\
-            15 & gem & 15764 & 30 & comment & 11231\\
+            1 & test & 56,302 & 16 & heroku & 15,764 \\
+            2 & simple & 51,226 & 17 & buildpack & 15,764 \\
+            3 & library & 44,781 & 18 & cli & 15,764 \\
+            4 & app & 43,750 & 19 & rb & 15,764 \\
+            5 & api & 35,881 & 20 & activerecord & 15,764 \\
+            6 & base & 26,075 & 21 & rspec & 15,764 \\
+            7 & client & 25,381 & 22 & active & 15,764 \\
+            8 & code & 22,052 & 23 & github & 15,297 \\
+            9 & file & 21,538 & 24 & web & 12,890 \\
+            10 & application & 19,620 & 25 & add & 12,849 \\
+            11 & https & 16,764 & 26 & change & 12,849\\
+            12 & ruby & 15,764  & 27 & remove & 12,849 \\
+            13 & rail & 15,764 & 28 & check & 12,849\\
+            14 & ember & 15,764 & 29 & make & 11,231 \\
+            15 & gem & 15,764 & 30 & comment & 11,231\\
             \hline
           \end{tabular}
         \end{table}
@@ -391,7 +391,7 @@
         
         Figure \ref{fig:GH_past_recent} and Figure \ref{fig:change_GH_past_recent} show the results of comparing the past and recent activity of users on GitHub. For the rest of the analysis this will be referred to as the \emph{GH past-recent} comparison. We chose \emph{Jaccard Distance} as the distance metric for this analysis, as we are interested in measuring the difference, thus distance (or dissimilarity) between two sets of keywords for each user, coming from the \emph{GH-past} and \emph{GH-recent} text corpora. 
         
-        Figure \ref{fig:GH_past_recent} illustrates the distribution of the \emph{Jaccard Distance} scores obtained from the \emph{GH past-recent} comparison. Plot A shows a density plot, while Plot B is a histogram of the \emph{Jaccard Distance} scores. The distribution from Figure \ref{fig:GH_past_recent} shows that the majority of the population has very large \emph{Jaccard Distance} scores, which means that there is significant difference between most users' \emph{GH-past} and \emph{GH-recent} data. However, we can see on the histogram that there is a spike at \emph{Jaccard Distance} score of 0, meaning that there are some users who have the same expertise data in both \emph{GH-past} and \emph{GH-recent} text corpora. \Olga{should you say that almost 20\% of users maintain the same expertise profile on GitHub over time. Would this be correct? I think it's a more powerful message.}
+        Figure \ref{fig:GH_past_recent} illustrates the distribution of the \emph{Jaccard Distance} scores obtained from the \emph{GH past-recent} comparison. Plot A shows a density plot, while Plot B is a histogram of the \emph{Jaccard Distance} scores. The distribution from Figure \ref{fig:GH_past_recent} shows that the majority of the population has very large \emph{Jaccard Distance} scores, which means that there is significant difference between most users' \emph{GH-past} and \emph{GH-recent} data. However, we can see on the histogram that there is a spike at \emph{Jaccard Distance} score of 0, meaning that there are some users who have the same expertise data in both \emph{GH-past} and \emph{GH-recent} text corpora.
         
         \begin{figure}
           % Requires 
@@ -401,7 +401,7 @@
           \label{fig:change_GH_past_recent}
         \end{figure}
         
-        The distribution seen in Figure \ref{fig:GH_past_recent} suggests a diverse, mixed population of users between high and low \emph{Jaccard Distance} scores. Figure \ref{fig:change_GH_past_recent} should paint a more clear picture by creating five non-overlapping sub-intervals of \emph{Jaccard Distance} scores from the [0,1] range, classifying each sub-interval of values to a scale of \emph{No, Slight, Moderate, Large and Very Large Change}. The \emph{GH past-recent} comparison in Figure \ref{fig:change_GH_past_recent} shows that 20\% of the population has no change, 4\% has slight change, 12\% has moderate change, 27\% has a large change, while 37\% has a very large change over time, thus concluding that most of the developer population has largely changed their expertise over time. \Olga{I guess this is where you answer my previous comment.}
+        The distribution seen in Figure \ref{fig:GH_past_recent} suggests a diverse, mixed population of users between high and low \emph{Jaccard Distance} scores. Figure \ref{fig:change_GH_past_recent} should paint a more clear picture by creating five non-overlapping sub-intervals of \emph{Jaccard Distance} scores from the [0,1] range, classifying each sub-interval of values to a scale of \emph{No, Slight, Moderate, Large and Very Large Change}. The \emph{GH past-recent} comparison in Figure \ref{fig:change_GH_past_recent} shows that 20\% of the population has no change, 4\% has slight change, 12\% has moderate change, 27\% has a large change, while 37\% has a very large change over time. This result concludes that most of the developer population has largely changed their expertise over time, however 20\% of users maintain the same expertise profile on GitHub over time.
         
         \begin{figure}
           % Requires 
@@ -429,5 +429,4 @@
             Answer to RQ4: The comparison of GH past-recent text corpora showed that 64\% of the analyzed population of developers has either large or very large changes in their expertise, concluding that most of the analyzed GitHub population has largely changed their expertise over time. For the comparison of SO past-recent text corpora, this is not the case, as 42\% of the population has no change, while 31\% of the population has either slight or moderate changes in their expertise, concluding that most of the analyzed Stack Overflow population did not or only slightly changed their expertise over time.
         \end{minipage}}\\
         
-        \Edited{added Zenodo and GitHub links ... GitHub repo is private, so link does not work now, but it will once repo is set to public}
-        All data sets used in this work are made publicly available on Zenodo\footnote{\url{https://zenodo.org/record/3696079}}. Currently all source code that was used to obtain these results is hosted on a private GitHub repository \footnote{\url{https://github.com/norberte/Mining-StackOverflow-Github}}, but it will be made public after the publication of this work. \Olga{good point!}
+        All data sets used in this work are made publicly available on Zenodo\footnote{\url{https://zenodo.org/record/3696079}}. Currently all source code that was used to obtain these results is hosted on a private GitHub repository \footnote{\url{https://github.com/norberte/Mining-StackOverflow-Github}}, but it will be made public after the publication of this work.
